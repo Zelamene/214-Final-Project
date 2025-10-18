@@ -14,11 +14,9 @@ class Inventory {
     public:
         Inventory()=default;
         ~Inventory()=default;
-        void addPlant(const std::string& itemName, NurseryPlant* plant) {
-            
-        }
-
-        // Add public methods for inventory operations
+        void addPlant(const std::string& itemName, NurseryPlant* plant);
+        void removePlant(const std::string& itemName);
+        void displayInventory() const;
 };
 
 #endif
