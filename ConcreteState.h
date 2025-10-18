@@ -1,0 +1,4 @@
+#ifndef CONCRETESTATE_H
+#define CONCRETESTATE_H
+
+#endif // CONCRETESTATE_H
