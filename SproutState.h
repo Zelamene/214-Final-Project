@@ -1,4 +1,0 @@
-#ifndef SPROUTSTATE_H
-#define SPROUTSTATE_H
-
-#endif // SPROUTSTATE_H
