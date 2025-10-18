@@ -1,0 +1,34 @@
+/**
+ * @file Rose.h
+ * @author Tafadzwa Musiiwa
+ * @brief Concrete class representing a Rose plant.
+ */
+
+#ifndef ROSE_H
+#define ROSE_H
+
+#include "FloweringPlant.h"
+#include <string>
+
+/**
+ * @class Rose
+ * @brief Represents a rose, a type of flowering plant.
+ */
+class Rose : public FloweringPlant
+{
+
+
+public:
+    /**
+     * @brief Constructs a Rose with a given colour.
+     * 
+     */
+    Rose();
+
+    /**
+     * @brief Destructor.
+     */
+    ~Rose() {}
+};
+
+#endif
