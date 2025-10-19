@@ -1,14 +1,15 @@
 #include <iostream>
+#include <string>
 #include "NurseryPlant.h"
 #include "ConcreteState.h"
 #include "Staff.h"
 #include "Inventory.h"
 
-int main() {
-    NurseryPlant* rose = new NurseryPlant(new SeedlingState(), "Rose");
-    NurseryPlant* tree = new NurseryPlant(new SeedlingState(), "tree");
-
-    Staff* staff = new Staff();
+int main() { 
+    Inventory* storage=new Inventory();
+    NurseryPlant* rose = new NurseryPlant(new SeedlingState(), std::string("Rose") );
+    NurseryPlant* tree = new NurseryPlant(new SeedlingState(),std::string("Tree") );
+    Staff* staff = new Staff(storage);
 
     rose->attach(staff);
     tree->attach(staff);
@@ -27,12 +28,12 @@ int main() {
     tree->performAction();
     tree->performAction();
 
-    Inventory inventory;
-    inventory.addPlant("Rose", rose);
-    inventory.addPlant("Rose", rose);
-    inventory.addPlant("Tree", tree);
+    
+    // inventory.addPlant("Rose", rose);
+    // inventory.addPlant("Rose", rose);
+    // inventory.addPlant("Tree", tree);
 
-    inventory.displayInventory();
+    storage->displayInventory();
 
     delete rose;
     delete staff;

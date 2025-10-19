@@ -3,11 +3,15 @@
 
 #include "Observer.h"
 #include <string>
+#include "Inventory.h"
 class NurseryPlant;
 class Staff : public Observer {
+    private:
+    Inventory* inventory;
+        
 
     public:
-        Staff()=default;
+        Staff(Inventory* inventory);
         ~Staff()=default;
         void update(NurseryPlant* plant) override;
         std::string getName() const;

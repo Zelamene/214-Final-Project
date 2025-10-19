@@ -6,7 +6,6 @@
 
 class SeedlingState : public State {
 public:
-
     void handleAction(NurseryPlant* plant) override;
     std::string getStateName() const override;
 };

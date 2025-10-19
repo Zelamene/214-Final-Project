@@ -1,7 +1,8 @@
 #include "NurseryPlant.h"
 #include <algorithm>
 
-NurseryPlant::NurseryPlant(State* initialState,std::string name):currentState(initialState),name(name) {}
+NurseryPlant::NurseryPlant( State* initialState, std::string plantName)
+    : currentState(initialState), name(plantName) {}
 NurseryPlant::~NurseryPlant() {
     delete currentState;
 }
@@ -10,6 +11,9 @@ void NurseryPlant::setState(State* newState) {
     delete currentState;
     currentState = newState;
     notify();
+}
+std::string NurseryPlant::getName() const {
+    return name;
 }
 
 void NurseryPlant::performAction(){

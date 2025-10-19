@@ -3,14 +3,16 @@
 #include "State.h"
 #include "Subject.h"
 #include <vector>
+#include <string>
 class NurseryPlant :public Subject {
     private:
-        std::string name;
         State* currentState;
+        std::string name;
         std::vector<Observer*> observers;
     public:
-        NurseryPlant(State* initialState,std::string name);
+        NurseryPlant(State* initialState, std::string name);
         ~NurseryPlant();
+        std::string getName() const;
         void setState(State* newState);
         void performAction();
         std::string getStateName() const;
