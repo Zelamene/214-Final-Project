@@ -2,7 +2,7 @@
 #define ITERATOR_H
 
 #include "Order.h"
-class Order; 
+//class Order; 
 /**
  * @class Iterator
  * @brief Abstract base class defining the interface for iterating over Order objects.
@@ -27,3 +27,4 @@ public:
 };
 
 #endif
+
