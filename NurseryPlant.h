@@ -1,11 +1,13 @@
 #ifndef NURSERYPLANT_H
 #define NURSERYPLANT_H
 #include "State.h"
-class NurseryPlant {
+#include "Subject.h"
+class NurseryPlant :public Subject {
     private:
+        std::string name;
         State* currentState;
     public:
-        NurseryPlant(State* initialState);
+        NurseryPlant(State* initialState,std::string name);
         ~NurseryPlant();
         void setState(State* newState);
         void performAction();

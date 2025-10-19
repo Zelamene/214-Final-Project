@@ -1,6 +1,6 @@
 #include "NurseryPlant.h"
 
-NurseryPlant::NurseryPlant(State* initialState) : currentState(initialState) {}
+NurseryPlant::NurseryPlant(State* initialState,std::string name):currentState(initialState),name(name) {}
 NurseryPlant::~NurseryPlant() {
     delete currentState;
 }
