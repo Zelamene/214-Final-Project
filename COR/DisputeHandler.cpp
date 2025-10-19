@@ -1,34 +1,30 @@
 #include "DisputeHandler.h"
-
 #include <iostream>
 
-
-
-DisputeHandler :: DisputeHandler()
+DisputeHandler::DisputeHandler()
 {
     next = nullptr;
 }
 
-
-
-void DisputeHandler :: setNext(DisputeHandler* myNext)
+void DisputeHandler::setNext(DisputeHandler* myNext)
 {
     this->next = myNext;
-   
 }
 
-void DisputeHandler :: handle(Issue* issue)
+void DisputeHandler::handle(Issue* issue)
 {
-    if(next != nullptr){
-        std::cout << "The issue is being passed to the next handler... "  << std::endl;
-        
+    if (next != nullptr)
+    {
+        std::cout << "The issue is being passed to the next handler... " << std::endl;
         next->handle(issue);
     }
-    else{
+    else
+    {
         std::cout << "Issue Unhandled" << std::endl;
     }
 }
 
-
-
-DisputeHandler::~DisputeHandler() { delete next; } ;
+DisputeHandler::~DisputeHandler()
+{
+    delete next;
+}

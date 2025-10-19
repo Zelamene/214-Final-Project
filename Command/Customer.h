@@ -1,14 +1,32 @@
+/**
+ * @file Customer.h
+ * @brief Represents a customer placing an order.
+ */
+
 #ifndef CUSTOMER_H
 #define CUSTOMER_H
 
 #include <string>
 
+/**
+ * @class Customer
+ * @brief Stores customer information.
+ */
 class Customer {
 private:
-    std :: string name;
+    std::string name; ///< Name of the customer
 public:
-    Customer(std :: string n) : name(n) {}
-    std :: string getName() const { return name; }
+    /**
+     * @brief Constructs a Customer with a given name.
+     * @param n Name of the customer
+     */
+    Customer(std::string n) : name(n) {}
+
+    /**
+     * @brief Gets the customer's name.
+     * @return Name of the customer
+     */
+    std::string getName() const { return name; }
 };
 
-#endif;
+#endif

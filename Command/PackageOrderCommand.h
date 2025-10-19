@@ -1,16 +1,34 @@
-#ifndef PREPARECOMMAND_H
-#define PREPARECOMMAND_H
+/**
+ * @file PackageOrderCommand.h
+ * @brief Command to package an order.
+ */
+
+#ifndef PACKAGEORDERCOMMAND_H
+#define PACKAGEORDERCOMMAND_H
+
 #include "Command.h"
-#include "NurseryPlant.h"
-#include "Customer.h"
 #include "Order.h"
+
+/**
+ * @class PackageOrderCommand
+ * @brief Executes packaging of an order.
+ */
 class PackageOrderCommand : public Command {
 private:
-    Order* order;
+    Order* order; ///< Pointer to the order
 public:
+    /**
+     * @brief Constructs the command with an order.
+     * @param o Pointer to the order
+     */
     PackageOrderCommand(Order* o) : order(o) {}
+
+    /**
+     * @brief Executes the packaging process.
+     */
     void execute() override {
-        std :: cout << "Packaging order #" << order->getId() << " (" << order->getPlantName() << ")\n";
+        std::cout << "Packaging order #" << order->getId()
+                  << " (" << order->getPlantName() << ")\n";
         order->setState("packaged");
     }
 };
