@@ -7,9 +7,8 @@
 #include "NurseryPlant.h"
 class Inventory {
     private:
-        // Add private members for inventory management
-        // NurseryPlant* plants;
-        std::map<std::string, std::vector<NurseryPlant*>> itemStock; // Example: item name to stock count
+
+        std::map<std::string, std::vector<NurseryPlant*>> itemStock;
 
     public:
         Inventory()=default;

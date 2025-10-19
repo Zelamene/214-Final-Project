@@ -1,9 +1,5 @@
 #include "Inventory.h"
 #include <iostream>
-Inventory::Inventory() {
-}
-Inventory::~Inventory() {
-}
 void Inventory::addPlant(const std::string& itemName, NurseryPlant* plant) {
     if (itemStock.find(itemName) == itemStock.end()) {
         itemStock[itemName] = std::vector<NurseryPlant*>();

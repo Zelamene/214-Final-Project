@@ -1,9 +1,9 @@
 #include "Staff.h"
-#include "State.h"
+#include "NurseryPlant.h"
+#include <iostream>
 
-void Staff::update(State state) {
-    // Implementation of how Staff reacts to state updates
-    // For example, log the state change or perform some action
+void Staff::update(NurseryPlant* plant) {
+    std::cout << "Staff notified: Plant '" << plant->getStateName() << "' state changed." << std::endl;
 }
 std::string Staff::getName() const {
     return "Staff Member";

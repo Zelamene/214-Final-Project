@@ -3,13 +3,13 @@
 
 #include "Observer.h"
 #include <string>
-#include "State.h"
+class NurseryPlant;
 class Staff : public Observer {
 
     public:
         Staff()=default;
         ~Staff()=default;
-        void update(State state) override;
+        void update(NurseryPlant* plant) override;
         std::string getName() const;
 };
 
