@@ -4,28 +4,12 @@
 class NurseryPlant {
     private:
         State* currentState;
-
-
     public:
-        NurseryPlant(State* initialState) : currentState(initialState) {}
-        
-        ~NurseryPlant() {
-            delete currentState;
-        }
-
-        void setState(State* newState) {
-            delete currentState;
-            currentState = newState;
-        }
-
-        void performAction() {
-            currentState->handleAction(this);
-        }
-
-        std::string getStateName() const {
-            return currentState->getStateName();
-        }
-
+        NurseryPlant(State* initialState);
+        ~NurseryPlant();
+        void setState(State* newState);
+        void performAction();
+        std::string getStateName() const;
 };
 
 #endif
