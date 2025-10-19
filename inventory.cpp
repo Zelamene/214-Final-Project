@@ -1,6 +1,7 @@
 #include "Inventory.h"
 #include <iostream>
 void Inventory::addPlant(const std::string& itemName, NurseryPlant* plant) {
+    
     if (itemStock.find(itemName) == itemStock.end()) {
         itemStock[itemName] = std::vector<NurseryPlant*>();
     }
@@ -9,6 +10,7 @@ void Inventory::addPlant(const std::string& itemName, NurseryPlant* plant) {
 }
 
 void Inventory::removePlant(const std::string& itemName) {
+
     auto it = itemStock.find(itemName);
     if (it != itemStock.end() && !it->second.empty()) {
         it->second.pop_back();
@@ -21,6 +23,7 @@ void Inventory::removePlant(const std::string& itemName) {
     return;
 }
 void Inventory::displayInventory() const {
+
     std::cout << "Inventory:\n";
     for (const auto& pair : itemStock) {
         std::cout << "Item: " << pair.first << ", Stock: " << pair.second.size() << "\n";
