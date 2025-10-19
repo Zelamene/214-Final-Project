@@ -14,6 +14,10 @@ int main() {
     tree->attach(staff);
 
     std::cout << "Initial state: " << rose->getStateName() << std::endl;
+
+    /*
+    Awes✌️✌️ im not yet done with this code but other wise piece.
+    */
     rose->performAction();
     rose->performAction();
     rose->performAction();
