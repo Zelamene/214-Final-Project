@@ -1,25 +1,54 @@
-/**
- * @file NurseryPlant.h
- * @author Tafadzwa Musiiwa
- * @brief Abstract base class representing a general nursery plant.
- */
-
 #ifndef NURSERYPLANT_H
 #define NURSERYPLANT_H
 
+#include "Order.h"
+#include <iostream>
+using namespace std;
+
 /**
  * @class NurseryPlant
- * @brief Abstract representation of a plant in the nursery.
+ * @brief Represents a single plant order in the nursery system.
  *
- * Serves as the base class for all plant types such as FloweringPlant and Tree.
+ * This is a leaf class in the Composite design pattern.
+ * It implements all abstract methods from the Order base class.
  */
-class NurseryPlant
+class NurseryPlant : public Order
 {
 public:
     /**
-     * @brief Virtual destructor for safe polymorphic deletion.
+     * @brief Constructs a NurseryPlant object.
+     * @param price Base price of the plant.
      */
-    virtual ~NurseryPlant() {}
+    NurseryPlant(double price);
+
+    /**
+     * @brief Destructor for NurseryPlant.
+     */
+    virtual ~NurseryPlant();
+
+    /**
+     * @copydoc Order::getTotal()
+     * @override
+     */
+    double getTotal() override;
+
+    /**
+     * @copydoc Order::displayDetails()
+     * @override
+     */
+    void displayDetails() override;
+
+    /**
+     * @copydoc Order::calculateTax()
+     * @override
+     */
+    void calculateTax() override;
+
+    /**
+     * @brief Creates and returns a clone of this object.
+     * @return Pointer to a new NurseryPlant object (deep copy).
+     */
+    Order *clone() const override;
 };
 
 #endif
