@@ -29,6 +29,10 @@ public:
      * @brief Destructor.
      */
     ~CherryBlossom() {}
+    /**
+     * @brief Display information about the CherryBlossom plant.
+     */
+    void displayInfo() const override;
 };
 
 #endif

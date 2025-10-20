@@ -30,6 +30,15 @@ public:
      * @brief Destructor.
      */
     ~Crate() {}
+    /**
+     * @brief Display the information about the crate (the material used to create the crate).
+     */
+    void display() const override;
+
+    /**
+     * @brief getter for the crate type.
+     */
+    std::string getType() const override;
 };
 
-#endif // CRATE_H
+#endif 

@@ -3,6 +3,9 @@
 #include <iostream>
 
 Container* CrateFactory::createContainer(){
-    std::cout << "Creating a wooden crate conatiner." << std::endl;
-    return new Crate("Wood");
+    
+    std::string material;
+    std::cout << "Please enter the material you would want for your crate (container) : " << std::endl;
+    std::cin >> material;
+    return new Crate(material);
 }

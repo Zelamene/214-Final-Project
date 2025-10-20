@@ -17,11 +17,23 @@
  */
 class Tree : public NurseryPlant
 {
+protected:
+   double height;
 public:
     /**
      * @brief Virtual destructor.
      */
     virtual ~Tree() {}
+
+    /**
+     * @brief Constructor.
+     */
+    Tree(const std::string& name, const std::string& maintenanceType, double height);
+
+    /**
+     * @brief getter of the height of a tree.
+     */
+    double getHeight() const;
 };
 
 #endif

@@ -12,5 +12,9 @@ FloweringPlant* HighMaintenancePlantFactory::createFloweringPlant(){
 
 Tree* HighMaintenancePlantFactory::createTree() {
     std::cout << "Creating a high maintenance tree (Baobab)" << std::endl;
-    return new Baobab();
+    double height;
+    std::cout << "Enter height of Baobab (in meters): ";
+    std::cin >> height;
+
+    return new Baobab(height);
 }

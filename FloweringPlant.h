@@ -17,11 +17,23 @@
  */
 class FloweringPlant : public NurseryPlant
 {
+protected:
+  std::string color;
 public:
     /**
      * @brief Virtual destructor.
      */
     virtual ~FloweringPlant() {}
+
+    /**
+     * @brief Constructor.
+     */
+    FloweringPlant(const std::string& name, const std::string& maintenanceType, const std::string& color);
+    /**
+     * @brief getter for the color of the flowering plant.
+     */
+    std::string getColor() const;
+
 };
 
 #endif 

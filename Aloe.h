@@ -23,12 +23,16 @@ public:
      * @brief Constructs an Aloe tree with a given height.
      *
      */
-    Aloe();
+    Aloe(double height);
 
     /**
      * @brief Destructor.
      */
     ~Aloe() {}
+    /**
+     * @brief Displaying the information of the Aloe plant (i.e its height)
+     */
+    void displayInfo() const override;
 };
 
 #endif
