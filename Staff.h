@@ -20,7 +20,7 @@ class NurseryPlant;
  */
 class Staff : public Observer {
 private:
-    Inventory* inventory; /**< Pointer to the inventory managed by the staff. */
+    Inventory* inventory;
 
 public:
     /**

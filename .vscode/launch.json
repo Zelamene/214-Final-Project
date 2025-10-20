@@ -9,7 +9,7 @@
       "stopAtEntry": false,
       "externalConsole": true,
       "cwd": "c:/Users/odiri/Desktop/cos214/Practicals/Project/214-Final-Project",
-      "program": "c:/Users/odiri/Desktop/cos214/Practicals/Project/214-Final-Project/build/Debug/outDebug",
+      "program": "c:/Users/odiri/Desktop/cos214/Practicals/Project/214-Final-Project/build/Release/outRelease",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [
