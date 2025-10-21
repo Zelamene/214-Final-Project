@@ -12,7 +12,11 @@ FloweringPlant* LowMaintenancePlantFactory::createFloweringPlant(){
     std::cout << "Enter color for your Rose (e.g., red, white, yellow): ";
     std::cin >> color;
 
-    return new Rose(color);
+    double price;
+    std::cout << "Enter price of a Flowering Plant : ";
+    std::cin >> price;
+
+    return new Rose(color, price);
 }
 
 Tree* LowMaintenancePlantFactory::createTree() {
@@ -22,5 +26,9 @@ Tree* LowMaintenancePlantFactory::createTree() {
     std::cout << "Enter height of Aloe (in meters): ";
     std::cin >> height;
 
-    return new Aloe(height);
+    double price;
+    std::cout << "Enter price of a tree : ";
+    std::cin >> price;
+
+    return new Aloe(height, price);
 }

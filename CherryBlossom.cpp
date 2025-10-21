@@ -3,10 +3,10 @@
 #include <iostream>
 
 
-CherryBlossom::CherryBlossom()
-    : FloweringPlant("Cherry Blossom", "High Maintenance", "Pink") {
+CherryBlossom::CherryBlossom(double price)
+    : FloweringPlant("Cherry Blossom", "High Maintenance", "Pink", price) {
     std::cout << "🌸 Cherry Blossom planted.\n";
-} //Assumption: I assummed all CherryBlossoms are pink
+} //Assumption: I assumed all CherryBlossoms are pink
 
 void CherryBlossom::displayInfo() const {
     std::cout << "Cherry Blossom (" << color << ") - " << maintenanceType << " Flowering Plant.\n";

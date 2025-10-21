@@ -22,7 +22,7 @@ public:
      * @brief Constructs a Baobab with a given age.
      * 
      */
-    Baobab(double height);
+    Baobab(double height, double price);
 
     /**
      * @brief Destructor.

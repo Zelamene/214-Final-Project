@@ -23,7 +23,7 @@ public:
      * @brief Constructs a Rose with a given colour.
      * 
      */
-    Rose(const std::string& color);
+    Rose(const std::string& color, double price);
 
     /**
      * @brief Destructor.
@@ -32,7 +32,7 @@ public:
     /**
      * @brief Display information about a Rose.
      */
-    void displayInfo() const override;
+    void displayInfo() const ;
 };
 
 #endif

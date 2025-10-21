@@ -21,9 +21,9 @@ class Aloe : public Tree
 public:
     /**
      * @brief Constructs an Aloe tree with a given height.
-     *
+     * 
      */
-    Aloe(double height);
+    Aloe(double height, double price);
 
     /**
      * @brief Destructor.

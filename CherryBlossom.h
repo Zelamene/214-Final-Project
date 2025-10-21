@@ -23,7 +23,7 @@ public:
      * @brief Constructs a CherryBlossom with a given blooming season.
      * 
      */
-    CherryBlossom();
+    CherryBlossom(double price);
 
     /**
      * @brief Destructor.

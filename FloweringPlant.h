@@ -28,7 +28,7 @@ public:
     /**
      * @brief Constructor.
      */
-    FloweringPlant(const std::string& name, const std::string& maintenanceType, const std::string& color);
+    FloweringPlant(const std::string& name, const std::string& maintenanceType, const std::string& color, double);
     /**
      * @brief getter for the color of the flowering plant.
      */

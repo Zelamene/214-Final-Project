@@ -28,7 +28,7 @@ public:
     /**
      * @brief Constructor.
      */
-    Tree(const std::string& name, const std::string& maintenanceType, double height);
+    Tree(const std::string& name, const std::string& maintenanceType, double height, double);
 
     /**
      * @brief getter of the height of a tree.
