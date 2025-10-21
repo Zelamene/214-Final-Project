@@ -9,20 +9,18 @@ int main()
 {
     cout << "=== Testing Composite Pattern (BulkOrder + NurseryPlant) ===" << endl;
 
-    Order *plant1 = new NurseryPlant(100.0);
-    Order *plant2 = new NurseryPlant(150.0);
-    Order *plant3 = new NurseryPlant(200.0);
+    Order *plant1 = new NurseryPlant("PlantName", "LowMaintenance", 100.0);
+    Order *plant2 = new NurseryPlant("PlantName", "HighMaintenance", 150.0);
+    Order *plant3 = new NurseryPlant("pn", "HighMaintenance", 200.0);
 
     BulkOrder *bulk = new BulkOrder();
     bulk->addOrder(plant1);
     bulk->addOrder(plant2);
     bulk->addOrder(plant3);
 
-    
     cout << "-- Single Plant Order --" << endl;
     plant1->displayDetails();
 
-   
     cout << "\n-- Bulk Order Details --" << endl;
     bulk->displayDetails();
 
@@ -81,7 +79,6 @@ int main()
 
     cout << "\n-- Printing Refund Slip --" << endl;
     refundSlip.printSlip();
-
 
     delete bulk;
     delete clonedBulk;

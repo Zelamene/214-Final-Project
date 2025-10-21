@@ -22,12 +22,17 @@ public:
      * @brief Constructs a Baobab with a given age.
      * 
      */
-    Baobab();
+    Baobab(double height, double price);
 
     /**
      * @brief Destructor.
      */
     ~Baobab() {}
+
+    /**
+     * @brief Display the information of the Baobab tree ( its height).
+     */
+    void displayInfo() const override;
 };
 
 #endif // BAOBAB_H

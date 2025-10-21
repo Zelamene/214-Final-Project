@@ -2,11 +2,19 @@
 #include <iostream>
 using namespace std;
 
-NurseryPlant::NurseryPlant(double price)
-    : Order(price) {}
+NurseryPlant::NurseryPlant(const string &name, const string &maintenanceType, double price)
+    : Order(price), name(name), maintenanceType(maintenanceType) {}
 
-NurseryPlant::~NurseryPlant()
+NurseryPlant::~NurseryPlant() {}
+
+string NurseryPlant::getName() const
 {
+    return name;
+}
+
+string NurseryPlant::getMaintenanceType() const
+{
+    return maintenanceType;
 }
 
 double NurseryPlant::getTotal()
@@ -17,6 +25,8 @@ double NurseryPlant::getTotal()
 void NurseryPlant::displayDetails()
 {
     cout << "Nursery Plant Order: " << orderID
+         << " | Name: " << name
+         << " | Maintenance Type: " << maintenanceType
          << " | Base Price: " << price
          << " | Total (with tax): " << getTotal() << endl;
 }
@@ -29,4 +39,11 @@ void NurseryPlant::calculateTax()
 Order *NurseryPlant::clone() const
 {
     return new NurseryPlant(*this);
+}
+
+void NurseryPlant::displayInfo() const
+{
+    cout << "Plant Name: " << name
+         << ", Maintenance Type: " << maintenanceType
+         << ", Price: " << price << endl;
 }

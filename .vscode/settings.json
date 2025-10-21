@@ -100,6 +100,15 @@
     "ostream": "cpp",
     "stdexcept": "cpp",
     "streambuf": "cpp",
-    "typeinfo": "cpp"
+    "typeinfo": "cpp",
+    "charconv": "cpp",
+    "chrono": "cpp",
+    "ctime": "cpp",
+    "format": "cpp",
+    "iomanip": "cpp",
+    "ratio": "cpp",
+    "span": "cpp",
+    "sstream": "cpp",
+    "text_encoding": "cpp"
   }
 }

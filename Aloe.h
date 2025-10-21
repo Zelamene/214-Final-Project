@@ -21,14 +21,18 @@ class Aloe : public Tree
 public:
     /**
      * @brief Constructs an Aloe tree with a given height.
-     *
+     * 
      */
-    Aloe();
+    Aloe(double height, double price);
 
     /**
      * @brief Destructor.
      */
     ~Aloe() {}
+    /**
+     * @brief Displaying the information of the Aloe plant (i.e its height)
+     */
+    void displayInfo() const override;
 };
 
 #endif

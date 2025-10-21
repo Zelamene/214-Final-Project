@@ -23,12 +23,16 @@ public:
      * @brief Constructs a CherryBlossom with a given blooming season.
      * 
      */
-    CherryBlossom();
+    CherryBlossom(double price);
 
     /**
      * @brief Destructor.
      */
     ~CherryBlossom() {}
+    /**
+     * @brief Display information about the CherryBlossom plant.
+     */
+    void displayInfo() const override;
 };
 
 #endif
