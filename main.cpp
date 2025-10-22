@@ -9,10 +9,12 @@ int main() {
     Inventory* storage = new Inventory();
     NurseryPlant* rose = new NurseryPlant(new SeedlingState(), std::string("Rose"));
     NurseryPlant* tree = new NurseryPlant(new SeedlingState(), std::string("Tree"));
+
     Staff* staff = new Staff(storage);
 
     rose->attach(staff);
     tree->attach(staff);
+
 
     std::cout << "Initial state: " << rose->getStateName() << std::endl;
     rose->startGrowing();
