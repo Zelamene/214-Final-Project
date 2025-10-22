@@ -36,6 +36,9 @@ public:
      * @brief Gets the name of the staff member.
      * @return Name of the staff member
      */
+
+     virtual ~Staff();
+
     std::string getName();
 
     /**

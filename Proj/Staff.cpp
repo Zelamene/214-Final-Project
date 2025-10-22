@@ -27,3 +27,6 @@ void Staff::perform(Command* cmd) {
     cmd->execute();
 }
 
+Staff :: ~Staff() {
+    strategy = nullptr;
+}
