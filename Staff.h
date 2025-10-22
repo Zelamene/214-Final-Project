@@ -32,7 +32,7 @@ public:
     /**
      * @brief Default destructor.
      */
-    ~Staff() = default;
+    vritual ~Staff() = 0;
 
     /**
      * @brief Updates the staff when a plant's state changes.
