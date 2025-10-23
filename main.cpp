@@ -1,47 +1,134 @@
+// Note tafazwa your code brakes when you enter invalid input such as characters when numbers are expected.
+
 #include <iostream>
+#include "LowMaintenancePlantFactory.h"
+#include "HighMaintenancePlantFactory.h"
+#include "Garden.h"
+#include "CrateFactory.h"
 #include "NurseryPlant.h"
 #include "BulkOrder.h"
 #include "OrderSlip.h"
 #include "RefundSlip.h"
-using namespace std;
+#include "NurseryPlant.h"
+#include "ConcreteState.h"
+#include "Staff.h"
+#include "Inventory.h"
 
-int main()
-{
-    cout << "=== Testing Composite Pattern (BulkOrder + NurseryPlant) ===" << endl;
+#include <string>
 
-    Order *plant1 = new NurseryPlant("PlantName", "LowMaintenance", 100.0);
-    Order *plant2 = new NurseryPlant("PlantName", "HighMaintenance", 150.0);
-    Order *plant3 = new NurseryPlant("pn", "HighMaintenance", 200.0);
+int main() {
+    std::cout << "=== Welcome to the Plant Nursery Simulator ===\n\n";
+    Garden myGarden;
+    Inventory* storage = new Inventory();
+    Staff* staff = new Staff(storage);
 
-    BulkOrder *bulk = new BulkOrder();
-    bulk->addOrder(plant1);
-    bulk->addOrder(plant2);
-    bulk->addOrder(plant3);
+    LowMaintenancePlantFactory lowFactory;
+    HighMaintenancePlantFactory highFactory;
+    CrateFactory crateFactory;
 
-    cout << "-- Single Plant Order --" << endl;
-    plant1->displayDetails();
+    int choice = 0;
 
-    cout << "\n-- Bulk Order Details --" << endl;
-    bulk->displayDetails();
+       while (true) {
+        std::cout << "\nMenu:\n"
+                  << "1. Create Low Maintenance Flowering Plant (Rose)\n"
+                  << "2. Create Low Maintenance Tree (Aloe)\n"
+                  << "3. Create High Maintenance Flowering Plant (Cherry Blossom)\n"
+                  << "4. Create High Maintenance Tree (Baobab)\n"
+                  << "5. Display Garden\n"
+                  << "6. Remove Plant from Garden\n"
+                  << "7. Exit\n"
+                  << "Choose an option: ";
+        std::cin >> choice;
 
-    // Calculate tax for all leaf order
-    plant1->calculateTax();
+        if (choice == 7) break;
 
-    // Calculate tax for all orders
-    cout << "\nCalculating taxes for bulk order..." << endl;
-    bulk->calculateTax();
+        NurseryPlant* newPlant = nullptr;
+        Container* newContainer = nullptr;
 
-    // === Testing Iterator Pattern ===
+        switch (choice) {
+            case 1: newPlant = lowFactory.createFloweringPlant(); break;
+            case 2: newPlant = lowFactory.createTree(); break;
+            case 3: newPlant = highFactory.createFloweringPlant(); break;
+            case 4: newPlant = highFactory.createTree(); break;
+            case 5: myGarden.displayPlants(); continue;
+            case 6: {
+                myGarden.displayPlants();
+                int index;
+                std::cout << "Enter index of plant to remove: ";
+                std::cin >> index;
+                myGarden.removePlant(index);
+                continue;
+            }
+            default: std::cout << "Invalid choice!"  << std::endl; continue;
+        }
+
+        if (newPlant) {       
+            
+            cout<<"===== Plant Info=====\n"<<endl;
+
+            newPlant->displayInfo();
+
+            cout<<"===== END =====\n"<<endl;
+
+
+            newContainer = crateFactory.createContainer();
+
+           
+            myGarden.addPlant(newPlant, newContainer);
+            newPlant->attach(staff);
+            newPlant->startGrowing();
+            
+        }
+    }
+
+    std::cout << "\nFinal Garden Contents:\n";
+    myGarden.displayPlants();
+    
+    std::cout << "\nFinal Inventory State:\n";
+    storage->displayInventory();
+
+    cout<<"Processing a sample bulk order and generating an order slip...\n"<<endl;
+
+    BulkOrder* bulkOrder = new BulkOrder(); // Example bulk order
+    // Add some plants to the bulk order for demonstration
+
+    while(true){
+        cout<<"this is whats in the inventory now "<<endl;
+        storage->displayInventory();
+        cout<<"Enter the name of the plant you want to order (or 'done' to finish): ";
+        string plantName;
+        cin>>plantName;
+        Order* plant=storage->removePlant(plantName);
+        if(plant){
+            cout<<"===== Plant Details=====\n"<<endl;
+            plant->displayDetails();
+            plant->calculateTax();
+            plant->displayDetails();
+
+            bulkOrder->addOrder(plant);
+            cout<<"Added "<<plantName<<" to the bulk order."<<endl;
+        }else{
+            cout<<"Plant not found in inventory."<<endl;
+        }  
+
+        if(plantName=="done"){
+            break;
+        }
+
+    }
+
+    bulkOrder->displayDetails();
+    bulkOrder->calculateTax();
+
     cout << "\n=== Testing Iterator Pattern ===" << endl;
-    Iterator *it = bulk->createIterator();
+    Iterator *it = bulkOrder->createIterator();
     while (it->hasNext())
     {
         Order *o = it->next();
         o->displayDetails();
     }
 
-    // calling next when iteration is finished
-    try
+        try
     {
         it->next();
     }
@@ -51,7 +138,7 @@ int main()
     }
     delete it;
 
-    // empty BulkOrder iteration
+
     BulkOrder *emptyBulk = new BulkOrder();
     Iterator *emptyIt = emptyBulk->createIterator();
     cout << "\nIterating over empty bulk order:" << endl;
@@ -60,29 +147,12 @@ int main()
     delete emptyIt;
     delete emptyBulk;
 
-    // === Testing Prototype Pattern ===
-    cout << "\n=== Testing Prototype Pattern (For Cloning BulkOrder) ===" << endl;
-    Order *clonedBulk = bulk->clone();
-    cout << "Original Bulk Order:" << endl;
-    bulk->displayDetails();
+    
 
-    cout << "\nCloned Bulk Order:" << endl;
-    clonedBulk->displayDetails();
 
-    // === Testing Template Method Pattern ===
-    cout << "\n=== Testing Template Method Pattern (OrderSlip and  RefundSlip) ===" << endl;
-    OrderSlip orderSlip(bulk);
-    RefundSlip refundSlip(plant2);
 
-    cout << "\n-- Printing Order Slip --" << endl;
-    orderSlip.printSlip();
+    std::cout << "\nExiting Plant Nursery Simulator. Goodbye!\n";
 
-    cout << "\n-- Printing Refund Slip --" << endl;
-    refundSlip.printSlip();
 
-    delete bulk;
-    delete clonedBulk;
-
-    cout << "\n===Tests complete, no leaks ===" << endl;
     return 0;
 }
