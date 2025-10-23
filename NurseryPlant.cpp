@@ -1,25 +1,70 @@
+
+
 /**
  * @file NurseryPlant.cpp
  * @brief Implementation of the NurseryPlant class.
  */
-
-#include "NurseryPlant.h"
+#include <iostream>
 #include <algorithm>
+#include "NurseryPlant.h"
+#include "ConcreteState.h"
 
-/**
- * @brief Constructs a NurseryPlant with an initial state and name.
- * @param initialState Pointer to the initial state object.
- * @param plantName The name of the plant.
- */
-NurseryPlant::NurseryPlant(State* initialState, std::string plantName)
-    : currentState(initialState), name(plantName) {
-}
+using namespace std;
+
+NurseryPlant::NurseryPlant(const string &name, const string &maintenanceType, double price)
+    : Order(price), name(name), maintenanceType(maintenanceType) {
+    this-> currentState=new SeedlingState();
+
+    }
+
 
 /**
  * @brief Destructor for NurseryPlant.
  */
 NurseryPlant::~NurseryPlant() {
-    delete currentState;
+     delete currentState;
+}
+
+string NurseryPlant::getName() const
+{
+    return name;
+}
+
+string NurseryPlant::getMaintenanceType() const
+{
+    return maintenanceType;
+}
+
+double NurseryPlant::getTotal()
+{
+    return price + (price * taxRate);
+}
+
+void NurseryPlant::displayDetails()
+{
+    cout << "Nursery Plant Order: " << orderID
+         << " | Name: " << name
+         << " | Maintenance Type: " << maintenanceType
+         << " | Base Price: " << price
+         << " | Total (with tax): " << getTotal() << endl;
+}
+
+void NurseryPlant::calculateTax()
+{
+    cout << "Tax for " << orderID << ": " << price * taxRate << endl;
+}
+
+Order *NurseryPlant::clone() const
+{
+    return new NurseryPlant(*this);
+}
+
+void NurseryPlant::displayInfo() const
+{
+    cout << "Plant Name: " << name
+        <<"Plant State: " << getStateName()
+         << ", Maintenance Type: " << maintenanceType
+         << ", Price: " << price << endl;
 }
 
 /**
@@ -36,9 +81,6 @@ void NurseryPlant::setState(State* newState) {
  * @brief Gets the name of the plant.
  * @return The name of the plant as a string.
  */
-std::string NurseryPlant::getName() const {
-    return name;
-}
 
 /**
  * @brief Starts the growing process by transitioning through states until mature.
@@ -84,5 +126,3 @@ void NurseryPlant::notify() {
         obs->update(this);
     }
 }
-
-

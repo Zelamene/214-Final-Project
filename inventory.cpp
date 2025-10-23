@@ -26,15 +26,21 @@ void Inventory::addPlant(const std::string& itemName, NurseryPlant* plant) {
  * Removes the last plant of the specified type. If no plants remain, removes the entry.
  * @param itemName The name of the plant type to remove from.
  */
-void Inventory::removePlant(const std::string& itemName) {
+NurseryPlant* Inventory::removePlant(const std::string& itemName) {
     auto it = itemStock.find(itemName);
     if (it != itemStock.end() && !it->second.empty()) {
+        NurseryPlant* plant = it->second.back();
         it->second.pop_back();
+        
+
         if (it->second.empty()) {
             itemStock.erase(it);
+
         }
+        return plant;
     } else {
         std::cout << "No plants of this type in inventory to remove.\n";
+        return nullptr;
     }
 }
 
