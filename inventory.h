@@ -42,7 +42,7 @@ public:
      * @brief Removes a plant from the inventory.
      * @param itemName The name of the plant type to remove from.
      */
-    NurseryPlant* removePlant(const std::string& itemName);
+    void removePlant(const std::string& itemName);
 
     /**
      * @brief Displays the current inventory.
