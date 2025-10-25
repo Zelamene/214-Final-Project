@@ -33,7 +33,7 @@ public:
      * @brief Default destructor.
      */
 
-    virtual ~Staff() = 0; 
+    virtual ~Staff(); 
 
 
     /**

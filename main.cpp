@@ -147,10 +147,6 @@ int main() {
     delete emptyIt;
     delete emptyBulk;
 
-    
-
-
-
     std::cout << "\nExiting Plant Nursery Simulator. Goodbye!\n";
 
 
