@@ -19,16 +19,20 @@
 #include "DeliverOrderCommand.h"
 #include "WaterPlantCommand.h"
 #include "FertilizeBedCommand.h"
+#include "HighMaintenancePlantCare.h"
+#include "HighMaintenanceTreeCare.h"
+#include "LowMaintenancePlantCare.h"
+#include "LowMaintenanceTreeCare.h"
 
 // Strategy Pattern Headers
 #include "Aloe.h"
-#include "AloeCare.h"
+
 #include "Baobab.h"
-#include "BaobabCare.h"
+
 #include "CherryBlossom.h"
-#include "CherryCare.h"
+
 #include "Rose.h"
-#include "RoseCare.h"
+
 #include "Tree.h"
 #include "FloweringPlant.h"
 
@@ -39,67 +43,82 @@
 
 void testStrategyPattern() {
     std::cout << "\n" << std::string(60, '=') << "\n";
-    std::cout << "TESTING STRATEGY PATTERN - PLANT TYPES & CARE STRATEGIES\n";
+    std::cout << "TESTING STRATEGY PATTERN - BROAD CARE STRATEGIES (HIGH/LOW × PLANT/TREE)\n";
     std::cout << std::string(60, '=') << "\n";
+
+    // Create the four broad strategies (stack-allocated)
+    HighMaintenancePlantCare highPlantCare;
+    HighMaintenanceTreeCare highTreeCare;
+    LowMaintenancePlantCare lowPlantCare;
+    LowMaintenanceTreeCare lowTreeCare;
+
+    // Create plants
+    Aloe aloePlant(35.0);                // low maintenance plant (price <= 50)
+    Baobab baobabTree(120.0);           // high maintenance tree (price > 50)
+    CherryBlossom cherryBlossom(40.0);  // low maintenance plant (price <= 50) OR tree depending on getType()
+    Rose rosePlant(25.0);               // low maintenance plant (but we'll still use price-based heuristic)
+
+    // Helper lambda to pick a care strategy pointer based on plant type and price
+    auto chooseStrategy = [&](NurseryPlant& p) -> CareStrategy* {
+        bool isTree = (p.getType() == "Tree");
+        bool high = (p.getPrice() > 50.0);
+
+        if (isTree) return high ? (CareStrategy*)&highTreeCare : (CareStrategy*)&lowTreeCare;
+        else       return high ? (CareStrategy*)&highPlantCare : (CareStrategy*)&lowPlantCare;
+    };
+
+    // Create staff and assign strategies based on plant characteristics
+    Staff plantCaretaker("Plant Caretaker");
+    Staff treeCaretaker("Tree Caretaker");
+    Staff generalStaff("General Staff");
+
+    // Test Aloe
+    plantCaretaker.setStrategy(chooseStrategy(aloePlant));
+    std::cout << "\n--- Testing Aloe Plant with assigned strategy ---\n";
+    plantCaretaker.careForPlant(aloePlant);
+
+    // Test Baobab
+    treeCaretaker.setStrategy(chooseStrategy(baobabTree));
+    std::cout << "\n--- Testing Baobab Tree with assigned strategy ---\n";
+    treeCaretaker.careForPlant(baobabTree);
+
+    // Test Cherry Blossom
+    Staff cherryCaretaker("Cherry Caretaker");
+    cherryCaretaker.setStrategy(chooseStrategy(cherryBlossom));
+    std::cout << "\n--- Testing Cherry Blossom with assigned strategy ---\n";
+    cherryCaretaker.careForPlant(cherryBlossom);
+
+    // Test Rose
+    Staff roseCaretaker("Rose Caretaker");
+    roseCaretaker.setStrategy(chooseStrategy(rosePlant));
+    std::cout << "\n--- Testing Rose with assigned strategy ---\n";
+    roseCaretaker.careForPlant(rosePlant);
+
     
-    // Create care strategies
-    AloeCare aloeCare;
-    BaobabCare baobabCare;
-    CherryBlossomCare cherryCare;
-    RoseCare roseCare;
-    
-    // Create plants with different strategies
-    Aloe aloePlant(35.0);
-    Baobab baobabTree(120.0);
-    CherryBlossom cherryBlossom(40.0);
-    Rose rosePlant(25.0);
-    
-    // Create staff with different strategies
-    Staff aloeSpecialist("Aloe Expert", &aloeCare);
-    Staff treeSpecialist("Tree Expert", &baobabCare);
-    Staff flowerSpecialist("Flower Expert", &cherryCare);
-    Staff roseSpecialist("Rose Expert", &roseCare);
-    Staff generalStaff("General Staff"); 
-    
-    std::cout << "\n--- Testing Aloe Plant with Aloe Specialist ---\n";
-    aloeSpecialist.careForPlant(aloePlant);
-    
-    std::cout << "\n--- Testing Baobab Tree with Tree Specialist ---\n";
-    treeSpecialist.careForPlant(baobabTree);
-    
-    std::cout << "\n--- Testing Cherry Blossom with Flower Specialist ---\n";
-    flowerSpecialist.careForPlant(cherryBlossom);
-    
-    std::cout << "\n--- Testing Rose with Rose Specialist ---\n";
-    roseSpecialist.careForPlant(rosePlant);
-    
-    std::cout << "\n--- Testing Strategy Switching ---\n";
-    std::cout << "Switching Rose Specialist to Aloe Care strategy:\n";
-    roseSpecialist.setStrategy(&aloeCare);
-    roseSpecialist.careForPlant(aloePlant);
-    
+
     std::cout << "\n--- Testing Staff without Strategy ---\n";
     generalStaff.careForPlant(rosePlant);
-    
+
     std::cout << "\n--- Testing Plant Type Information ---\n";
     std::cout << "Aloe type: " << aloePlant.getType() << "\n";
     std::cout << "Baobab type: " << baobabTree.getType() << "\n";
     std::cout << "Cherry Blossom type: " << cherryBlossom.getType() << "\n";
     std::cout << "Rose type: " << rosePlant.getType() << "\n";
-    
+
     std::cout << "\n--- Testing Plant Properties ---\n";
     std::cout << "Aloe - Name: " << aloePlant.getName() << ", Price: $" << aloePlant.getPrice() << "\n";
     std::cout << "Baobab - Name: " << baobabTree.getName() << ", Price: $" << baobabTree.getPrice() << "\n";
-    
+
     // Test price modifications
-    aloePlant.setPrice(40.0);
+    aloePlant.setPrice(60.0); // now high maintenance by our heuristic
     std::cout << "Aloe new price: $" << aloePlant.getPrice() << "\n";
-    
-    // Test state management
-    std::cout << "Rose initial state: " << rosePlant.getState() << "\n";
-    rosePlant.setState("blooming");
-    std::cout << "Rose updated state: " << rosePlant.getState() << "\n";
+
+    // Re-evaluate strategy after price change
+    plantCaretaker.setStrategy(chooseStrategy(aloePlant));
+    std::cout << "\n--- After price change, Aloe gets new strategy ---\n";
+    plantCaretaker.careForPlant(aloePlant);
 }
+
 
 void testChainOfResponsibility() {
     std::cout << "\n" << std::string(60, '=') << "\n";
@@ -206,84 +225,84 @@ void testIntegratedWorkflow() {
     std::cout << "TESTING INTEGRATED WORKFLOW - ALL PATTERNS TOGETHER\n";
     std::cout << std::string(60, '=') << "\n";
     
-    // Create plants using Strategy pattern
+    // ===== Phase 0: Create Plants =====
     Aloe aloe(35.0);
     Rose rose(25.0);
     Baobab baobab(120.0);
-    
-    // Create care strategies
-    AloeCare aloeCare;
-    RoseCare roseCare;
-    BaobabCare baobabCare;
-    
-    // Create specialized staff with strategies
-    Staff aloeExpert("Aloe Specialist", &aloeCare);
-    Staff roseExpert("Rose Specialist", &roseCare);
-    Staff treeExpert("Tree Specialist", &baobabCare);
-    
-    // Create customers and orders
+
+    // ===== Phase 1: Create Care Strategies =====
+    HighMaintenancePlantCare highPlantCare;
+    LowMaintenancePlantCare lowPlantCare;
+    HighMaintenanceTreeCare highTreeCare;
+    LowMaintenanceTreeCare lowTreeCare;
+
+    // ===== Phase 2: Assign Staff with appropriate care strategies =====
+    Staff aloeExpert("Aloe Specialist", &lowPlantCare);
+    Staff roseExpert("Rose Specialist", &highPlantCare);
+    Staff treeExpert("Tree Specialist", &highTreeCare);
+
+    // ===== Phase 3: Create Customers and Orders =====
     Customer vipCustomer("VIP Client");
     Customer regularCustomer("Regular Client");
     
     Order vipOrder(2001, "Premium Baobab", &vipCustomer);
     Order regularOrder(2002, "Aloe Plant", &regularCustomer);
-    
-    // Create command invoker
+
+    // ===== Phase 4: Create Command Invoker =====
     Invoker workflow;
-    
-    // Create CoR chain for issue handling
+
+    // ===== Phase 5: Create CoR chain for issue handling =====
     CashierHandler* cashier = new CashierHandler();
     ManagerHandler* manager = new ManagerHandler();
     cashier->setNext(manager);
     
+    // ===== Phase 6: Care for plants (Strategy Pattern) =====
     std::cout << "\n--- Phase 1: Plant Care (Strategy Pattern) ---\n";
     aloeExpert.careForPlant(aloe);
     roseExpert.careForPlant(rose);
     treeExpert.careForPlant(baobab);
     
+    // ===== Phase 7: Order processing (Command Pattern) =====
     std::cout << "\n--- Phase 2: Order Processing (Command Pattern) ---\n";
-    // Add commands to workflow
     workflow.addCommand(new PrepareCommand(&vipOrder));
     workflow.addCommand(new PackageOrderCommand(&vipOrder));
     workflow.addCommand(new DeliverOrderCommand(&vipOrder));
     workflow.addCommand(new PrepareCommand(&regularOrder));
     workflow.addCommand(new WaterPlantCommand("VIP Section"));
     workflow.addCommand(new FertilizeBedCommand("Main Beds"));
-    
-    // Process all commands
     workflow.processCommands();
-    
+
+    // ===== Phase 8: Issue resolution (Chain of Responsibility) =====
     std::cout << "\n--- Phase 3: Issue Resolution (Chain of Responsibility) ---\n";
-    // Simulate issues during the workflow
     Issue paymentIssue("Cashier", "Credit card declined", false);
     Issue complaintIssue("Manager", "Customer wants refund", false);
     Issue technicalIssue("IT", "System outage", false);
-    
+
     std::cout << "Handling payment issue:\n";
     cashier->handle(&paymentIssue);
-    
     std::cout << "\nHandling complaint issue:\n";
     cashier->handle(&complaintIssue);
-    
     std::cout << "\nHandling technical issue (should not be handled):\n";
     cashier->handle(&technicalIssue);
-    
+
+    // ===== Phase 9: Final status report =====
     std::cout << "\n--- Phase 4: Final Status Report ---\n";
     std::cout << "VIP Order State: " << vipOrder.getState() << "\n";
     std::cout << "Regular Order State: " << regularOrder.getState() << "\n";
     std::cout << "Payment Issue Resolved: " << paymentIssue.getSolved() << "\n";
     std::cout << "Complaint Issue Resolved: " << complaintIssue.getSolved() << "\n";
     
-    // Show staff assignments
+    // ===== Phase 10: Show staff assignments =====
     std::cout << "\nStaff assigned to plants:\n";
     std::cout << "Aloe plant staff:\n";
     aloe.showStaff();
     std::cout << "Rose plant staff:\n";
     rose.showStaff();
-    
-    // Cleanup CoR chain
+
+    // ===== Phase 11: Cleanup =====
     delete cashier;
 }
+
 
 void testEdgeCasesAndRobustness() {
     std::cout << "\n" << std::string(60, '=') << "\n";
@@ -335,7 +354,7 @@ void testPerformanceScenarios() {
     plants.push_back(new CherryBlossom(40.0));
     
     Staff multiStaff("Multi-Task Staff");
-    RoseCare roseCare;
+    HighMaintenancePlantCare roseCare;
     multiStaff.setStrategy(&roseCare);
     
     for (auto plant : plants) {

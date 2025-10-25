@@ -7,14 +7,15 @@ LFLAGS = -fsanitize=address,undefined
 # Target executable
 TARGET = nursery_test
 
-# Source files (added missing .cpp files)
+# Source files (updated to remove species-specific care classes)
 SOURCES = main.cpp \
           Customer.cpp Order.cpp Staff.cpp Invoker.cpp \
           PrepareCommand.cpp PackageOrderCommand.cpp DeliverOrderCommand.cpp \
           WaterPlantCommand.cpp FertilizeBedCommand.cpp \
-          Aloe.cpp AloeCare.cpp Baobab.cpp BaobabCare.cpp \
-          CherryBlossom.cpp CherryCare.cpp Rose.cpp RoseCare.cpp \
+          Aloe.cpp Baobab.cpp CherryBlossom.cpp Rose.cpp \
           Tree.cpp FloweringPlant.cpp NurseryPlant.cpp CareStrategy.cpp \
+          HighMaintenancePlantCare.cpp LowMaintenancePlantCare.cpp \
+          HighMaintenanceTreeCare.cpp LowMaintenanceTreeCare.cpp \
           CashierHandler.cpp ManagerHandler.cpp DisputeHandler.cpp Issue.cpp
 
 # Object files
