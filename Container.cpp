@@ -7,5 +7,5 @@
 }
 
 std::string Container::getType() const{
-    return;
+    return "";
 }
