@@ -16,6 +16,9 @@ SOURCES = main.cpp \
           Tree.cpp FloweringPlant.cpp NurseryPlant.cpp CareStrategy.cpp \
           HighMaintenancePlantCare.cpp LowMaintenancePlantCare.cpp \
           HighMaintenanceTreeCare.cpp LowMaintenanceTreeCare.cpp \
+          Aloe.cpp AloeCare.cpp Baobab.cpp BaobabCare.cpp \
+          CherryBlossom.cpp CherryCare.cpp Rose.cpp RoseCare.cpp \
+          Tree.cpp FloweringPlant.cpp NurseryPlant.cpp CareStrategy.cpp \
           CashierHandler.cpp ManagerHandler.cpp DisputeHandler.cpp Issue.cpp
 
 # Object files

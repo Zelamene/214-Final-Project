@@ -33,6 +33,16 @@
 
 #include "Rose.h"
 
+
+// Strategy Pattern Headers
+#include "Aloe.h"
+#include "AloeCare.h"
+#include "Baobab.h"
+#include "BaobabCare.h"
+#include "CherryBlossom.h"
+#include "CherryCare.h"
+#include "Rose.h"
+#include "RoseCare.h"
 #include "Tree.h"
 #include "FloweringPlant.h"
 
@@ -247,62 +257,63 @@ void testIntegratedWorkflow() {
     
     Order vipOrder(2001, "Premium Baobab", &vipCustomer);
     Order regularOrder(2002, "Aloe Plant", &regularCustomer);
-
-    // ===== Phase 4: Create Command Invoker =====
+    
+    // Create command invoker
     Invoker workflow;
-
-    // ===== Phase 5: Create CoR chain for issue handling =====
+    
+    // Create CoR chain for issue handling
     CashierHandler* cashier = new CashierHandler();
     ManagerHandler* manager = new ManagerHandler();
     cashier->setNext(manager);
     
-    // ===== Phase 6: Care for plants (Strategy Pattern) =====
     std::cout << "\n--- Phase 1: Plant Care (Strategy Pattern) ---\n";
     aloeExpert.careForPlant(aloe);
     roseExpert.careForPlant(rose);
     treeExpert.careForPlant(baobab);
     
-    // ===== Phase 7: Order processing (Command Pattern) =====
     std::cout << "\n--- Phase 2: Order Processing (Command Pattern) ---\n";
+    // Add commands to workflow
     workflow.addCommand(new PrepareCommand(&vipOrder));
     workflow.addCommand(new PackageOrderCommand(&vipOrder));
     workflow.addCommand(new DeliverOrderCommand(&vipOrder));
     workflow.addCommand(new PrepareCommand(&regularOrder));
     workflow.addCommand(new WaterPlantCommand("VIP Section"));
     workflow.addCommand(new FertilizeBedCommand("Main Beds"));
+    
+    // Process all commands
     workflow.processCommands();
-
-    // ===== Phase 8: Issue resolution (Chain of Responsibility) =====
+    
     std::cout << "\n--- Phase 3: Issue Resolution (Chain of Responsibility) ---\n";
+    // Simulate issues during the workflow
     Issue paymentIssue("Cashier", "Credit card declined", false);
     Issue complaintIssue("Manager", "Customer wants refund", false);
     Issue technicalIssue("IT", "System outage", false);
-
+    
     std::cout << "Handling payment issue:\n";
     cashier->handle(&paymentIssue);
+    
     std::cout << "\nHandling complaint issue:\n";
     cashier->handle(&complaintIssue);
+    
     std::cout << "\nHandling technical issue (should not be handled):\n";
     cashier->handle(&technicalIssue);
-
-    // ===== Phase 9: Final status report =====
+    
     std::cout << "\n--- Phase 4: Final Status Report ---\n";
     std::cout << "VIP Order State: " << vipOrder.getState() << "\n";
     std::cout << "Regular Order State: " << regularOrder.getState() << "\n";
     std::cout << "Payment Issue Resolved: " << paymentIssue.getSolved() << "\n";
     std::cout << "Complaint Issue Resolved: " << complaintIssue.getSolved() << "\n";
     
-    // ===== Phase 10: Show staff assignments =====
+    // Show staff assignments
     std::cout << "\nStaff assigned to plants:\n";
     std::cout << "Aloe plant staff:\n";
     aloe.showStaff();
     std::cout << "Rose plant staff:\n";
     rose.showStaff();
-
-    // ===== Phase 11: Cleanup =====
+    
+    // Cleanup CoR chain
     delete cashier;
 }
-
 
 void testEdgeCasesAndRobustness() {
     std::cout << "\n" << std::string(60, '=') << "\n";
