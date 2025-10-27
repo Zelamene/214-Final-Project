@@ -1,28 +1,40 @@
-
-#ifndef ALOE_H
-#define ALOE_H
+#ifndef Aloe_H
+#define Aloe_H
 
 #include "NurseryPlant.h"
-#include "Tree.h"
 #include <string>
 
 /**
- * @brief Concrete class representing an Aloe plant
+ * @class Aloe
+ * @brief Represents an Aloe Vera plant in the nursery system
  * 
- * Aloe is a specific type of Tree .
- * 
+ * This class implements the NurseryPlant interface for Aloe Vera plants,
+ * providing specific descriptions and pricing for this plant type.
  */
-class Aloe : public Tree {
-private:
-             
-
+class Aloe : public NurseryPlant {
+    
 public:
     /**
-     * @brief Construct a new Aloe object
-     * @param price Initial price, defaults to 35.0
+     * @brief Default constructor for Aloe plant
      */
+    Aloe();
     
-    Aloe(double price = 35.0);
+    /**
+     * @brief Gets the description of the Aloe plant
+     * @return String describing the Aloe plant
+     */
+    virtual std::string getDescription() override;
+    
+    /**
+     * @brief Calculates the cost of the Aloe plant
+     * @return The price of the Aloe plant as a double
+     */
+    virtual double calculateCost() override;
+    
+    /**
+     * @brief Virtual destructor for Aloe plant
+     */
+    virtual ~Aloe();
 };
 
-#endif
+#endif // Aloe_H

@@ -1,43 +1,34 @@
 /**
- * @file Container.h
+ * @file ContainerFactory.h
  * @author Tafadzwa Musiiwa
- * @brief Abstract class representing a container for plants.
+ * @brief Abstract factory for creating containers for plants.
  */
 
-#ifndef CONTAINER_H
-#define CONTAINER_H
+#ifndef CONTAINERFACTORY_H
+#define CONTAINERFACTORY_H
 
-#include <string>
+#include "Container.h"
 
 /**
- * @class Container
- * @brief Abstract representation of a plant container.
+ * @class ContainerFactory
+ * @brief Abstract class defining the interface for container creation.
  *
- * Serves as a base for specific container types like Crate.
+ * This factory is responsible for producing different types of plant containers,
+ * such as crates, pots, etc.
  */
-class Container
+class ContainerFactory
 {
 public:
     /**
      * @brief Virtual destructor.
      */
-    virtual ~Container() {}
+    virtual ~ContainerFactory() {}
 
-     /**
-     * @brief default constructor.
+    /**
+     * @brief Creates a container.
+     * @return Pointer to a new Container object.
      */
-    Container() = default;
-
-     /**
-     * @brief Display information about the container.
-     * Must be implemented by derived classes.
-     */
-    virtual void display() const = 0;
-
-      /**
-     * @brief getter for container type (name).
-     */
-    virtual std::string getType() const = 0;
+    virtual Container* createContainer() = 0;
 };
 
-#endif
+#endif 

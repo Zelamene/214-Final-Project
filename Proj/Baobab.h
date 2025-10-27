@@ -1,27 +1,38 @@
+/**
+ * @file Baobab.h
+ * @author Tafadzwa Musiiwa
+ * @brief Concrete class representing a Baobab tree.
+ */
 
 #ifndef BAOBAB_H
 #define BAOBAB_H
 
-#include "NurseryPlant.h"
 #include "Tree.h"
 #include <string>
 
 /**
- * @brief Concrete class representing a Baobab tree
- * 
- * Baobab is a specific type of Tree
- * 
+ * @class Baobab
+ * @brief Represents a Baobab tree, known for its massive trunk.
  */
-class Baobab : public Tree {
-private:
-            
+class Baobab : public Tree
+{
 
 public:
     /**
-     * @brief Construct a new Baobab object
-     * @param price Initial price, defaults to 120.0
+     * @brief Constructs a Baobab with a given age.
+     * 
      */
-    Baobab(double price = 120.0);
+    Baobab(double height, double price);
+
+    /**
+     * @brief Destructor.
+     */
+    ~Baobab() {}
+
+    /**
+     * @brief Display the information of the Baobab tree ( its height).
+     */
+    void displayInfo() const override;
 };
 
-#endif
+#endif // BAOBAB_H

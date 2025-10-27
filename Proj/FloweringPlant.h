@@ -1,29 +1,39 @@
+/**
+ * @file FloweringPlant.h
+ * @author Tafadzwa Musiiwa
+ * @brief Abstract class representing flowering plants.
+ */
+
 #ifndef FLOWERINGPLANT_H
 #define FLOWERINGPLANT_H
 
 #include "NurseryPlant.h"
-#include <string>
 
 /**
- * @brief Concrete class representing a Flowering Plant type
- * 
- * This class implements the Flowering Plant category, inheriting from NurseryPlant
- * and providing specific flowering plant functionality.
+ * @class FloweringPlant
+ * @brief Abstract class for plants that produce flowers.
+ *
+ * Serves as a base for specific flowering plant types like Rose and CherryBlossom.
  */
-class FloweringPlant : public NurseryPlant {
+class FloweringPlant : public NurseryPlant
+{
+protected:
+  std::string color;
 public:
     /**
-     * @brief Construct a new Flowering Plant object
-     * @param n Name of the flowering plant
-     * @param p Price of the flowering plant
+     * @brief Virtual destructor.
      */
-    FloweringPlant(std::string n, double p);
-    
+    virtual ~FloweringPlant() {}
+
     /**
-     * @brief Get the type of plant
-     * @return std::string Always returns "Flowering Plant"
+     * @brief Constructor.
      */
-   std::string getType() const override;
+    FloweringPlant(const std::string& name, const std::string& maintenanceType, const std::string& color, double);
+    /**
+     * @brief getter for the color of the flowering plant.
+     */
+    std::string getColor() const;
+
 };
 
-#endif
+#endif 

@@ -1,26 +1,38 @@
+/**
+ * @file CherryBlossom.h
+ * @author Tafadzwa Musiiwa
+ * @brief Concrete class representing a Cherry Blossom tree.
+ */
 
 #ifndef CHERRYBLOSSOM_H
 #define CHERRYBLOSSOM_H
 
-#include "NurseryPlant.h"
 #include "FloweringPlant.h"
 #include <string>
 
 /**
- * @brief Concrete class representing a Cherry Blossom plant
- * 
- * Cherry Blossom is a specific type of Flowering Plant with its own
- * state management and characteristics.
+ * @class CherryBlossom
+ * @brief Represents a cherry blossom, a type of flowering plant.
  */
-class CherryBlossom : public FloweringPlant {
+class CherryBlossom : public FloweringPlant
+{
 
 
 public:
     /**
-     * @brief Construct a new Cherry Blossom object
-     * @param price Initial price, defaults to 40.0
+     * @brief Constructs a CherryBlossom with a given blooming season.
+     * 
      */
-    CherryBlossom(double price = 40.0);
+    CherryBlossom(double price);
+
+    /**
+     * @brief Destructor.
+     */
+    ~CherryBlossom() {}
+    /**
+     * @brief Display information about the CherryBlossom plant.
+     */
+    void displayInfo() const override;
 };
 
 #endif
