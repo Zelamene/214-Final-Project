@@ -28,6 +28,11 @@ NurseryPlant* Inventory::removePlant(const std::string& itemName) {
     }
 }
 
+/**
+ * @brief Displays the current inventory.
+ *
+ * Prints each plant type and its stock count.
+ */
 void Inventory::displayInventory() const {
     std::cout << "Inventory:\n";
     for (const auto& pair : itemStock) {
