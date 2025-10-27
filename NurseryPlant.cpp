@@ -32,6 +32,13 @@ double NurseryPlant::getTotal()
     return price + (price * taxRate);
 }
 
+void NurseryPlant::setWaterlevel(int number){
+
+    this->waterlevel=number;
+    return;
+
+}
+
 void NurseryPlant::displayDetails()
 {
     cout << "Nursery Plant Order: " << orderID
@@ -76,6 +83,9 @@ void NurseryPlant::startGrowing() {
             cout<<YELLOW<<planCurrentState()<<RESET<<endl;
         }else{
             cout<<RED<<planCurrentState()<<RESET<<endl;
+            pourWater(60);
+            cout<<RED<<"emegence water supply added 60 mililiters of water"<<RESET<<endl;
+
         }
     }
 }
@@ -85,11 +95,9 @@ int NurseryPlant::getWaterLevel(){
 }
 
 void NurseryPlant::pourWater(int liters){
-    if(this->waterlevel+liters<100){
-        this->waterlevel=100;
-    }else{
+
         this->waterlevel+liters;
-    }
+    
     
 }
 

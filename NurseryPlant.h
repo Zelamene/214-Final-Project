@@ -77,6 +77,7 @@ public:
      * @return The name of the current state as a string.
      */
     std::string getStateName() const;
+    void setWaterlevel(int number);
 
     /**
      * @brief Attaches an observer to this plant.
