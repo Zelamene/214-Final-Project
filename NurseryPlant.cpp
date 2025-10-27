@@ -1,26 +1,18 @@
-
-
-/**
- * @file NurseryPlant.cpp
- * @brief Implementation of the NurseryPlant class.
- */
 #include <iostream>
 #include <algorithm>
 #include "NurseryPlant.h"
 #include "ConcreteState.h"
+#include <thread>
+#include <chrono>
 
 using namespace std;
 
 NurseryPlant::NurseryPlant(const string &name, const string &maintenanceType, double price)
-    : Order(price), name(name), maintenanceType(maintenanceType) {
+    : Order(price), name(name), maintenanceType(maintenanceType),waterlevel(100) {
     this-> currentState=new SeedlingState();
 
     }
 
-
-/**
- * @brief Destructor for NurseryPlant.
- */
 NurseryPlant::~NurseryPlant() {
      delete currentState;
 }
@@ -38,6 +30,13 @@ string NurseryPlant::getMaintenanceType() const
 double NurseryPlant::getTotal()
 {
     return price + (price * taxRate);
+}
+
+void NurseryPlant::setWaterlevel(int number){
+
+    this->waterlevel=number;
+    return;
+
 }
 
 void NurseryPlant::displayDetails()
@@ -63,54 +62,73 @@ void NurseryPlant::displayInfo() const
 {
     cout << "Plant Name: " << name
         <<"Plant State: " << getStateName()
+        <<"Plant State: " << getStateName()
          << ", Maintenance Type: " << maintenanceType
          << ", Price: " << price << endl;
 }
 
-/**
- * @brief Sets a new state for the plant and notifies observers.
- * @param newState Pointer to the new state object.
- */
 void NurseryPlant::setState(State* newState) {
     delete currentState;
     currentState = newState;
     notify();
 }
 
-/**
- * @brief Gets the name of the plant.
- * @return The name of the plant as a string.
- */
-
-/**
- * @brief Starts the growing process by transitioning through states until mature.
- */
 void NurseryPlant::startGrowing() {
     while (this->getStateName() != "Mature") {
+        std::this_thread::sleep_for(std::chrono::seconds(1));
+         waterlevel-(rand() % 40)<0?waterlevel=0:waterlevel-=rand() % 40;
         currentState->handleAction(this);
+        if(waterlevel>=70){
+            cout<<GREEN<<planCurrentState()<<RESET<<endl;
+        }else if(waterlevel>=30){
+            cout<<YELLOW<<planCurrentState()<<RESET<<endl;
+        }else{
+            cout<<RED<<planCurrentState()<<RESET<<endl;
+            pourWater(60);
+            cout<<RED<<"emegence water supply added 60 mililiters of water"<<RESET<<endl;
+
+        }
     }
 }
 
-/**
- * @brief Gets the name of the current state.
- * @return The name of the current state as a string.
- */
+int NurseryPlant::getWaterLevel(){
+    return waterlevel;
+}
+
+void NurseryPlant::pourWater(int liters){
+
+        this->waterlevel+liters;
+    
+    
+}
+
+// rand() % 10
+std::string NurseryPlant::planCurrentState() const {
+    std::string status;
+    
+    if(waterlevel>=70){
+       status="Plant: "+this->getName()+" Water level :"+to_string(waterlevel)+" State: "+this->getStateName()+"Status: Healthy";
+    }else if(waterlevel>=30){
+        status="Plant: "+this->getName()+" Water level :"+to_string(waterlevel)+" State: "+this->getStateName()+"Status: Needs Watering";
+        
+    }else{
+        status="Plant: "+this->getName()+" Water level :"+to_string(waterlevel)+" State: "+this->getStateName()+"Status: Critical - Immediate Watering Required";
+        
+    }
+    return status;
+   
+}
+
+
+
 std::string NurseryPlant::getStateName() const {
     return currentState->getStateName();
 }
 
-/**
- * @brief Attaches an observer to this plant.
- * @param observer Pointer to the observer to attach.
- */
 void NurseryPlant::attach(Observer* observer) {
     observers.push_back(observer);
 }
 
-/**
- * @brief Detaches an observer from this plant.
- * @param observer Pointer to the observer to detach.
- */
 void NurseryPlant::detach(Observer* observer) {
     auto it = std::find(observers.begin(), observers.end(), observer);
     if (it != observers.end()) {
@@ -118,9 +136,6 @@ void NurseryPlant::detach(Observer* observer) {
     }
 }
 
-/**
- * @brief Notifies all attached observers of a state change.
- */
 void NurseryPlant::notify() {
     for (Observer* obs : observers) {
         obs->update(this);
