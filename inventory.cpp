@@ -1,8 +1,18 @@
-
+/**
+ * @file Inventory.cpp
+ * @brief Implementation of the Inventory class.
+ */
 
 #include "Inventory.h"
 #include <iostream>
 
+/**
+ * @brief Adds a plant to the inventory.
+ *
+ * If the plant type doesn't exist, creates a new vector for it.
+ * @param itemName The name of the plant type.
+ * @param plant Pointer to the NurseryPlant to add.
+ */
 void Inventory::addPlant(const std::string& itemName, NurseryPlant* plant) {
     if (itemStock.find(itemName) == itemStock.end()) {
         itemStock[itemName] = std::vector<NurseryPlant*>();
