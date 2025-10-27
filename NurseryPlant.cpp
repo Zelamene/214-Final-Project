@@ -62,6 +62,7 @@ void NurseryPlant::displayInfo() const
 {
     cout << "Plant Name: " << name
         <<"Plant State: " << getStateName()
+        <<"Plant State: " << getStateName()
          << ", Maintenance Type: " << maintenanceType
          << ", Price: " << price << endl;
 }

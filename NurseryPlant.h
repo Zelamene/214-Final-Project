@@ -4,12 +4,19 @@
 
 #include "State.h"
 #include "Subject.h"
+#include "State.h"
+#include "Subject.h"
 #include "Order.h"
+#include <vector>
 #include <vector>
 #include <string>
 #include <iostream>
 using namespace std;
 
+/**
+ * @file NurseryPlant.h
+ * @brief Header file for the NurseryPlant class, representing a plant in the nursery system.
+ */
 /**
  * @file NurseryPlant.h
  * @brief Header file for the NurseryPlant class, representing a plant in the nursery system.
@@ -25,7 +32,12 @@ using namespace std;
  *
  * The NurseryPlant class implements the Subject interface to allow observers (like Staff)
  * to be notified of state changes. It uses the State pattern to manage different growth stages.
+ * @brief Represents a nursery plant with state management and observer pattern support.
+ *
+ * The NurseryPlant class implements the Subject interface to allow observers (like Staff)
+ * to be notified of state changes. It uses the State pattern to manage different growth stages.
  */
+
 class NurseryPlant : public Subject ,public Order{
     protected:
     string name;
@@ -41,7 +53,9 @@ private:
     std::vector<Observer*> observers; /**< List of observers attached to this plant. */
 
 public:
+
     /**
+     * @brief Destructor for NurseryPlant.
      * @brief Constructs a NurseryPlant with an initial state and name.
      * @param initialState Pointer to the initial state object.
      * @param name The name of the plant.
@@ -69,7 +83,10 @@ public:
      * @brief Starts the growing process by transitioning through states until mature.
      */
     void startGrowing();
+
+    string getName() const;
     int getWaterLevel();
+  
     void pourWater(int liters);
 
     /**
@@ -93,13 +110,14 @@ public:
 
     /**
      * @brief Notifies all attached observers of a state change.
-     */
-    void notify() override;
+
+    
     string getName() const;
 
     /**
      * @brief getter for the maintenance Type of the plant.
      */
+    void notify() override;
     string getMaintenanceType() const;
 
     /**

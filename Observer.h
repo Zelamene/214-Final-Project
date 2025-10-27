@@ -26,7 +26,7 @@ public:
      * @brief Updates the observer with information about a plant's state change.
      * @param plant Pointer to the NurseryPlant that changed state.
      */
-    virtual void update(NurseryPlant* plant) = 0;
+    virtual void update(NurseryPlant* plant) ;
 };
 
 #endif

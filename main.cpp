@@ -5,6 +5,10 @@
 #include "HighMaintenancePlantFactory.h"
 #include "Garden.h"
 #include "CrateFactory.h"
+#include "LowMaintenancePlantFactory.h"
+#include "HighMaintenancePlantFactory.h"
+#include "Garden.h"
+#include "CrateFactory.h"
 #include "NurseryPlant.h"
 #include "BulkOrder.h"
 #include "OrderSlip.h"
@@ -119,36 +123,5 @@ int main() {
 
     bulkOrder->displayDetails();
     bulkOrder->calculateTax();
-
-    cout << "\n=== Testing Iterator Pattern ===" << endl;
-    Iterator *it = bulkOrder->createIterator();
-    while (it->hasNext())
-    {
-        Order *o = it->next();
-        o->displayDetails();
-    }
-
-        try
-    {
-        it->next();
-    }
-    catch (const out_of_range &e)
-    {
-        cout << "After finishing exception: " << e.what() << endl;
-    }
-    delete it;
-
-
-    BulkOrder *emptyBulk = new BulkOrder();
-    Iterator *emptyIt = emptyBulk->createIterator();
-    cout << "\nIterating over empty bulk order:" << endl;
-    if (!emptyIt->hasNext())
-        cout << "No orders to iterate." << endl;
-    delete emptyIt;
-    delete emptyBulk;
-
-    std::cout << "\nExiting Plant Nursery Simulator. Goodbye!\n";
-
-
     return 0;
 }
