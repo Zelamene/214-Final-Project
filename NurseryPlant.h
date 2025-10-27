@@ -30,6 +30,11 @@ class NurseryPlant : public Subject ,public Order{
     protected:
     string name;
     string maintenanceType;
+    int waterlevel;
+    string GREEN  = "\033[1;32m";
+    string YELLOW = "\033[1;33m";
+    string RED    = "\033[1;31m";
+    string RESET  = "\033[0m";
     
 private:
     State* currentState; /**< Pointer to the current state of the plant. */
@@ -47,6 +52,7 @@ public:
      * @brief Destructor for NurseryPlant.
      */
     virtual ~NurseryPlant();
+    std::string planCurrentState() const;
 
     /**
      * @brief Gets the name of the plant.
@@ -63,6 +69,8 @@ public:
      * @brief Starts the growing process by transitioning through states until mature.
      */
     void startGrowing();
+    int getWaterLevel();
+    void pourWater(int liters);
 
     /**
      * @brief Gets the name of the current state.
@@ -97,6 +105,7 @@ public:
      * @brief Display information about the plant.
      */
     virtual void displayInfo() const;
+
 
     /**
      * @copydoc Order::getTotal()

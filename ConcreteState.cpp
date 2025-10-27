@@ -4,11 +4,12 @@
 
 void SeedlingState::handleAction(NurseryPlant* plant) {
     std::cout << "The " << plant->getName() << " Planted\n";
-    bool stillGrowing = (rand() % 100) < 20;
+    bool stillGrowing = (rand() % 100) < 50;
     if (stillGrowing) {
         std::cout << "The seedling is still growing. It needs more time.\n";
         return;
     }
+
     plant->setState(new SproutState());
 }
 
@@ -18,13 +19,19 @@ std::string SeedlingState::getStateName() const {
 
 void SproutState::handleAction(NurseryPlant* plant) {
     std::cout << "The " << plant->getName() << " is a sprout. It is growing leaves and needs nutrients.\n";
-    bool readyToMature = (rand() % 100) < 90;
+    bool readyToMature = (rand() % 100) < 50;
     if (!readyToMature) {
         std::cout << "The sprout( " << plant->getName() << " ) is still developing. It needs more care.\n";
         return;
     }
 
-    bool pestAttack = (rand() % 100) < 10;
+    if(plant->getWaterLevel()<=5){
+        std::cout << "Oh no! The sprout( " << plant->getName() << " ) died due to lack of water.\n";
+        plant->setState(new WiltingPlantState());
+        return;
+    }
+
+    bool pestAttack = (rand() % 100) < 20;
     if (pestAttack) {
         std::cout << "Oh no! The sprout( " << plant->getName() << " ) was attacked by pests and is wilting.\n";
         plant->setState(new WiltingPlantState());

@@ -21,6 +21,17 @@ void Staff::update(NurseryPlant* plant) {
         Mature,
         Wilting
     };
+    
+    int addWater=(rand() % 100);
+    if(addWater<20){
+        int waterToAdd=(rand()%20);
+        plant->pourWater(waterToAdd);
+        std::cout<<"Staff add: "<<to_string(waterToAdd)<<"\n"<<endl;
+    }
+
+    if(plant->getWaterLevel()<30){
+        plant->pourWater(60);
+    }
 
     if (plant->getStateName() == "Seeding") {
         std::cout << "Plnted a new seed" << std::endl;
