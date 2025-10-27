@@ -29,25 +29,30 @@ int main(){
 
     NurseryPlant* luxuryRose = new BowDecorator(new GiftWrap(new Rose()));
 
-    std::cout << "\n===== MEDIATOR PATTERN =====" << std::endl;
+    std::cout << "\n----MEDIATOR PATTERN---" << std::endl;
+
     ConcreteNurseryMediator mediator;
     
     Customer customer1("John");
     Customer customer2("Sarah");
+
     Cashier cashier("Alice");
     PlantExpert expert("Dr. Green");
     Nurse nurse("Emily");
+
     Inventory inventory("Main Inventory");
     
 
     mediator.addCustomer(&customer1);
     mediator.addCustomer(&customer2);
+
     mediator.addStaff(&cashier);
     mediator.addStaff(&expert);
     mediator.addStaff(&nurse);
+
     mediator.setInventory(&inventory);
     
-    std::cout << "\n--- Customer Activities ---" << std::endl;
+    std::cout << "\n -- Customer Activities --" << std::endl;
     customer1.browsePlants();
     customer2.requestPlantInfo("Rose");
     
@@ -68,8 +73,10 @@ int main(){
     Inventory inventory2("Store Inventory");
     
     mediator2.addCustomer(&customer);
+
     mediator2.addStaff(&cashier2);
     mediator2.addStaff(&expert2);
+
     mediator2.setInventory(&inventory2);
     
     std::cout << "\n--- Customer Consultation ---" << std::endl;
@@ -77,7 +84,6 @@ int main(){
     expert2.recommendPlants("sunny garden conditions");
     
     std::cout << "\n--- Creating Decorated Plant Order ---" << std::endl;
-
     NurseryPlant* finalProduct = new BowDecorator(new GiftWrap(new Rose()));
     
     std::cout << "Custom Order Created: " << finalProduct->getDescription() << std::endl;

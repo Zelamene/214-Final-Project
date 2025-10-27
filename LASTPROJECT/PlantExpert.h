@@ -39,11 +39,6 @@ public:
     void recommendPlants(const std::string& conditions);
     
     /**
-     * @brief Conducts educational workshops for customers
-     */
-    void conductPlantWorkshop();
-    
-    /**
      * @brief Performs expert consultation and education duties
      * 
      * Implements the abstract method from Staff class to

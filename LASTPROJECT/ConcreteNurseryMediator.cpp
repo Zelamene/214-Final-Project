@@ -25,33 +25,35 @@ void ConcreteNurseryMediator::setInventory(Inventory* inv) {
 
 
 void ConcreteNurseryMediator::notify(Participant* sender, const std::string& event) {
-    std::string senderType = getSenderType(sender);
-    
-    std::cout << "\n--- Mediator Routing ---" << std::endl;
-    std::cout << "From: " << sender->getName() << " (" << senderType << ")" << std::endl;
+
+    std::string type = getSenderType(sender);
+
+    std::cout << "From: " << sender->getName() << " (" << type << ")" << std::endl;
     std::cout << "Event: " << event << std::endl;
     std::cout << "Action: ";
     
 
-    if (senderType == "Customer") {
+    if (type == "Customer") {
         handleCustomerEvent(sender, event);
-    } else if (senderType == "Staff") {
+    } 
+    else if (type == "Staff") {
         handleStaffEvent(sender, event);
-    } else if (senderType == "Inventory") {
+    } 
+    else if (type == "Inventory") {
         handleInventoryEvent(sender, event);
     }
-    std::cout << "-----------------------\n" << std::endl;
 };
 void ConcreteNurseryMediator::handleCustomerEvent(Participant* customer, const std::string& event) {
     std::string customerName = customer->getName();
-    
+
     if (event.find("wants to purchase") != std::string::npos) {
         std::cout << "Processing purchase request" << std::endl;
-        
+
         std::string plantName = event.substr(event.find("purchase") + 9);
         plantName = plantName.substr(0, plantName.find(" for"));
+
         
-        if (inventory && inventory->hasStock(plantName)) {
+        if (inventory && inventory->hasStock(plantName, 1)) {
             notifyStaff(customerName + " wants to purchase " + plantName);
             inventory->removePlant(plantName, 1);
         } else {
@@ -72,41 +74,22 @@ void ConcreteNurseryMediator::handleCustomerEvent(Participant* customer, const s
     }
 };
 
+
 void ConcreteNurseryMediator::handleStaffEvent(Participant* staff, const std::string& event) {
-    if (event.find("needs stock check") != std::string::npos) {
-        std::cout << "Checking inventory" << std::endl;
+    if (event == "restock") {
         if (inventory) {
-            std::string plantName = event.substr(event.find("for") + 4);
-            inventory->checkStock(plantName);
+            inventory->addPlant("Rose", 10);
+            notifyCustomers("New plants are now available! (10 Roses)");
         }
-    }
-    else if (event.find("processing payment") != std::string::npos) {
-        std::cout << "Recording transaction" << std::endl;
-        notifyCustomers("Payment being processed: " + event);
-    }
-    else {
-        std::cout << "Broadcasting staff activity" << std::endl;
+    } else {
         notifyCustomers("Staff update: " + event);
-        if (inventory) {
-            inventory->receive("Staff activity: " + event);
-        }
     }
-};
+}
+
 
 void ConcreteNurseryMediator::handleInventoryEvent(Participant* inv, const std::string& event) {
-    if (event.find("added") != std::string::npos) {
-        std::cout << "New stock available" << std::endl;
-        notifyStaff("New plants available: " + event);
-        notifyCustomers("New plants just arrived!");
-    }
-    else if (event.find("removed") != std::string::npos) {
-        std::cout << "Stock updated" << std::endl;
-        notifyStaff("Inventory updated: " + event);
-    }
-    else {
-        std::cout << "Inventory activity" << std::endl;
-        notifyStaff("Inventory update: " + event);
-    }
+    notifyStaff("Inventory update: " + event);
+    notifyCustomers("Update: " + event);
 };
 
 
@@ -127,4 +110,4 @@ std::string ConcreteNurseryMediator::getSenderType(Participant* sender) {
     if (dynamic_cast<Staff*>(sender)) return "Staff";
     if (dynamic_cast<Inventory*>(sender)) return "Inventory";
     return "Unknown";
-};
+}

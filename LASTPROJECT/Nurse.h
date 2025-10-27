@@ -30,22 +30,12 @@ public:
      */
     void fertilizePlants();
     
-    /**
-     * @brief Prunes plants for healthy growth and appearance
-     */
-    void prunePlants();
     
     /**
      * @brief Monitors plant health and checks for issues
      */
     void monitorPlantHealth();
     
-    /**
-     * @brief Treats sick plants with specific issues
-     * @param plantName The name of the sick plant
-     * @param issue The health issue affecting the plant
-     */
-    void treatSickPlant(const std::string& plantName, const std::string& issue);
     
     /**
      * @brief Performs nurse-specific plant care duties
