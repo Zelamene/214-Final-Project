@@ -1,38 +1,62 @@
-/**
- * @file Staff.cpp
- * @brief Implementation of the Staff class.
- */
-
 #include "Staff.h"
 #include "NurseryPlant.h"
 #include "Inventory.h"
 #include <iostream>
+#include <map>
 
-/**
- * @brief Constructs a Staff object with a reference to the inventory.
- * @param inventory Pointer to the Inventory object.
- */
+
 Staff::Staff(Inventory* inventory) : inventory(inventory) {
 }
 
-/**
- * @brief Updates the staff when a plant's state changes.
- *
- * Prints a notification and adds the plant to inventory if it is mature.
- * @param plant Pointer to the NurseryPlant that changed state.
- */
+Staff::~Staff(){
+    
+}
+
 void Staff::update(NurseryPlant* plant) {
     std::cout << "Staff notified: Plant '" << plant->getStateName() << "' state changed.\n" << std::endl;
+
+    enum PlantStats{
+        Seeding,
+        Sprout,
+        Mature,
+        Wilting
+    };
+    
+    int addWater=(rand() % 100);
+    if(addWater<40){
+        int waterToAdd=(rand()%20);
+        plant->pourWater(waterToAdd);
+        std::cout<<"Staff add: "<<to_string(waterToAdd) <<" mililiters of water"<<"\n"<<endl;
+    }
+
+    if(plant->getWaterLevel()<30){
+        plant->pourWater(60);
+        std::cout<<"Staff add: "<<to_string(60) <<" mililiters of water"<<"\n"<<endl;
+
+    }
+
+    if (plant->getStateName() == "Seeding") {
+        std::cout << "Plnted a new seed" << std::endl;
+
+    }
+
+    if (plant->getStateName() == "Sprout") {
+        std::cout << "Plant still growing add water" << std::endl;
+        
+    }
+
+
     if (plant->getStateName() == "Mature") {
         inventory->addPlant(plant->getName(), plant);
         std::cout << "Staff added plant to inventory." << std::endl;
     }
+
+    if (plant->getStateName() == "Wilting") {
+        std::cout << "Plant died create a new plant" << std::endl;
+        
+    }
 }
 
-/**
- * @brief Gets the name of the staff member.
- * @return "Staff Member"
- */
 std::string Staff::getName() const {
     return "Staff Member";
 }

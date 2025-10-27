@@ -1,3 +1,4 @@
+
 /**
  * @file Staff.h
  * @brief Header file for the Staff class, implementing the Observer pattern.
@@ -33,7 +34,7 @@ public:
      * @brief Default destructor.
      */
 
-    virtual ~Staff() = 0; 
+    virtual ~Staff(); 
 
 
     /**

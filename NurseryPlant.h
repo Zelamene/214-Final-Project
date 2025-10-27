@@ -4,12 +4,19 @@
 
 #include "State.h"
 #include "Subject.h"
+#include "State.h"
+#include "Subject.h"
 #include "Order.h"
+#include <vector>
 #include <vector>
 #include <string>
 #include <iostream>
 using namespace std;
 
+/**
+ * @file NurseryPlant.h
+ * @brief Header file for the NurseryPlant class, representing a plant in the nursery system.
+ */
 /**
  * @file NurseryPlant.h
  * @brief Header file for the NurseryPlant class, representing a plant in the nursery system.
@@ -25,18 +32,30 @@ using namespace std;
  *
  * The NurseryPlant class implements the Subject interface to allow observers (like Staff)
  * to be notified of state changes. It uses the State pattern to manage different growth stages.
+ * @brief Represents a nursery plant with state management and observer pattern support.
+ *
+ * The NurseryPlant class implements the Subject interface to allow observers (like Staff)
+ * to be notified of state changes. It uses the State pattern to manage different growth stages.
  */
+
 class NurseryPlant : public Subject ,public Order{
     protected:
     string name;
     string maintenanceType;
+    int waterlevel;
+    string GREEN  = "\033[1;32m";
+    string YELLOW = "\033[1;33m";
+    string RED    = "\033[1;31m";
+    string RESET  = "\033[0m";
     
 private:
     State* currentState; /**< Pointer to the current state of the plant. */
     std::vector<Observer*> observers; /**< List of observers attached to this plant. */
 
 public:
+
     /**
+     * @brief Destructor for NurseryPlant.
      * @brief Constructs a NurseryPlant with an initial state and name.
      * @param initialState Pointer to the initial state object.
      * @param name The name of the plant.
@@ -47,6 +66,7 @@ public:
      * @brief Destructor for NurseryPlant.
      */
     virtual ~NurseryPlant();
+    std::string planCurrentState() const;
 
     /**
      * @brief Gets the name of the plant.
@@ -64,11 +84,17 @@ public:
      */
     void startGrowing();
 
+    string getName() const;
+    int getWaterLevel();
+  
+    void pourWater(int liters);
+
     /**
      * @brief Gets the name of the current state.
      * @return The name of the current state as a string.
      */
     std::string getStateName() const;
+    void setWaterlevel(int number);
 
     /**
      * @brief Attaches an observer to this plant.
@@ -84,19 +110,21 @@ public:
 
     /**
      * @brief Notifies all attached observers of a state change.
-     */
-    void notify() override;
+
+    
     string getName() const;
 
     /**
      * @brief getter for the maintenance Type of the plant.
      */
+    void notify() override;
     string getMaintenanceType() const;
 
     /**
      * @brief Display information about the plant.
      */
     virtual void displayInfo() const;
+
 
     /**
      * @copydoc Order::getTotal()
@@ -124,71 +152,3 @@ public:
 };
 
 #endif
-// =======
-// #ifndef NURSERYPLANT_H
-// #define NURSERYPLANT_H
-
-// #include "Order.h"
-// #include <string>
-// #include <iostream>
-// using namespace std;
-
-// class NurseryPlant : public Order
-// {
-// protected:
-//     string name;
-//     string maintenanceType;
-
-// public:
-//     /**
-//      * @brief Virtual destructor for safe polymorphic deletion.
-//      */
-//     virtual ~NurseryPlant();
-
-//     /**
-//      * @brief Constructor
-//      */
-//     NurseryPlant(const string &name, const string &maintenanceType, double price,State* initialState);
-
-//     /**
-//      * @brief getter for the name of the plant (e.g rose, baobab etc).
-//      */
-//     string getName() const;
-
-//     /**
-//      * @brief getter for the maintenance Type of the plant.
-//      */
-//     string getMaintenanceType() const;
-
-//     /**
-//      * @brief Display information about the plant.
-//      */
-//     virtual void displayInfo() const;
-
-//     /**
-//      * @copydoc Order::getTotal()
-//      * @override
-//      */
-//     double getTotal() override;
-
-//     /**
-//      * @copydoc Order::displayDetails()
-//      * @override
-//      */
-//     void displayDetails() override;
-
-//     /**
-//      * @copydoc Order::calculateTax()
-//      * @override
-//      */
-//     void calculateTax() override;
-
-//     /**
-//      * @brief Creates and returns a clone of this object.
-//      * @return Pointer to a new NurseryPlant object (deep copy).
-//      */
-//     Order *clone() const override;
-    
-// };
-
-// #endif

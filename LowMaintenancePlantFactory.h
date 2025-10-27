@@ -20,16 +20,9 @@
 class LowMaintenancePlantFactory : public PlantFactory
 {
 public:
-    /**
-     * @brief Creates a low-maintenance flowering plant.
-     * @return Pointer to a new low-maintenance FloweringPlant.
-     */
+
     FloweringPlant* createFloweringPlant();
 
-    /**
-     * @brief Creates a low-maintenance tree.
-     * @return Pointer to a new low-maintenance Tree.
-     */
     Tree* createTree();
 };
 
