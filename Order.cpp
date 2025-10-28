@@ -14,6 +14,10 @@ Order::Order(double price)
     this->price = price;
 }
 
+Order::Order(){
+    
+}
+
 Order::~Order()
 {
 }

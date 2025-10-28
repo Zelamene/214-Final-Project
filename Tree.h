@@ -30,6 +30,7 @@ public:
      */
     Tree(const std::string& name, const std::string& maintenanceType, double height, double);
 
+    Tree();
     /**
      * @brief getter of the height of a tree.
      */

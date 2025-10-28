@@ -5,8 +5,10 @@
 #include <map>
 
 
-Staff::Staff(Inventory* inventory) : inventory(inventory) {
-}
+Staff::Staff(Inventory* inv) : inventory(inv) {};
+
+Staff::Staff(const std::string& name, const std::string& role, NurseryMediator* med) 
+    : Participant(name, med), role(role) {};
 
 Staff::~Staff(){
     
@@ -59,4 +61,8 @@ void Staff::update(NurseryPlant* plant) {
 
 std::string Staff::getName() const {
     return "Staff Member";
+}
+
+std::string Staff::getRole() const {
+    return role;
 }

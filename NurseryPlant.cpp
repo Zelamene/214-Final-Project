@@ -10,8 +10,10 @@ using namespace std;
 NurseryPlant::NurseryPlant(const string &name, const string &maintenanceType, double price)
     : Order(price), name(name), maintenanceType(maintenanceType),waterlevel(100) {
     this-> currentState=new SeedlingState();
+}
 
-    }
+NurseryPlant::NurseryPlant(){
+}
 
 NurseryPlant::~NurseryPlant() {
      delete currentState;
@@ -118,8 +120,6 @@ std::string NurseryPlant::planCurrentState() const {
     return status;
    
 }
-
-
 
 std::string NurseryPlant::getStateName() const {
     return currentState->getStateName();

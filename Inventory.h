@@ -1,53 +1,23 @@
-/**
- * @file Inventory.h
- * @brief Header file for the Inventory class, managing plant stock.
- */
-
 #ifndef INVENTORY_H
 #define INVENTORY_H
 
+#include "Participant.h"
 #include <string>
-#include <vector>
 #include <map>
-#include "NurseryPlant.h"
 
-/**
- * @brief Manages the inventory of nursery plants.
- *
- * The Inventory class uses a map to store plants by name, allowing addition, removal, and display of stock.
- */
-class Inventory {
+class Inventory : public Participant {
 private:
-    std::map<std::string, std::vector<NurseryPlant*>> itemStock; /**< Map of plant names to lists of plant pointers. */
-
+    std::map<std::string, int> plantStock;
+    
 public:
-    /**
-     * @brief Default constructor.
-     */
-    Inventory() = default;
-
-    /**
-     * @brief Default destructor.
-     */
-    ~Inventory() = default;
-
-    /**
-     * @brief Adds a plant to the inventory.
-     * @param itemName The name of the plant type.
-     * @param plant Pointer to the NurseryPlant to add.
-     */
-    void addPlant(const std::string& itemName, NurseryPlant* plant);
-
-    /**
-     * @brief Removes a plant from the inventory.
-     * @param itemName The name of the plant type to remove from.
-     */
-    void removePlant(const std::string& itemName);
-
-    /**
-     * @brief Displays the current inventory.
-     */
-    void displayInventory() const;
+    Inventory(const std::string& name, NurseryMediator* med = nullptr);
+    
+    void addPlant(const std::string& plantName, int quantity);
+    void removePlant(const std::string& plantName, int quantity);
+    void checkStock(const std::string& plantName);
+    void displayStock();
+    bool hasStock(const std::string& plantName, int quantity = 1);
+    int getStockCount(const std::string& plantName);
 };
 
-#endif
+#endif // INVENTORY_H

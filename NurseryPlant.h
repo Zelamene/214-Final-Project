@@ -1,4 +1,3 @@
-// <<<<<<< HEAD
 #ifndef NURSERYPLANT_H
 #define NURSERYPLANT_H
 
@@ -47,6 +46,8 @@ class NurseryPlant : public Subject ,public Order{
     string YELLOW = "\033[1;33m";
     string RED    = "\033[1;31m";
     string RESET  = "\033[0m";
+    std::string description;  ///< Description of the plant
+    double basePrice;        ///< Base price of the plant without decorations
     
 private:
     State* currentState; /**< Pointer to the current state of the plant. */
@@ -62,10 +63,8 @@ public:
      */
     NurseryPlant(const string &name, const string &maintenanceType, double price);
 
-    /**
-     * @brief Destructor for NurseryPlant.
-     */
-    virtual ~NurseryPlant();
+    NurseryPlant();
+
     std::string planCurrentState() const;
 
     /**
@@ -149,6 +148,23 @@ public:
      * @return Pointer to a new NurseryPlant object (deep copy).
      */
     Order *clone() const override;
+
+        /**
+     * @brief Gets the description of the plant
+     * @return String describing the plant
+     */
+    virtual std::string getDescription() = 0;
+    
+    /**
+     * @brief Calculates the cost of the plant
+     * @return The price of the plant as a double
+     */
+    virtual double calculateCost() = 0;
+    
+    /**
+     * @brief Virtual destructor for proper cleanup of derived classes
+     */
+    virtual ~NurseryPlant() noexcept override;
 };
 
-#endif
+#endif //NurseryPlant

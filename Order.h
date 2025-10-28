@@ -36,6 +36,8 @@ public:
      */
     Order(double price);
 
+    Order();
+
     /**
      * @brief Virtual destructor for Order.
      */

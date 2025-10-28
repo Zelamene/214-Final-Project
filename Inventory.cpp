@@ -1,51 +1,46 @@
-/**
- * @file Inventory.cpp
- * @brief Implementation of the Inventory class.
- */
-
 #include "Inventory.h"
 #include <iostream>
 
-/**
- * @brief Adds a plant to the inventory.
- *
- * If the plant type doesn't exist, creates a new vector for it.
- * @param itemName The name of the plant type.
- * @param plant Pointer to the NurseryPlant to add.
- */
-void Inventory::addPlant(const std::string& itemName, NurseryPlant* plant) {
-    if (itemStock.find(itemName) == itemStock.end()) {
-        itemStock[itemName] = std::vector<NurseryPlant*>();
-    }
-    itemStock[itemName].push_back(plant);
+Inventory::Inventory(const std::string& name, NurseryMediator* med) 
+    : Participant(name, med) {
+
+    plantStock["Rose"] = 25;
+    plantStock["Baobab Tree"] = 5;
+    plantStock["Lavender"] = 15;
+    plantStock["Succulent"] = 30;
 }
 
-/**
- * @brief Removes a plant from the inventory.
- *
- * Removes the last plant of the specified type. If no plants remain, removes the entry.
- * @param itemName The name of the plant type to remove from.
- */
-void Inventory::removePlant(const std::string& itemName) {
-    auto it = itemStock.find(itemName);
-    if (it != itemStock.end() && !it->second.empty()) {
-        it->second.pop_back();
-        if (it->second.empty()) {
-            itemStock.erase(it);
-        }
+void Inventory::addPlant(const std::string& plantName, int quantity) {
+    plantStock[plantName] += quantity;
+    send("added " + std::to_string(quantity) + " " + plantName + " plants to inventory");
+}
+
+void Inventory::removePlant(const std::string& plantName, int quantity) {
+    if (hasStock(plantName, quantity)) {
+        plantStock[plantName] -= quantity;
+        send("removed " + std::to_string(quantity) + " " + plantName + " plants from inventory");
     } else {
-        std::cout << "No plants of this type in inventory to remove.\n";
+        send("ERROR: Not enough stock of " + plantName + " to remove " + std::to_string(quantity));
     }
 }
 
-/**
- * @brief Displays the current inventory.
- *
- * Prints each plant type and its stock count.
- */
-void Inventory::displayInventory() const {
-    std::cout << "Inventory:\n";
-    for (const auto& pair : itemStock) {
-        std::cout << "Item: " << pair.first << ", Stock: " << pair.second.size() << "\n";
+void Inventory::checkStock(const std::string& plantName) {
+    int stock = getStockCount(plantName);
+    send("checked stock for " + plantName + " - " + std::to_string(stock) + " available");
+}
+
+void Inventory::displayStock() {
+    std::cout << "=== CURRENT INVENTORY ===" << std::endl;
+    for (const auto& item : plantStock) {
+        std::cout << "- " << item.first << ": " << item.second << " units" << std::endl;
     }
+    std::cout << "=========================" << std::endl;
+}
+
+bool Inventory::hasStock(const std::string& plantName, int quantity) {
+    return plantStock.count(plantName) && plantStock[plantName] >= quantity;
+}
+
+int Inventory::getStockCount(const std::string& plantName) {
+    return plantStock.count(plantName) ? plantStock[plantName] : 0;
 }
