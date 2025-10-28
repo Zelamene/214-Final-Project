@@ -1,40 +1,52 @@
+/**
+ * @file Rose.h
+ * @author Tafadzwa Musiiwa
+ * @brief Concrete class representing a Rose plant.
+ */
+
 #ifndef ROSE_H
 #define ROSE_H
 
+#include "FloweringPlant.h"
 #include "NurseryPlant.h"
 #include <string>
 
 /**
  * @class Rose
- * @brief Represents a Rose plant in the nursery system
- * 
- * This class implements the NurseryPlant interface for Rose plants,
- * providing specific descriptions and pricing for this popular flower.
+ * @brief Represents a rose, a type of flowering plant.
  */
-class Rose : public NurseryPlant {
-    
+class Rose : public FloweringPlant, public NurseryPlant
+{
+
+
 public:
     /**
-     * @brief Default constructor for Rose plant
+     * @brief Constructs a Rose with a given colour.
+     * 
      */
-    Rose();
-    
+    Rose(const std::string& color, double price);
+
     /**
      * @brief Gets the description of the Rose plant
      * @return String describing the Rose plant
      */
     virtual std::string getDescription() override;
-    
-    /**
+
+        /**
      * @brief Calculates the cost of the Rose plant
      * @return The price of the Rose plant as a double
      */
     virtual double calculateCost() override;
-    
+
     /**
-     * @brief Virtual destructor for Rose plant
+     * @brief Destructor.
      */
-    virtual ~Rose();
+    ~Rose() {}
+    /**
+     * @brief Display information about a Rose.
+     */
+
+    void displayInfo() const override;
 };
 
-#endif // ROSE_H
+#endif //Rose_H

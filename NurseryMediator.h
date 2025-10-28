@@ -14,6 +14,8 @@ class Participant;
  */
 class NurseryMediator {
 public:
+
+    
     /**
      * @brief Pure virtual method for handling communication between participants
      * @param sender The participant sending the message
