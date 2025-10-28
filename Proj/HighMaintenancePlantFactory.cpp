@@ -21,13 +21,8 @@ Tree *HighMaintenancePlantFactory::createTree()
     double height;
     std::cout << "Enter height of Baobab (in meters): ";
     std::cin >> height;
-<<<<<<< HEAD
-
-    return new Baobab(height);
-=======
     double price;
     std::cout << "Enter price of a Baobab: ";
     std::cin >> price;
     return new Baobab(height, price);
->>>>>>> 82c8896a613702f306efb3621114b7cc62960c30
 }

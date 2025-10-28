@@ -32,7 +32,8 @@ public:
     /**
      * @brief Display information about a Rose.
      */
+<<<<<<< HEAD
+    void displayInfo() const override;
+=======
     void displayInfo() const ;
-};
-
 #endif
