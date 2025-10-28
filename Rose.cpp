@@ -1,7 +1,7 @@
 #include "Rose.h"
 #include <iostream>
 
-Rose::Rose(const std::string& color) : FloweringPlant("Rose","High Maintenance",color){
+Rose::Rose(const std::string& color, double price) : FloweringPlant("Rose","High Maintenance",color, price){
       std::cout << "🌹 A " << color << " Rose has been planted.\n";
 }
 

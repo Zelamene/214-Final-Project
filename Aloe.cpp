@@ -2,8 +2,8 @@
 #include <iostream>
 
 
-Aloe::Aloe(double height)
-    : Tree("Aloe", "Low Maintenance", height) { 
+Aloe::Aloe(double height, double price)
+    : Tree("Aloe", "Low Maintenance", height,price) { 
     std::cout << "🌿 Aloe planted.\n";
 }
 
