@@ -5,29 +5,16 @@
 #include "Baobab.h"
 #include <iostream>
 
-FloweringPlant *HighMaintenancePlantFactory::createFloweringPlant()
+FloweringPlant *HighMaintenancePlantFactory::createFloweringPlant(double price, string color)
 {
-    std::cout << "Creating a high maintenance flowing plant (CherryBlossom)" << std::endl;
-    double price;
-    std::cout << "Enter price of a Flowering Plant : ";
-    std::cin >> price;
+    cout << "Creating a high maintenance flowing plant (CherryBlossom)" << endl;
 
     return new CherryBlossom(price);
 }
 
-Tree *HighMaintenancePlantFactory::createTree()
+Tree *HighMaintenancePlantFactory::createTree(double height, double price)
 {
-    std::cout << "Creating a high maintenance tree (Baobab)" << std::endl;
-    double height;
-    std::cout << "Enter height of Baobab (in meters): ";
-    std::cin >> height;
-<<<<<<< HEAD
+    cout << "Creating a high maintenance tree (Baobab)" << endl;
 
-    return new Baobab(height);
-=======
-    double price;
-    std::cout << "Enter price of a Baobab: ";
-    std::cin >> price;
     return new Baobab(height, price);
->>>>>>> 82c8896a613702f306efb3621114b7cc62960c30
 }
