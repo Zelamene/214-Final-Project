@@ -4,6 +4,7 @@
 #include "Issue.h"
 #include "DisputeHandler.h"
 #include <string>
+using namespace std;
 
 /**
  * @class ManagerHandler
@@ -14,6 +15,17 @@
  */
 class ManagerHandler : public DisputeHandler
 {
+protected:
+    /**
+     * DisputeHandler::processIssue(Issue* issue)
+     */
+    void processIssue(Issue *issue) override;
+
+    /**
+     * DisputeHandler::canHandle(Issue* issue)
+     */
+    bool canHandle(Issue *issue) override;
+
 public:
     /**
      * @brief Constructs a ManagerHandler with no next handler.
@@ -24,12 +36,6 @@ public:
      * @brief Destroys the ManagerHandler instance.
      */
     virtual ~ManagerHandler();
-
-    /**
-     * @brief Handles manager-related issues or passes them to the next handler.
-     * @param issue Pointer to the Issue object.
-     */
-    void handle(Issue* issue);
 };
 
 #endif

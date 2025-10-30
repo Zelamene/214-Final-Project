@@ -1,29 +1,36 @@
 #include "Issue.h"
 
-Issue::Issue(std :: string id, std::string description, bool solved) {
+Issue::Issue(string id, string description, Order *order, bool solved)
+{
     this->id = id;
     this->description = description;
     this->solved = solved;
+    this->relatedOrder = order;
 }
 
 Issue::~Issue() {}
 
-void Issue::setDescription(std::string description) {
+void Issue::setDescription(string description)
+{
     this->description = description;
 }
 
-void Issue::setSolved(bool solved) {
+void Issue::setSolved(bool solved)
+{
     this->solved = solved;
 }
 
-std :: string Issue::getId() {
+std ::string Issue::getID()
+{
     return this->id;
 }
 
-std::string Issue::getDescription() {
+string Issue::getDescription()
+{
     return this->description;
 }
 
-bool Issue::getSolved() {
+bool Issue::getSolved()
+{
     return this->solved;
 }

@@ -2,8 +2,11 @@
 #define CASHIERHANDLER_H
 
 #include "Issue.h"
+#include "SlipTemplate.h"
+#include "PaymentStrategy.h"
 #include "DisputeHandler.h"
 #include <string>
+using namespace std;
 
 /**
  * @class CashierHandler
@@ -14,6 +17,21 @@
  */
 class CashierHandler : public DisputeHandler
 {
+private:
+    PaymentStrategy *payStrategy; /** Strategy for processing payments */
+    SlipTemplate *slipGenerator;  /** Template for generating slips */
+
+protected:
+    /**
+     * DisputeHandler::processIssue(Issue* issue)
+     */
+    void processIssue(Issue *issue) override;
+
+    /**
+     * DisputeHandler::canHandle(Issue* issue)
+     */
+    bool canHandle(Issue *issue) override;
+
 public:
     /**
      * @brief Constructs a CashierHandler with no next handler.
@@ -26,10 +44,16 @@ public:
     virtual ~CashierHandler();
 
     /**
-     * @brief Handles cashier-related issues or passes them to the next handler.
-     * @param issue Pointer to the Issue object.
+     * @brief Sets the payment strategy.
+     * @param strategy PaymentStrategy instance to use.
      */
-    void handle(Issue* issue);
+    void setPaymentStrategy(PaymentStrategy *strategy);
+
+    /**
+     * @brief Sets the slip generator template.
+     * @param slip SlipTemplate instance to use.
+     */
+    void setSlipGenerator(SlipTemplate *slip);
 };
 
 #endif
