@@ -1,39 +1,88 @@
 #include "CashierHandler.h"
 #include "DisputeHandler.h"
 #include "Issue.h"
-
+using namespace std;
 #include <iostream>
 
-
-
-void CashierHandler :: handle(Issue* issue)
+void CashierHandler::setPaymentStrategy(PaymentStrategy *strategy)
 {
-    
-    if(issue->getId() == "Cashier"){
-        std::cout << "The cashier is handling the ticket... "  << std::endl;
-        issue->setSolved(true);
-       
-    }
-    else{
-        if(next){
-            std::cout << "The issue is being passed to the next handler... "  << std::endl;
-            //this->setNext(this->next);
-            next->handle(issue);
-        }
-        else{
-            std::cout << "Dispute Unhandled" << std::endl;
-        }
-    }
-    
+    delete payStrategy;
+    payStrategy = strategy;
 }
-CashierHandler :: CashierHandler()
+void CashierHandler::setSlipGenerator(SlipTemplate *slip)
 {
-    next = nullptr;
+    delete slipGenerator;
+    slipGenerator = slip;
+}
+void CashierHandler::processIssue(Issue *issue)
+{
+    cout << "CashierHandler processing: "
+              << issue->getDescription() << endl;
+
+    string issueType = issue->getID();
+    Order *order = issue->getOrder();
+
+    if (issueType == "Payment")
+    {
+        if (order && payStrategy)
+        {
+            double amount = order->getTotal();
+            cout << "Processing payment of $" << amount << "..." << endl;
+
+            if (payStrategy->processPayment(amount))
+            {
+                cout << "Payment successful via "
+                          << payStrategy->getMethodName() << endl;
+            }
+            else
+            {
+                cout << "Payment failed!" << endl;
+            }
+        }
+        else
+        {
+            cout << " Missing order or payment method!" << endl;
+        }
+    }
+    else if (issueType == "Refund")
+    {
+        if (order)
+        {
+            cout << "Processing refund for Order #" << order->getID() << endl;
+            cout << "Refund amount: $" << order->getTotal() << endl;
+
+            if (slipGenerator)
+            {
+                slipGenerator->setOrder(order);
+                slipGenerator->printSlip();
+            }
+        }
+        else
+        {
+            cout << " No order associated with refund!" << endl;
+        }
+    }
+    else
+    {
+        cout << "Handling general cashier issue..." << endl;
+    }
+
+    cout << "Cashier issue resolved.\n"
+              << endl;
 }
 
-
-
-CashierHandler :: ~CashierHandler() 
+bool CashierHandler::canHandle(Issue *issue) 
 {
-    
+    string id = issue->getID();
+    return (id == "Payment" || id == "Refund" || id == "Cashier");
+}
+
+CashierHandler ::CashierHandler() : payStrategy(NULL), slipGenerator(NULL)
+{
+}
+
+CashierHandler ::~CashierHandler()
+{
+    delete payStrategy;
+    delete slipGenerator;
 }
