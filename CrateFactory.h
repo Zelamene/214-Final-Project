@@ -8,6 +8,7 @@
 #define CRATEFACTORY_H
 
 #include "ContainerFactory.h"
+using namespace std;
 
 /**
  * @class CrateFactory
@@ -22,7 +23,7 @@ public:
      * @brief Creates a crate container.
      * @return Pointer to a new Crate object.
      */
-    Container* createContainer();
+    Container* createContainer(string material);
 };
 
 #endif 
