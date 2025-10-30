@@ -10,6 +10,8 @@
 #include "PlantFactory.h"
 #include "FloweringPlant.h"
 #include "Tree.h"
+using namespace std;
+
 /**
  * @class HighMaintenancePlantFactory
  * @brief Concrete factory that creates high-maintenance plants.
@@ -22,15 +24,18 @@ class HighMaintenancePlantFactory : public PlantFactory
 public:
     /**
      * @brief Creates a high-maintenance flowering plant.
-     * @return Pointer to a new high-maintenance FloweringPlant.
+     *
+     * @param price Price of the plant.
+     * @param color Optional color of the plant (default is empty string).
+     * @return Pointer to a newly created high-maintenance FloweringPlant.
      */
-    FloweringPlant* createFloweringPlant();
+    FloweringPlant *createFloweringPlant(double price, string color = "") override;
 
     /**
      * @brief Creates a high-maintenance tree.
      * @return Pointer to a new high-maintenance Tree.
      */
-    Tree* createTree();
+    Tree *createTree(double height, double price) override;
 };
 
-#endif 
+#endif
