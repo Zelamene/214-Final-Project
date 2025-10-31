@@ -1,25 +1,51 @@
 #include "Cashier.h"
-#include <iostream>
-
-Cashier::Cashier(const std::string& name, NurseryMediator* med) 
-    : Staff(name, "Cashier", med) {}
-
-void Cashier::processPayment(const std::string& customerName, double amount) {
-    send("processing payment of R" + std::to_string(amount) + " for " + customerName);
+using namespace std;
+Cashier::Cashier(Inventory *inventory, const string &name)
+    : Staff(inventory, name, new LowMaintenancePlantCare())
+{
+    // Cashiers handle simple plant care
 }
 
-void Cashier::confirmSale(const std::string& plantName) {
-    send("confirmed sale of " + plantName);
+void Cashier::processSale(const string &plantName, double amount)
+{
+    if (!paymentStrategy)
+    {
+        cout << "No payment method selected!\n";
+        return;
+    }
+
+    cout << "Processing sale for " << plantName << " - Amount: $" << amount << "\n";
+
+    if (paymentStrategy->processPayment(amount))
+    {
+        cout << "Payment successful using " << paymentStrategy->getMethodName() << "\n";
+        // Remove plant from inventory, update records, etc.
+    }
+    else
+    {
+        cout << "Payment failed!\n";
+    }
 }
 
-void Cashier::requestStockCheck(const std::string& plantName) {
-    send("needs stock check for " + plantName);
+void Cashier::setPaymentStrategy(PaymentStrategy *strategy)
+{
+    paymentStrategy = (strategy);
 }
 
-void Cashier::issueReceipt(const std::string& customerName) {
-    send("issuing receipt for " + customerName);
+string Cashier::getPaymentMethod() const
+{
+    return paymentStrategy ? paymentStrategy->getMethodName() : "No method set";
 }
 
-void Cashier::performDuty() {
-    send("is performing cashier duties - managing sales and payments");
+void Cashier::update(NurseryPlant *plant)
+{
+    cout << getName() << " notified: " << plant->getName()
+              << " reached " << plant->getStateName() << ".\n";
+
+    if (plant->getStateName() == "Mature")
+    {
+        cout << getName() << " adding " << plant->getName()
+                  << " to inventory for sale.\n";
+        inventory->addPlant(plant->getName(), plant);
+    }
 }
