@@ -1,0 +1,14 @@
+*.d
+*.o
+*.obj
+*.exe
+*.out
+*.log
+
+main.cpp
+Testing2.cpp
+TestingMain.cpp
+TestMain.cpp
+zcode.txt
+
+Proj/
