@@ -1,46 +1,83 @@
 #include "Inventory.h"
 #include <iostream>
 
-Inventory::Inventory(const std::string& name, NurseryMediator* med) 
-    : Participant(name, med) {
+Inventory::Inventory() = default;
 
-    plantStock["Rose"] = 25;
-    plantStock["Baobab Tree"] = 5;
-    plantStock["Lavender"] = 15;
-    plantStock["Succulent"] = 30;
+Inventory::~Inventory()
+{
 }
 
-void Inventory::addPlant(const std::string& plantName, int quantity) {
-    plantStock[plantName] += quantity;
-    send("added " + std::to_string(quantity) + " " + plantName + " plants to inventory");
+bool Inventory::hasStock(const std::string &plantName, int quantity) const
+{
+    auto it = stockCounts.find(plantName);
+    return it != stockCounts.end() && it->second >= static_cast<size_t>(quantity);
 }
 
-void Inventory::removePlant(const std::string& plantName, int quantity) {
-    if (hasStock(plantName, quantity)) {
-        plantStock[plantName] -= quantity;
-        send("removed " + std::to_string(quantity) + " " + plantName + " plants from inventory");
-    } else {
-        send("ERROR: Not enough stock of " + plantName + " to remove " + std::to_string(quantity));
+void Inventory::addPlant(const std::string &plantName, NurseryPlant *plant)
+{
+    itemStock[plantName].push_back(plant);
+    stockCounts[plantName]++;
+
+    if (eventListener)
+    {
+        InventoryEvent event{EventType::Restocked, plantName, static_cast<int>(stockCounts[plantName])};
+        eventListener(event);
     }
 }
 
-void Inventory::checkStock(const std::string& plantName) {
-    int stock = getStockCount(plantName);
-    send("checked stock for " + plantName + " - " + std::to_string(stock) + " available");
-}
+void Inventory::removePlant(const std::string &plantName, int quantity)
+{
+    auto it = itemStock.find(plantName);
+    if (it != itemStock.end() && it->second.size() >= static_cast<size_t>(quantity))
+    {
+        for (int i = 0; i < quantity; ++i)
+        {
 
-void Inventory::displayStock() {
-    std::cout << "=== CURRENT INVENTORY ===" << std::endl;
-    for (const auto& item : plantStock) {
-        std::cout << "- " << item.first << ": " << item.second << " units" << std::endl;
+            delete it->second.back();
+            it->second.pop_back();
+        }
+        stockCounts[plantName] = it->second.size();
+        if (it->second.empty())
+        {
+            itemStock.erase(it);
+            stockCounts.erase(plantName);
+        }
+
+        // Check for stock events
+        if (eventListener)
+        {
+            int currentStock = static_cast<int>(stockCounts[plantName]);
+            if (currentStock == 0)
+            {
+                InventoryEvent event{EventType::OutOfStock, plantName, currentStock};
+                eventListener(event);
+            }
+            else if (currentStock < 5)
+            { // we assumes ta=hat 5 is the threshold for low stock
+                InventoryEvent event{EventType::StockLow, plantName, currentStock};
+                eventListener(event);
+            }
+        }
     }
-    std::cout << "=========================" << std::endl;
 }
 
-bool Inventory::hasStock(const std::string& plantName, int quantity) {
-    return plantStock.count(plantName) && plantStock[plantName] >= quantity;
+void Inventory::displayInventory() const
+{
+    std::cout << "Inventory:\n";
+    for (const auto &pair : stockCounts)
+    {
+        std::cout << "Item: " << pair.first << ", Stock: " << pair.second << "\n";
+    }
 }
 
-int Inventory::getStockCount(const std::string& plantName) {
-    return plantStock.count(plantName) ? plantStock[plantName] : 0;
+void Inventory::setEventListener(std::function<void(InventoryEvent)> listener)
+{
+    eventListener = listener;
+}
+
+void Inventory::receive(const std::string &message)
+{
+    // for displaying
+
+    std::cout << "Inventory received: " << message << std::endl;
 }
