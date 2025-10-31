@@ -21,7 +21,7 @@ jobs:
         run: |
           # ignoring certain files
           SRC_FILES=$(ls *.cpp | grep -vE "main.cpp|Testing2.cpp|TestingMain.cpp|TestMain.cpp|zcode.txt")
-          g++ -std=c++17 -I. tests/UnitTest.cpp $SRC_FILES -o tests_runner
+          g++ -std=c++17 -I. tests/UnitTests.cpp $SRC_FILES -o tests_runner
 
       - name: Run tests
         run: ./tests_runner
