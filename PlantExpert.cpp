@@ -1,22 +1,20 @@
 #include "PlantExpert.h"
-#include <iostream>
 
-PlantExpert::PlantExpert(const std::string& name, NurseryMediator* med) 
-    : Staff(name, "Plant Expert", med) {}
-
-void PlantExpert::provideCareAdvice(const std::string& plantType) {
-    send("is providing care advice for " + plantType);
+PlantExpert::PlantExpert(Inventory *inventory, const string &name) : Staff(inventory, name, nullptr)
+// Experts don't have a default - they choose based on plant
+{
 }
 
-void PlantExpert::diagnosePlantProblem(const std::string& symptoms) {
-    send("is diagnosing plant problem: " + symptoms);
+void PlantExpert::giveAdvice()
+{
+
+    cout << getName() << " is providing expert plant care advice.\n";
 }
 
-void PlantExpert::recommendPlants(const std::string& conditions) {
-    send("is recommending plants suitable for " + conditions);
-}
+void PlantExpert::careForSpecificPlant(NurseryPlant &plant, CareStrategy *specificStrategy)
+{
+    // Experts can dynamically choose the right strategy, since they are very knowledgeable
 
-
-void PlantExpert::performDuty() {
-    send("is performing expert duties - plant consultation and education");
+    setStrategy(specificStrategy);
+    careForPlant(plant);
 }

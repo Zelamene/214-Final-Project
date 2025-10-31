@@ -1,57 +1,60 @@
+/**
+ * @file Cashier.h
+ * @brief Cashier class that uses PaymentStrategy as context.
+ */
+
 #ifndef CASHIER_H
 #define CASHIER_H
 
 #include "Staff.h"
-#include <string>
+#include "LowMaintenancePlantCare.h"
+#include "Inventory.h"
+#include "PaymentStrategy.h"
+#include <iostream>
+using namespace std;
 
 /**
  * @class Cashier
- * @brief Represents a cashier staff member in the nursery
- * 
- * This class handles all financial transactions and customer payments
- * in the plant nursery system, implementing the Staff interface.
+ * @brief Handles customer transactions and manages sales using PaymentStrategy.
  */
-class Cashier : public Staff {
+class Cashier : public Staff
+{
+private:
+    PaymentStrategy *paymentStrategy;
+
 public:
     /**
-     * @brief Constructor for Cashier staff member
-     * @param name The name of the cashier
-     * @param med Pointer to the nursery mediator (optional)
+     * @brief Constructs a Cashier with access to the inventory.
+     * @param inventory Pointer to the Inventory object.
+     * @param name Name of the cashier.
      */
-    Cashier(const std::string& name, NurseryMediator* med = nullptr);
-    
+    Cashier(Inventory *inventory, const string &name);
+
     /**
-     * @brief Processes a customer payment
-     * @param customerName Name of the customer making payment
-     * @param amount The amount to be paid
+     * @brief Default destructor.
      */
-    void processPayment(const std::string& customerName, double amount);
-    
+    virtual ~Cashier() = default;
+
     /**
-     * @brief Confirms a plant sale transaction
-     * @param plantName The name of the plant being sold
+     * @brief Processes a sale for a given plant with payment.
+     * @param plantName The name of the plant being sold.
+     * @param amount The total amount to be paid.
      */
-    void confirmSale(const std::string& plantName);
-    
+    void processSale(const string &plantName, double amount);
+
     /**
-     * @brief Requests a stock check for a specific plant
-     * @param plantName The name of the plant to check
+     * @brief Sets the payment strategy for this cashier.
+     * @param strategy Unique pointer to the PaymentStrategy.
      */
-    void requestStockCheck(const std::string& plantName);
-    
+    void setPaymentStrategy(PaymentStrategy *strategy);
+
     /**
-     * @brief Issues a receipt to a customer
-     * @param customerName Name of the customer receiving receipt
+     * @brief Gets the current payment method name.
+     * @return Name of the current payment method.
      */
-    void issueReceipt(const std::string& customerName);
-    
-    /**
-     * @brief Performs cashier-specific duties
-     * 
-     * Implements the abstract method from Staff class to
-     * define cashier-specific responsibilities.
-     */
-    void performDuty() override;
+    string getPaymentMethod() const;
+
+    void update(NurseryPlant *plant) override;
 };
 
 #endif // CASHIER_H

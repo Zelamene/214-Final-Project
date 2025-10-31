@@ -1,49 +1,44 @@
+/**
+ * @file Nurse.h
+ * @brief Declaration of the Nurse class, derived from Staff.
+ */
+
 #ifndef NURSE_H
 #define NURSE_H
 
 #include "Staff.h"
-#include <string>
+#include "HighMaintenancePlantFactory.h"
+#include <iostream>
+using namespace std;
 
 /**
  * @class Nurse
- * @brief Represents a plant nurse staff member in the nursery
- * 
- * This class handles plant care and maintenance activities including
- * watering, fertilizing, pruning, and treating sick plants.
+ * @brief Represents a nurse who tends to the plants' health.
  */
-class Nurse : public Staff {
+class Nurse : public Staff
+{
 public:
     /**
-     * @brief Constructor for Nurse staff member
-     * @param name The name of the nurse
-     * @param med Pointer to the nursery mediator (optional)
+     * @brief Constructs a Nurse with access to the inventory.
+     * @param inventory Pointer to the Inventory object.
+     * @param name Name of the nurse.
      */
-    Nurse(const std::string& name, NurseryMediator* med = nullptr);
+    Nurse(Inventory *inventory, const string &name);
+
+    /**
+     * @brief Default destructor.
+     */
+    ~Nurse() override = default;
+
+    /**
+     * @brief Provides plant care specific to health maintenance.
+     */
+    void tendToPlants(NurseryPlant *plant);
     
     /**
-     * @brief Waters plants according to their specific needs
+     * @copydoc Staff::update(NurseryPlant *plant)
      */
-    void waterPlants();
-    
-    /**
-     * @brief Applies fertilizer to plants that need nutrients
-     */
-    void fertilizePlants();
-    
-    
-    /**
-     * @brief Monitors plant health and checks for issues
-     */
-    void monitorPlantHealth();
-    
-    
-    /**
-     * @brief Performs nurse-specific plant care duties
-     * 
-     * Implements the abstract method from Staff class to
-     * define plant nursing responsibilities.
-     */
-    void performDuty() override;
+    void update(NurseryPlant *plant) override;
 };
 
 #endif // NURSE_H

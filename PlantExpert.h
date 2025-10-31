@@ -1,50 +1,45 @@
+/**
+ * @file PlantExpert.h
+ * @brief Declaration of the PlantExpert class, derived from Staff.
+ */
+
 #ifndef PLANTEXPERT_H
 #define PLANTEXPERT_H
 
 #include "Staff.h"
-#include <string>
+#include <iostream>
+using namespace std;
 
 /**
  * @class PlantExpert
- * @brief Represents a plant expert staff member in the nursery
- * 
- * This class handles expert plant consultations, diagnoses, recommendations,
- * and educational activities for customers.
+ * @brief Provides specialized advice on plant care and species management.
  */
-class PlantExpert : public Staff {
+class PlantExpert : public Staff
+{
 public:
     /**
-     * @brief Constructor for PlantExpert staff member
-     * @param name The name of the plant expert
-     * @param med Pointer to the nursery mediator (optional)
+     * @brief Constructs a PlantExpert with access to the inventory.
+     * @param inventory Pointer to the Inventory object.
+     * @param name Name of the plant expert.
      */
-    PlantExpert(const std::string& name, NurseryMediator* med = nullptr);
-    
+    PlantExpert(Inventory *inventory, const string &name);
+
     /**
-     * @brief Provides care advice for specific plant types
-     * @param plantType The type of plant for care advice
+     * @brief Default destructor.
      */
-    void provideCareAdvice(const std::string& plantType);
-    
+    ~PlantExpert() override = default;
+
     /**
-     * @brief Diagnoses plant problems based on symptoms
-     * @param symptoms The symptoms observed in the plant
+     * @brief Offers advice on plant health or care.
      */
-    void diagnosePlantProblem(const std::string& symptoms);
-    
+    void giveAdvice();
+
     /**
-     * @brief Recommends plants suitable for specific conditions
-     * @param conditions The environmental/growing conditions
+     * @brief Performs care on a specific plant using a given care strategy.
+     * @param plant Reference to the plant to be cared for.
+     * @param specificStrategy Pointer to the CareStrategy to apply.
      */
-    void recommendPlants(const std::string& conditions);
-    
-    /**
-     * @brief Performs expert consultation and education duties
-     * 
-     * Implements the abstract method from Staff class to
-     * define plant expert responsibilities.
-     */
-    void performDuty() override;
+    void careForSpecificPlant(NurseryPlant &plant, CareStrategy *specificStrategy);
 };
 
 #endif // PLANTEXPERT_H
