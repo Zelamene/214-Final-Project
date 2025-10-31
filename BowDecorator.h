@@ -1,25 +1,37 @@
-#ifndef BAOBABCARE_H
-#define BAOBABCARE_H
+#ifndef BowDecorator_H
+#define BowDecorator_H
 
-#include "CareStrategy.h"
+#include "PlantDecorator.h"
 #include <string>
-#include <vector>
-#include <iostream>
 using namespace std;
+
 /**
- * @brief Concrete strategy for Baobab tree care
- *
- * Implements the specific care routine for Baobab trees including
- * specialized watering, sunlight, and fertilization requirements.
+ * @class BowDecorator
+ * @brief Decorator that adds a decorative bow to a plant
+ * 
+ * This class implements the Decorator pattern to add bow decoration
+ * functionality to any NurseryPlant, modifying its description and cost.
  */
-class BaobabCare : public CareStrategy
-{
+class BowDecorator : public PlantDecorator {
+
 public:
     /**
-     * @brief Perform Baobab-specific care routine
-     * @param plant Reference to the NurseryPlant to care for
+     * @brief Constructor that wraps a plant with bow decoration
+     * @param plant Pointer to the plant being decorated
      */
-    void performCare(NurseryPlant &plant) override;
+    BowDecorator(NurseryPlant* plant);
+    
+    /**
+     * @brief Gets the description of the plant with bow decoration
+     * @return String describing the decorated plant
+     */
+    string getDescription() override;
+    
+    /**
+     * @brief Calculates the total cost including bow decoration
+     * @return The total price as a double
+     */
+    double calculateCost() override;
 };
 
-#endif
+#endif // BowDecorator_H
