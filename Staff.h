@@ -1,4 +1,3 @@
-
 /**
  * @file Staff.h
  * @brief Header file for the Staff class, implementing the Observer pattern.
@@ -10,8 +9,10 @@
 #include "Observer.h"
 #include <string>
 #include "Inventory.h"
-#include "Participant.h"
-
+#include "CareStrategy.h"
+#include "Command.h"
+#include "HighMaintenancePlantCare.h"
+#include "CommunicatingParticipant.h"
 using namespace std;
 
 class NurseryPlant;
@@ -22,60 +23,63 @@ class NurseryPlant;
  * The Staff class implements the Observer interface to be notified when a plant's state changes.
  * When a plant reaches the Mature state, the staff adds it to the inventory.
  */
-class Staff : public Observer, public Participant {
-private:
-    Inventory* inventory;
+/**
+ * @class Staff
+ * @brief Represents a staff member who can care for plants and execute commands.
+ */
+class Staff : public Observer, public CommunicatingParticipant
+{
 
 protected:
-    std::string role;  ///< The role/job title of the staff member
+    CareStrategy *strategy; /// Strategy used to care for plants
+    Inventory *inventory;
 
 public:
     /**
      * @brief Constructs a Staff object with a reference to the inventory.
      * @param inventory Pointer to the Inventory object.
+     * @param n Name of the staff member
+     * @param s Pointer to a CareStrategy (default is nullptr)
      */
-    Staff(Inventory* inventory);
-
-        /**
-     * @brief Constructor for Staff member
-     * @param name The name of the staff member
-     * @param role The role/job title of the staff member
-     * @param med Pointer to the nursery mediator (optional)
-     */
-    Staff(const std::string& name, const std::string& role, NurseryMediator* med = nullptr);
+    Staff(Inventory *inventory, string n, CareStrategy *s = nullptr);
 
     /**
      * @brief Default destructor.
      */
 
-    virtual ~Staff(); 
-
+    virtual ~Staff();
 
     /**
      * @brief Updates the staff when a plant's state changes.
      * @param plant Pointer to the NurseryPlant that changed state.
      */
-    void update(NurseryPlant* plant) override;
+    virtual void update(NurseryPlant *plant)
+    {
+        return ;
+    };
 
     /**
      * @brief Gets the name of the staff member.
      * @return A string representing the staff member's name.
      */
-    std::string getName() const;
+    string getName() const;
 
-        /**
-     * @brief Gets the role of the staff member
-     * @return The staff member's role as string
+    /**
+     * @brief Sets the care strategy for the staff member.
+     * @param s Pointer to a CareStrategy
      */
-    std::string getRole() const;
+    virtual void setStrategy(CareStrategy *s);
 
-        /**
-     * @brief Pure virtual method for performing staff-specific duties
-     * 
-     * This method must be implemented by all concrete staff classes
-     * to define their specific responsibilities.
+    /**
+     * @brief Performs care for a given nursery plant using the assigned strategy.
+     * @param plant Reference to the NurseryPlant to be cared for
      */
-    virtual void performDuty() = 0;
+    virtual void careForPlant(NurseryPlant &plant);
+    /**
+     * @brief Executes a given command.
+     * @param cmd Pointer to the Command to be executed
+     */
+    virtual void perform(Command *cmd);
 };
 
-#endif //Staff_H
+#endif
