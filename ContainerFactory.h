@@ -8,6 +8,7 @@
 #define CONTAINERFACTORY_H
 
 #include "Container.h"
+using namespace std;
 
 /**
  * @class ContainerFactory
@@ -28,7 +29,7 @@ public:
      * @brief Creates a container.
      * @return Pointer to a new Container object.
      */
-    virtual Container* createContainer() = 0;
+    virtual Container* createContainer(string material) = 0;
 };
 
 #endif 

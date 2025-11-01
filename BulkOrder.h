@@ -24,7 +24,7 @@ public:
     /** @brief Constructs an empty BulkOrder (composite container of orders). */
     BulkOrder();
 
-    /** @brief Destructor that cleans up contained orders. */
+    /** @brief Default destructor for bulk orders*/
     virtual ~BulkOrder();
 
     /** @brief Adds an order to the bulk order. */

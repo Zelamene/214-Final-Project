@@ -8,6 +8,7 @@
 #define CONTAINER_H
 
 #include <string>
+using namespace std;
 
 /**
  * @class Container
@@ -37,7 +38,7 @@ public:
       /**
      * @brief getter for container type (name).
      */
-    virtual std::string getType() const = 0;
+    virtual string getType() const = 0;
 };
 
 #endif

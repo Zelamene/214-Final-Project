@@ -3,12 +3,10 @@
 using namespace std;
 
 BulkOrder::BulkOrder()
-    : Order(0) {}
+    : Order() {}
 
 BulkOrder::~BulkOrder()
 {
-    for (auto o : orders)
-        delete o;
 }
 
 void BulkOrder::addOrder(Order *order)
@@ -55,6 +53,3 @@ Iterator *BulkOrder::createIterator()
 {
     return new OrderIterator(orders.begin(), orders.end());
 }
-
-
-

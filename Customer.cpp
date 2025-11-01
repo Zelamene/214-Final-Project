@@ -1,21 +1,36 @@
 #include "Customer.h"
 #include <iostream>
-
-Customer::Customer(const std::string& name, NurseryMediator* med) 
-    : Participant(name, med) {}
-
-void Customer::browsePlants() {
-    send("is browsing available plants");
+Customer::Customer(string n, NurseryMediator *mediator) : CommunicatingParticipant(n, mediator)
+{
+    name = n;
 }
 
-void Customer::requestPlantInfo(const std::string& plantType) {
-    send("wants information about " + plantType);
+string Customer::getName()
+{
+    return name;
 }
 
-void Customer::makePurchase(const std::string& plantName, double price) {
-    send("wants to purchase " + plantName + " for R" + std::to_string(price));
+void Customer::browsePlants()
+{
+    cout << name << " is browsing the available plants...\n";
+    if (mediator)
+        mediator->notify(this, name + " is browsing the sales floor.");
 }
 
-void Customer::askForAssistance() {
-    send("needs assistance at sales floor");
+void Customer::requestAdvice(const std::string &plantType)
+{
+    cout << name << ": 'Could I get some advice on caring for " << plantType << " plants?'\n";
+    if (mediator)
+        mediator->notify(this, name + " wants information about " + plantType);
+    else
+        cout << "⚠️ No mediator available — cannot forward request.\n";
+}
+
+void Customer::purchasePlant(const std::string &plantName)
+{
+    cout << name << ": 'I'd like to buy a " << plantName << " please.'\n";
+    if (mediator)
+        mediator->notify(this, name + " wants to purchase " + plantName);
+    else
+        cout << "⚠️ No mediator available — cannot process purchase.\n";
 }

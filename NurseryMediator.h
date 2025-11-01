@@ -2,8 +2,9 @@
 #define NurseryMediator_H
 
 #include <string>
+#include "CommunicatingParticipant.h"
+using namespace std;
 
-class Participant;
 
 /**
  * @class NurseryMediator
@@ -21,7 +22,7 @@ public:
      * @param sender The participant sending the message
      * @param event The message/event being sent
      */
-    virtual void notify(Participant* sender, const std::string& event) = 0;
+    virtual void notify(MessageSender * sender, const string& event) = 0;
     
     /**
      * @brief Virtual destructor for proper polymorphism

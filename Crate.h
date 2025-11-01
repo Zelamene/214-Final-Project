@@ -9,6 +9,7 @@
 
 #include "Container.h"
 #include <string>
+using namespace std;
 
 /**
  * @class Crate
@@ -17,14 +18,14 @@
 class Crate : public Container
 {
 private:
-    std::string material;
+    string material;
 
 public:
     /**
      * @brief Constructs a Crate with a given material type.
      * @param material The type of material (e.g., "wood", "plastic").
      */
-    Crate(const std::string& material);
+    Crate(const string& material);
 
     /**
      * @brief Destructor.
@@ -38,7 +39,7 @@ public:
     /**
      * @brief getter for the crate type.
      */
-    std::string getType() const override;
+    string getType() const override;
 };
 
 #endif 

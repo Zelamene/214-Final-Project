@@ -1,52 +1,56 @@
+/**
+ * @file Customer.h
+ * @brief Represents a customer placing an order.
+ */
+
 #ifndef CUSTOMER_H
 #define CUSTOMER_H
 
-#include "Participant.h"
 #include <string>
+#include "CommunicatingParticipant.h"
+#include "NurseryMediator.h"
+using namespace std;
 
 /**
  * @class Customer
- * @brief Represents a customer in the plant nursery system
- * 
- * This class handles customer interactions including browsing plants,
- * requesting information, making purchases, and seeking assistance.
+ * @brief Stores customer information.
+ *
+ * Inherits from CommunicatingParticipant to send and receive messages via the mediator.
  */
-class Customer : public Participant {
+class Customer : public CommunicatingParticipant
+{
+private:
+    string name; // Name of the customer
 public:
     /**
-     * @brief Constructor for Customer
-     * @param name The name of the customer
-     * @param med Pointer to the nursery mediator (optional)
+     * @brief Constructs a Customer with a given name and optional mediator.
+     * @param n Name of the customer
+     * @param mediator Mediator for communication (default nullptr)
      */
-    Customer(const std::string& name, NurseryMediator* med = nullptr);
-    
+    Customer(string n, NurseryMediator *mediator = nullptr);
+
     /**
-     * @brief Customer browses available plants in the nursery
+     * @brief Gets the customer's name.
+     * @return Name of the customer
+     */
+    string getName();
+
+    /**
+     * @brief Simulates browsing plants in the nursery.
      */
     void browsePlants();
-    
+
     /**
-     * @brief Customer requests information about a specific plant type
-     * @param plantType The type of plant to get information about
+     * @brief Requests advice about a specific plant type from staff.
+     * @param plantType Type of plant to get advice about.
      */
-    void requestPlantInfo(const std::string& plantType);
-    
+    void requestAdvice(const std::string &plantType);
+
     /**
-     * @brief Customer makes a purchase of a specific plant
-     * @param plantName The name of the plant to purchase
-     * @param price The price of the plant being purchased
+     * @brief Purchases a plant.
+     * @param plantName Name of the plant to purchase.
      */
-    void makePurchase(const std::string& plantName, double price);
-    
-    /**
-     * @brief Customer requests assistance from staff
-     */
-    void askForAssistance();
-    
-    /**
-     * @brief Customer views available plants in inventory
-     */
-    void viewAvailablePlants();
+    void purchasePlant(const std::string &plantName);
 };
 
-#endif // CUSTOMER_H
+#endif

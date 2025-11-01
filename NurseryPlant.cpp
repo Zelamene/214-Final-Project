@@ -1,24 +1,43 @@
+
+
 #include <iostream>
 #include <algorithm>
 #include "NurseryPlant.h"
 #include "ConcreteState.h"
 #include <thread>
 #include <chrono>
-
+#include "Staff.h"
 using namespace std;
 
 NurseryPlant::NurseryPlant(const string &name, const string &maintenanceType, double price)
-    : Order(price), name(name), maintenanceType(maintenanceType),waterlevel(100) {
-    this-> currentState=new SeedlingState();
+    : Order(price), name(name), maintenanceType(maintenanceType)
+{
+    this->currentState = new SeedlingState();
 }
 
-NurseryPlant::NurseryPlant(){
+NurseryPlant::~NurseryPlant()
+{
+    delete currentState;
 }
 
-NurseryPlant::~NurseryPlant() {
-     delete currentState;
-}
+string NurseryPlant::planCurrentState() const
+{
+    string status;
 
+    if (waterlevel >= 70)
+    {
+        status = "Plant: " + this->getName() + " Water level :" + to_string(waterlevel) + " State: " + this->getStateName() + "Status: Healthy";
+    }
+    else if (waterlevel >= 30)
+    {
+        status = "Plant: " + this->getName() + " Water level :" + to_string(waterlevel) + " State: " + this->getStateName() + "Status: Needs Watering";
+    }
+    else
+    {
+        status = "Plant: " + this->getName() + " Water level :" + to_string(waterlevel) + " State: " + this->getStateName() + "Status: Critical - Immediate Watering Required";
+    }
+    return status;
+}
 string NurseryPlant::getName() const
 {
     return name;
@@ -32,13 +51,6 @@ string NurseryPlant::getMaintenanceType() const
 double NurseryPlant::getTotal()
 {
     return price + (price * taxRate);
-}
-
-void NurseryPlant::setWaterlevel(int number){
-
-    this->waterlevel=number;
-    return;
-
 }
 
 void NurseryPlant::displayDetails()
@@ -60,84 +72,93 @@ Order *NurseryPlant::clone() const
     return new NurseryPlant(*this);
 }
 
+void NurseryPlant::showStaff() const
+{
+    cout << "Staff caring for " << name << ": ";
+    for (auto s : observers)
+        cout << (dynamic_cast<Staff *>(s))->getName() << " ";
+    cout << "\n";
+}
+
 void NurseryPlant::displayInfo() const
 {
     cout << "Plant Name: " << name
-        <<"Plant State: " << getStateName()
-        <<"Plant State: " << getStateName()
+         << "Plant State: " << getStateName()
          << ", Maintenance Type: " << maintenanceType
          << ", Price: " << price << endl;
 }
 
-void NurseryPlant::setState(State* newState) {
+void NurseryPlant::setState(State *newState)
+{
     delete currentState;
     currentState = newState;
     notify();
 }
 
-void NurseryPlant::startGrowing() {
-    while (this->getStateName() != "Mature") {
-        std::this_thread::sleep_for(std::chrono::seconds(1));
-         waterlevel-(rand() % 40)<0?waterlevel=0:waterlevel-=rand() % 40;
+void NurseryPlant::startGrowing()
+{
+    while (this->getStateName() != "Mature")
+    {
+        this_thread::sleep_for(chrono::seconds(1));
+        waterlevel - (rand() % 40) < 0 ? waterlevel = 0 : waterlevel -= rand() % 40;
         currentState->handleAction(this);
-        if(waterlevel>=70){
-            cout<<GREEN<<planCurrentState()<<RESET<<endl;
-        }else if(waterlevel>=30){
-            cout<<YELLOW<<planCurrentState()<<RESET<<endl;
-        }else{
-            cout<<RED<<planCurrentState()<<RESET<<endl;
+        if (waterlevel >= 70)
+        {
+            cout << GREEN << planCurrentState() << RESET << endl;
+        }
+        else if (waterlevel >= 30)
+        {
+            cout << YELLOW << planCurrentState() << RESET << endl;
+        }
+        else
+        {
+            cout << RED << planCurrentState() << RESET << endl;
             pourWater(60);
-            cout<<RED<<"emegence water supply added 60 mililiters of water"<<RESET<<endl;
-
+            cout << RED << "emegence water supply added 60 mililiters of water" << RESET << endl;
         }
     }
 }
 
-int NurseryPlant::getWaterLevel(){
+int NurseryPlant::getWaterLevel()
+{
     return waterlevel;
 }
 
-void NurseryPlant::pourWater(int liters){
-
-        this->waterlevel+liters;
-    
-    
+void NurseryPlant::pourWater(int liters)
+{
+    this->waterlevel + liters;
 }
 
-// rand() % 10
-std::string NurseryPlant::planCurrentState() const {
-    std::string status;
-    
-    if(waterlevel>=70){
-       status="Plant: "+this->getName()+" Water level :"+to_string(waterlevel)+" State: "+this->getStateName()+"Status: Healthy";
-    }else if(waterlevel>=30){
-        status="Plant: "+this->getName()+" Water level :"+to_string(waterlevel)+" State: "+this->getStateName()+"Status: Needs Watering";
-        
-    }else{
-        status="Plant: "+this->getName()+" Water level :"+to_string(waterlevel)+" State: "+this->getStateName()+"Status: Critical - Immediate Watering Required";
-        
-    }
-    return status;
-   
+void NurseryPlant::setWaterlevel(int number)
+{
+
+    this->waterlevel = number;
+    return;
 }
 
-std::string NurseryPlant::getStateName() const {
+string NurseryPlant::getStateName() const
+{
     return currentState->getStateName();
 }
 
-void NurseryPlant::attach(Observer* observer) {
+void NurseryPlant::attach(Observer *observer)
+{
     observers.push_back(observer);
 }
 
-void NurseryPlant::detach(Observer* observer) {
-    auto it = std::find(observers.begin(), observers.end(), observer);
-    if (it != observers.end()) {
+void NurseryPlant::detach(Observer *observer)
+{
+    auto it = find(observers.begin(), observers.end(), observer);
+    if (it != observers.end())
+    {
         observers.erase(it);
     }
 }
 
-void NurseryPlant::notify() {
-    for (Observer* obs : observers) {
+void NurseryPlant::notify()
+{
+    for (Observer *obs : observers)
+    {
         obs->update(this);
     }
 }
