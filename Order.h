@@ -6,9 +6,9 @@
 #include <random>
 #include <sstream>
 #include <iomanip>
+#include "Customer.h"
 #include "Iterator.h"
 using namespace std;
-
 
 /**
  * @class Order
@@ -28,15 +28,17 @@ protected:
 
     /** @brief Default tax rate applied to all orders. */
     double taxRate = 0.15;
+    /** @brief */
+    string orderStatus;
+
+    Customer *customer; /// Pointer to the customer
 
 public:
     /**
      * @brief Constructs an Order with a given ID and price.
      * @param price Base price of the order.
      */
-    Order(double price);
-
-    Order();
+    Order(double price = 0.0, Customer *c = NULL);
 
     /**
      * @brief Virtual destructor for Order.
@@ -71,7 +73,23 @@ public:
      */
     virtual string getID();
 
-   
+    /**
+     * @brief Sets the status of the order.
+     * @param status New status of the order.
+     */
+    void setOrderStatus(string status);
+
+    /**
+     * @brief Gets the customer associated with the order.
+     * @return Pointer to the Customer.
+     */
+    Customer *getCustomer();
+
+    /**
+     * @brief Sets the customer for the order.
+     * @param c Pointer to the Customer to associate with the order.
+     */
+    void setCustomer(Customer *c) { customer = c; }
 };
 
 #endif

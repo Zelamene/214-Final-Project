@@ -8,6 +8,7 @@
 #define TREE_H
 
 #include "NurseryPlant.h"
+using namespace std;
 
 /**
  * @class Tree
@@ -28,9 +29,8 @@ public:
     /**
      * @brief Constructor.
      */
-    Tree(const std::string& name, const std::string& maintenanceType, double height, double);
+    Tree(const string& name, const string& maintenanceType, double height, double);
 
-    Tree();
     /**
      * @brief getter of the height of a tree.
      */

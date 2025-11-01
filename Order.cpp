@@ -1,7 +1,7 @@
 #include "Order.h"
 #include <iomanip>
 
-Order::Order(double price)
+Order::Order(double price, Customer *c)
 {
     auto now = chrono::system_clock::to_time_t(chrono::system_clock::now());
     tm tm = *localtime(&now);
@@ -12,10 +12,7 @@ Order::Order(double price)
 
     this->orderID = ss.str();
     this->price = price;
-}
-
-Order::Order(){
-    
+    customer = c;
 }
 
 Order::~Order()
@@ -25,4 +22,14 @@ Order::~Order()
 string Order::getID()
 {
     return orderID;
+}
+
+void Order::setOrderStatus(string status)
+{
+    this->orderStatus = status;
+}
+
+Customer *Order::getCustomer()
+{
+    return customer;
 }

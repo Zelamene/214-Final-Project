@@ -1,29 +1,13 @@
 #include "Baobab.h"
 #include <iostream>
-
+using namespace std;
 Baobab::Baobab(double height, double price)
-    : Tree("Baobab", "High Maintenance", height , price){
-    std::cout << "🌳 Baobab planted.\n";
+    : Tree("Baobab", "High Maintenance", height, price)
+{
+    cout << "🌳 Baobab planted.\n";
 }
 
-Baobab::Baobab(){
-    description = "Baobab";
-    basePrice = 100.0;
-};
-
-void Baobab::displayInfo() const {
-    std::cout << "Baobab - " << maintenanceType << " Tree, Height: " << height << " m.\n";
+void Baobab::displayInfo() const
+{
+    cout << "Baobab - " << maintenanceType << " Tree, Height: " << height << " m.\n";
 }
-
-std::string Baobab::getDescription() {
-
-    return description;
-};
-
-double Baobab::calculateCost() {
-    return basePrice;
-};
-
-Baobab::~Baobab() {
-    
-};

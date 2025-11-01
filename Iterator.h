@@ -1,5 +1,6 @@
 #ifndef ITERATOR_H
 #define ITERATOR_H
+using namespace std;
 
 #include "Order.h"
 class Order; 

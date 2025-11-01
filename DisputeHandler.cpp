@@ -6,25 +6,30 @@ DisputeHandler::DisputeHandler()
     next = nullptr;
 }
 
-void DisputeHandler::setNext(DisputeHandler* myNext)
+void DisputeHandler::setNext(DisputeHandler *myNext)
 {
     this->next = myNext;
 }
 
-void DisputeHandler::handle(Issue* issue)
+void DisputeHandler::handle(Issue *issue)
 {
-    if (next != nullptr)
+    if (canHandle(issue))
     {
-        std::cout << "The issue is being passed to the next handler... " << std::endl;
+        processIssue(issue);
+        issue->setSolved(true);
+    }
+    else if (next)
+    {
         next->handle(issue);
     }
     else
     {
-        std::cout << "Issue Unhandled" << std::endl;
+        cout << "No handler available for issue: "
+                  << issue->getID() << endl;
     }
 }
 
 DisputeHandler::~DisputeHandler()
 {
-    delete next;
+    // delete next;
 }

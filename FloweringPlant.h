@@ -8,6 +8,7 @@
 #define FLOWERINGPLANT_H
 
 #include "NurseryPlant.h"
+using namespace std;
 
 /**
  * @class FloweringPlant
@@ -18,22 +19,24 @@
 class FloweringPlant : public NurseryPlant
 {
 protected:
-  std::string color;
+  string color;
+
 public:
-    /**
-     * @brief Virtual destructor.
-     */
-    virtual ~FloweringPlant() {}
+  /**
+   * @brief Virtual destructor.
+   */
+  virtual ~FloweringPlant() {}
 
-    /**
-     * @brief Constructor.
-     */
-    FloweringPlant(const std::string& name, const std::string& maintenanceType, const std::string& color, double);
-    /**
-     * @brief getter for the color of the flowering plant.
-     */
-    std::string getColor() const;
+  /**
+   * @brief Constructor.
+   */
+  FloweringPlant(const string &name, const string &maintenanceType, const string &color, double);
 
+  /**
+   * @brief getter for the color of the flowering plant.
+   * @return The colour of the flowering plant.
+   */
+  string getColor() const;
 };
 
-#endif 
+#endif

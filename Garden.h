@@ -11,6 +11,7 @@
 #include "NurseryPlant.h"
 #include <vector>
 #include <iostream>
+using namespace std;
 
 /**
  * @class Garden
@@ -19,13 +20,15 @@
  * The Garden class allows adding, removing, and displaying plants.
  * It manages the memory of the plants added to it.
  */
-class Garden {
+class Garden
+{
 private:
-      struct PlantEntry {
-        NurseryPlant* plant;
-        Container* container;
+    struct PlantEntry
+    {
+        NurseryPlant *plant;
+        Container *container;
     };
-    std::vector<PlantEntry> plants; /**< Container for storing pointers to plants */
+    vector<PlantEntry> plants; /**< Container for storing pointers to plants */
 
 public:
     /**
@@ -43,9 +46,9 @@ public:
      * @param plant Pointer to a NurseryPlant object to add.
      *              The Garden takes ownership of the plant.
      * @param container Pointer to a Container object to add.
-     *              
+     *
      */
-    void addPlant(NurseryPlant* plant, Container* container);
+    void addPlant(NurseryPlant *plant, Container *container);
 
     /**
      * @brief Removes a plant from the garden by index.
