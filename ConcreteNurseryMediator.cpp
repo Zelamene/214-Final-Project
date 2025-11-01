@@ -5,109 +5,212 @@ ConcreteNurseryMediator::ConcreteNurseryMediator() : inventory(nullptr) {};
 
 ConcreteNurseryMediator::~ConcreteNurseryMediator() {};
 
-
-void ConcreteNurseryMediator::addCustomer(Customer* customer) {
+void ConcreteNurseryMediator::addCustomer(Customer *customer)
+{
     customer->setMediator(this);
     customers.push_back(customer);
 };
 
-void ConcreteNurseryMediator::addStaff(Staff* staff) {
+void ConcreteNurseryMediator::addStaff(Staff *staff)
+{
     staff->setMediator(this);
     staffMembers.push_back(staff);
 };
 
-void ConcreteNurseryMediator::setInventory(Inventory* inv) {
+void ConcreteNurseryMediator::setInventory(Inventory *inv)
+{
     inventory = inv;
-    if (inventory) {
-        inventory->setMediator(this);
+    if (inventory)
+    {
+        // Set the event listener for the inventory
+        inventory->setEventListener([this](Inventory::InventoryEvent event)
+                                    { this->onInventoryEvent(event); });
     }
 };
 
+void ConcreteNurseryMediator::notify(MessageSender *sender, const std::string &event)
+{
 
-void ConcreteNurseryMediator::notify(Participant* sender, const std::string& event) {
+    std::cout << "From: " << dynamic_cast<Customer *>(sender)->getName() << std::endl;
 
-    std::string type = getSenderType(sender);
-
-    std::cout << "From: " << sender->getName() << " (" << type << ")" << std::endl;
     std::cout << "Event: " << event << std::endl;
     std::cout << "Action: ";
-    
 
-    if (type == "Customer") {
+    // Route based on sender type
+    if (dynamic_cast<Customer *>(sender))
+    {
         handleCustomerEvent(sender, event);
-    } 
-    else if (type == "Staff") {
-        handleStaffEvent(sender, event);
-    } 
-    else if (type == "Inventory") {
-        handleInventoryEvent(sender, event);
     }
-};
-void ConcreteNurseryMediator::handleCustomerEvent(Participant* customer, const std::string& event) {
-    std::string customerName = customer->getName();
+    else if (dynamic_cast<Staff *>(sender))
+    {
+        handleStaffEvent(sender, event);
+    }
+}
+void ConcreteNurseryMediator::onInventoryEvent(Inventory::InventoryEvent event)
+{
+    switch (event.type)
+    {
+    case Inventory::EventType::StockLow:
+        notifyStaff("Inventory: " + event.plantName + " is running low. Current stock: " + std::to_string(event.currentStock));
+        break;
+    case Inventory::EventType::OutOfStock:
+        notifyStaff("Inventory: " + event.plantName + " is out of stock!");
+        break;
+    case Inventory::EventType::Restocked:
+        notifyStaff("Inventory: " + event.plantName + " has been restocked to " + std::to_string(event.currentStock));
+        break;
+    };
+}
+void ConcreteNurseryMediator::handleCustomerEvent(MessageSender *customer, const std::string &event)
+{
+    if (!customer)
+    {
+        std::cout << "[Warning] Null customer event received.\n";
+        return;
+    }
+    Customer *customer1 = dynamic_cast<Customer *>(customer);
 
-    if (event.find("wants to purchase") != std::string::npos) {
-        std::cout << "Processing purchase request" << std::endl;
+    std::string customerName = customer1->getName();
+    std::cout << "Handling event from customer: " << customerName << "\n";
 
-        std::string plantName = event.substr(event.find("purchase") + 9);
-        plantName = plantName.substr(0, plantName.find(" for"));
+    //  PURCHASE REQUEST 
+    if (event.find("wants to purchase") != std::string::npos)
+    {
+        std::cout << "Processing purchase request...\n";
 
-        
-        if (inventory && inventory->hasStock(plantName, 1)) {
+        size_t pos = event.find("purchase");
+        std::string plantName = (pos != std::string::npos) ? event.substr(pos + 9) : "";
+        size_t endPos = plantName.find(" for");
+        if (endPos != std::string::npos)
+            plantName = plantName.substr(0, endPos);
+
+        plantName.erase(0, plantName.find_first_not_of(" \t"));
+        plantName.erase(plantName.find_last_not_of(" \t") + 1);
+
+        if (plantName.empty())
+        {
+            customer1->receive("Please specify which plant you want to purchase.");
+            return;
+        }
+
+        if (inventory && inventory->hasStock(plantName, 1))
+        {
             notifyStaff(customerName + " wants to purchase " + plantName);
             inventory->removePlant(plantName, 1);
-        } else {
-            customer->receive("Sorry, " + plantName + " is out of stock");
+            customer1->receive("✅ Purchase successful: " + plantName + ". Please proceed to checkout.");
+            std::cout << "Sale completed: " << plantName << " to " << customerName << "\n";
+        }
+        else
+        {
+            customer1->receive("❌ Sorry, " + plantName + " is out of stock.");
+            if (inventory)
+                customer1->receive("Would you like to be notified when it's restocked?");
+        }
+        return;
+    }
+
+    //  INFORMATION REQUEST 
+    if (event.find("wants information about") != std::string::npos)
+    {
+        std::cout << "Forwarding information request...\n";
+        notifyStaff(customerName + " requested plant info: " + event);
+        std::string topic = event.substr(event.find("about") + 6);
+        customer1->receive("Our expert will assist you with information about " + topic + ".");
+        return;
+    }
+
+    //  ASSISTANCE REQUEST 
+    if (event.find("needs assistance") != std::string::npos)
+    {
+        std::cout << "Assistance requested by " << customerName << "\n";
+        notifyStaff("🔔 Assistance needed: " + customerName + " at sales floor.");
+        customer1->receive("A staff member will assist you shortly.");
+        return;
+    }
+
+    //  CHECKOUT 
+    if (event.find("checkout") != std::string::npos)
+    {
+        std::cout << customerName << " proceeding to checkout.\n";
+        notifyStaff("💰 Checkout: " + customerName + " is ready at register.");
+        customer1->receive("Please proceed to the cashier for payment.");
+        return;
+    }
+
+    //  REFUND OR RETURN 
+    if (event.find("refund") != std::string::npos || event.find("return") != std::string::npos)
+    {
+        std::cout << "Refund/return request from " << customerName << "\n";
+        notifyStaff("🔄 Refund/Return request: " + customerName + " - " + event);
+        customer1->receive("Please bring your receipt to the service desk for assistance.");
+        return;
+    }
+
+    //  COMPLAINT 
+    if (event.find("complaint") != std::string::npos)
+    {
+        std::cout << "Complaint received from " << customerName << "\n";
+        notifyStaff("⚠️ Complaint: " + customerName + " - " + event);
+        customer1->receive("We’re sorry for the inconvenience. A manager will contact you soon.");
+        return;
+    }
+
+    //  GENERAL ACTIVITY 
+    if (event.find("browsing") != std::string::npos)
+    {
+        std::cout << customerName << " is browsing.\n";
+        return;
+    }
+
+    if (event.find("looking for") != std::string::npos || event.find("question about") != std::string::npos)
+    {
+        notifyStaff("Customer inquiry: " + customerName + " - " + event);
+    }
+    else
+    {
+        std::cout << "General activity logged: " << event << "\n";
+    }
+}
+void ConcreteNurseryMediator::handleStaffEvent(MessageSender *staff, const std::string &event)
+{
+    if (event == "restock")
+    {
+        if (inventory)
+        {
+            // default additon for now
+            inventory->addPlant("Rose", new NurseryPlant("Rose", "High Maintenance", 45.0));
+            notifyCustomers("New plants are now available! (Roses)");
         }
     }
-    else if (event.find("wants information about") != std::string::npos) {
-        std::cout << "Forwarding to plant expert" << std::endl;
-        notifyStaff(customerName + " needs plant information: " + event);
-    }
-    else if (event.find("needs assistance") != std::string::npos) {
-        std::cout << "Alerting staff for assistance" << std::endl;
-        notifyStaff("ASSISTANCE NEEDED: " + customerName + " at sales floor");
-    }
-    else {
-        std::cout << "Broadcasting customer activity" << std::endl;
-        notifyStaff("Customer activity: " + event);
-    }
-};
-
-
-void ConcreteNurseryMediator::handleStaffEvent(Participant* staff, const std::string& event) {
-    if (event == "restock") {
-        if (inventory) {
-            inventory->addPlant("Rose", 10);
-            notifyCustomers("New plants are now available! (10 Roses)");
-        }
-    } else {
+    else
+    {
         notifyCustomers("Staff update: " + event);
     }
 }
 
-
-void ConcreteNurseryMediator::handleInventoryEvent(Participant* inv, const std::string& event) {
-    notifyStaff("Inventory update: " + event);
-    notifyCustomers("Update: " + event);
-};
-
-
-void ConcreteNurseryMediator::notifyCustomers(const std::string& message) {
-    for (auto* customer : customers) {
+void ConcreteNurseryMediator::notifyCustomers(const std::string &message)
+{
+    for (auto *customer : customers)
+    {
         customer->receive(message);
     }
 }
 
-void ConcreteNurseryMediator::notifyStaff(const std::string& message) {
-    for (auto* staff : staffMembers) {
+void ConcreteNurseryMediator::notifyStaff(const std::string &message)
+{
+    for (auto *staff : staffMembers)
+    {
         staff->receive(message);
     }
 };
 
-std::string ConcreteNurseryMediator::getSenderType(Participant* sender) {
-    if (dynamic_cast<Customer*>(sender)) return "Customer";
-    if (dynamic_cast<Staff*>(sender)) return "Staff";
-    if (dynamic_cast<Inventory*>(sender)) return "Inventory";
+std::string ConcreteNurseryMediator::getSenderType(MessageSender *sender)
+{
+    if (dynamic_cast<Customer *>(sender))
+        return "Customer";
+    if (dynamic_cast<Staff *>(sender))
+        return "Staff";
+    if (dynamic_cast<Inventory *>(sender))
+        return "Inventory";
     return "Unknown";
 }
