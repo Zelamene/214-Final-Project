@@ -7,6 +7,7 @@
 #define STATE_H
 
 #include <string>
+using namespace std;
 
 class NurseryPlant;
 
@@ -33,7 +34,7 @@ public:
      * @brief Gets the name of the state.
      * @return The name of the state as a string.
      */
-    virtual std::string getStateName() const = 0;
+    virtual string getStateName() const = 0;
 };
 
 #endif
