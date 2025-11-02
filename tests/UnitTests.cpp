@@ -270,5 +270,35 @@ TEST_CASE("Complete Nursery Purchase Workflow with All Patterns", "[integration]
         REQUIRE(itemCount == 4);
 
         customer->send("Correct order, I will proceed to checkout.");
+
+        // ============================================================================
+        // STEP 7: STRATEGY (Payment) + TEMPLATE METHOD - Process payment
+        // ============================================================================
+
+        cout << "\n--- STEP 7: Payment Processing (Strategy + Template Method Patterns) ---\n";
+
+        // Set payment strategy (STRATEGY pattern)
+        auto creditCardPayment = make_unique<CreditCardPayment>("4532123456789012", "12/25");
+        cashier->setPaymentStrategy(creditCardPayment.get());
+
+        // Create and print order slip (TEMPLATE METHOD pattern)
+        cout << "\nGenerating order slip...\n";
+        OrderSlip orderSlip(bulkOrder.get());
+        orderSlip.printSlip();
+
+        // Process payment
+        cout << "\nProcessing payment...\n";
+        bool paymentSuccess = creditCardPayment->processPayment(bulkOrder->getTotal());
+        REQUIRE(paymentSuccess == true);
+
+        Invoker orderManager;
+        PackageOrderCommand packageCmd(bulkOrder.get());
+        DeliverOrderCommand deliverCmd(bulkOrder.get());
+
+        orderManager.addCommand(&packageCmd);
+        orderManager.addCommand(&deliverCmd);
+
+        orderManager.processCommands();
+        cashier->send("Thank you for shopping with us, we hope to see you next time!");
 }
 }
