@@ -185,3 +185,4 @@ TEST_CASE("Complete Nursery Purchase Workflow with All Patterns", "[integration]
         REQUIRE(inventory->hasStock("Aloe", 3));
         REQUIRE(inventory->hasStock("Baobab", 3));
 }
+}
