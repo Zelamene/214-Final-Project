@@ -2,7 +2,7 @@
 #define NurseryMediator_H
 
 #include <string>
-//#include "CommunicatingParticipant.h"
+#include "CommunicatingParticipant.h"
 using namespace std;
 
 
