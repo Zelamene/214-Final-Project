@@ -1,12 +1,15 @@
 #include "GiftWrap.h"
 
-GiftWrap::GiftWrap(NurseryPlant* plant) : PlantDecorator(plant){};
+GiftWrap::GiftWrap(NurseryPlant *plant) : PlantDecorator(plant) {};
 
-std::string GiftWrap::getDescription(){
-    return plantToDec->getDescription() + " with Gift Wrap";
+string GiftWrap::getDescription()
+{
+    return plantToDec->getName() + " 🎁 with Gift Wrap";
+    ;
 };
 
-double GiftWrap::calculateCost(){
-    double total = plantToDec->calculateCost() + 15.0;
+double GiftWrap::calculateCost()
+{
+    double total = plantToDec->getTotal() + 15.0;
     return total;
 }

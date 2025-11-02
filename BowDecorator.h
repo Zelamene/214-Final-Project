@@ -3,6 +3,7 @@
 
 #include "PlantDecorator.h"
 #include <string>
+using namespace std;
 
 /**
  * @class BowDecorator
@@ -24,7 +25,7 @@ public:
      * @brief Gets the description of the plant with bow decoration
      * @return String describing the decorated plant
      */
-    std::string getDescription() override;
+    string getDescription() override;
     
     /**
      * @brief Calculates the total cost including bow decoration
