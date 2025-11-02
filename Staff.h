@@ -12,7 +12,7 @@
 #include "CareStrategy.h"
 #include "Command.h"
 #include "HighMaintenancePlantCare.h"
-//#include "CommunicatingParticipant.h"
+#include "CommunicatingParticipant.h"
 using namespace std;
 
 class NurseryPlant;
