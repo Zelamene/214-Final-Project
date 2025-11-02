@@ -16,26 +16,26 @@ using namespace std;
 class ManagerHandler : public DisputeHandler
 {
 protected:
-    /**
-     * @copydoc DisputeHandler::processIssue(Issue* issue)
-     */
-    void processIssue(Issue *issue) override;
+     /**
+      * @copydoc DisputeHandler::processIssue(Issue* issue)
+      */
+     void processIssue(Issue *issue) override;
 
-    /**
-<<<<<<< HEAD
-     * @copydoc DisputeHandler::canHandle(Issue* issue)
-=======
-     * DisputeHandler::canHandle(Issue* issue)
-     */
-    /**
-     * @brief Constructs a ManagerHandler with no next handler.
-     */
-    ManagerHandler();
+     /**
+      * @copydoc DisputeHandler::canHandle(Issue* issue)
+      */
+     bool canHandle(Issue *issue) override;
 
-    /**
-     * @brief Destroys the ManagerHandler instance.
-     */
-    virtual ~ManagerHandler();
+public:
+     /**
+      * @brief Constructs a ManagerHandler with no next handler.
+      */
+     ManagerHandler();
+
+     /**
+      * @brief Destroys the ManagerHandler instance.
+      */
+     virtual ~ManagerHandler();
 };
 
 #endif

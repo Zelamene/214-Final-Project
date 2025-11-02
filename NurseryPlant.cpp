@@ -61,13 +61,9 @@ void NurseryPlant::displayDetails()
 
 void NurseryPlant::calculateTax()
 {
-<<<<<<< HEAD
     price = price + (price * taxRate);
 
     cout << "Tax for " << orderID << ": " << price << endl;
-=======
-    cout << "Tax for " << orderID << ": " << price * taxRate << endl;
->>>>>>> Integration
 }
 
 Order *NurseryPlant::clone() const
@@ -103,12 +99,8 @@ void NurseryPlant::startGrowing()
     while (this->getStateName() != "Mature")
     {
         this_thread::sleep_for(chrono::seconds(1));
-<<<<<<< HEAD
         int waterLoss = rand() % 10 + 5;
         waterlevel = (waterlevel - waterLoss) < 0 ? 0 : waterlevel - waterLoss;
-=======
-        waterlevel - (rand() % 40) < 0 ? waterlevel = 0 : waterlevel -= rand() % 40;
->>>>>>> Integration
         currentState->handleAction(this);
         if (waterlevel >= 70)
         {
@@ -134,11 +126,7 @@ int NurseryPlant::getWaterLevel()
 
 void NurseryPlant::pourWater(int liters)
 {
-<<<<<<< HEAD
     this->waterlevel += liters;
-=======
-    this->waterlevel + liters;
->>>>>>> Integration
 }
 
 void NurseryPlant::setWaterlevel(int number)
