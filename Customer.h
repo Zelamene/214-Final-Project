@@ -7,7 +7,7 @@
 #define CUSTOMER_H
 
 #include <string>
-//#include "CommunicatingParticipant.h"
+#include "CommunicatingParticipant.h"
 #include "NurseryMediator.h"
 using namespace std;
 
