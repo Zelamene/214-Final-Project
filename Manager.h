@@ -8,26 +8,30 @@
 #define MANAGER_H
 
 #include "Staff.h"
+#include "Garden.h"
 #include <iostream>
 using namespace std;
 
 /**
  * @class Manager
  * @brief Represents a manager who handles customer disputes and oversees staff.
- * 
+ *
  * The Manager can handle disputes, review staff performance, and manage
  * a list of staff members.
  */
 class Manager : public Staff
 {
+private:
+    Garden *garden;
 
 public:
     /**
      * @brief Constructs a Manager with access to the inventory.
      * @param inventory Pointer to the Inventory object.
      * @param name Name of the manager.
+     * @param garden Pointer to the Garden object.
      */
-    Manager(Inventory *inventory, const string &name);
+    Manager(Inventory *inventory, const string &name, Garden * garden);
 
     /**
      * @brief Default destructor.

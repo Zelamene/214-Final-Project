@@ -27,6 +27,7 @@ public:
 
     /**
      * @brief Creates a container.
+     * @param material The material of the container.
      * @return Pointer to a new Container object.
      */
     virtual Container* createContainer(string material) = 0;

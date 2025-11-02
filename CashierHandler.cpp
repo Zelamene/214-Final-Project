@@ -83,6 +83,5 @@ CashierHandler ::CashierHandler() : payStrategy(NULL), slipGenerator(NULL)
 
 CashierHandler ::~CashierHandler()
 {
-    delete payStrategy;
-    delete slipGenerator;
+   
 }

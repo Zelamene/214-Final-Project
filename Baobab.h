@@ -21,6 +21,8 @@ class Baobab : public Tree
 public:
     /**
      * @brief Constructs a Baobab with a given age.
+     * @param height Height of the Baobab tree in meters.
+     * @param price Price of the Baobab tree.
      * 
      */
     Baobab(double height, double price);

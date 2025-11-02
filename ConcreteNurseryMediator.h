@@ -7,7 +7,11 @@
 #include "PlantExpert.h"
 #include "Nurse.h"
 #include "Inventory.h"
+#include "Invoker.h"
 #include "MessageSender.h"
+#include "PrepareCommand.h"
+#include "PackageOrderCommand.h"
+#include "DeliverOrderCommand.h"
 #include <vector>
 using namespace std;
 
@@ -100,7 +104,35 @@ private:
      * @param sender The participant to identify
      * @return String representing the participant type
      */
+    void handleDispute(const std::string &customerName, const std::string &issueDescription);
+
+    /**
+     * @brief Determines the type of participant for routing
+     * @param sender The participant to identify
+     */
     string getSenderType(MessageSender *sender);
+
+
+    /**
+     * @brief Processes a customer's order for a plant
+     * @param customerPlant The plant being ordered
+     * @param customer The customer placing the order
+     */
+    void processCustomerOrder(NurseryPlant *customerPlant, Customer *customer)
+    {
+        if (!customerPlant || !customer)
+            return;
+
+        std::cout << "Processing customer order for " << customer->getName()
+                  << " - Plant: " << customerPlant->getName() << std::endl;
+
+        // Set customer for the plant
+        customerPlant->setCustomer(customer);
+
+        // Create order commands
+        PrepareCommand prepareCmd(customerPlant);
+        prepareCmd.execute();
+    }
 };
 
 #endif // CONCRETENURSERYMEDIATOR_H

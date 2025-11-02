@@ -25,7 +25,11 @@ void SproutState::handleAction(NurseryPlant *plant)
 {
     cout << "The " << plant->getName() << " is a sprout. It is growing leaves and needs nutrients.\n";
 
+<<<<<<< HEAD
+    if (plant->getWaterLevel() <= 0)
+=======
     if (plant->getWaterLevel() <= 5)
+>>>>>>> Integration
     {
         cout << "Oh no! The sprout( " << plant->getName() << " ) died due to lack of water.\n";
         plant->setWaterlevel(100);

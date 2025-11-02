@@ -1,4 +1,5 @@
 
+
 #include "CashPayment.h"
 using namespace std;
 CashPayment::CashPayment(double tendered) : tenderedAmount(tendered) {}
@@ -9,12 +10,12 @@ bool CashPayment::processPayment(double amount)
     if (success)
     {
         double change = tenderedAmount - amount;
-        cout << "Cash payment processed. Change: $" << change << endl;
+        cout << "Cash payment processed. Change: R" << change << endl;
     }
     else
     {
-        cout << "Insufficient cash. Tendered: $" << tenderedAmount
-                  << ", Required: $" << amount << endl;
+        cout << "Insufficient cash. Tendered: R" << tenderedAmount
+                  << ", Required: R" << amount << endl;
     }
     return success;
 }

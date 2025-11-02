@@ -19,6 +19,7 @@ using namespace std;
 class FloweringPlant : public NurseryPlant
 {
 protected:
+  // Color of the flowering plant
   string color;
 
 public:
@@ -29,8 +30,14 @@ public:
 
   /**
    * @brief Constructor.
+   * @param name Name of the plant.
+   * @param maintenanceType Maintenance type of the plant.
+   * @param color Color of the flowers.
+   * @param price Price of the plant.
+   * 
+   * 
    */
-  FloweringPlant(const string &name, const string &maintenanceType, const string &color, double);
+  FloweringPlant(const string &name, const string &maintenanceType, const string &color, double price);
 
   /**
    * @brief getter for the color of the flowering plant.

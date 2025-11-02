@@ -10,16 +10,26 @@
 #include "LowMaintenancePlantCare.h"
 #include "Inventory.h"
 #include "PaymentStrategy.h"
+#include "Garden.h"
 #include <iostream>
 using namespace std;
 
 /**
  * @class Cashier
- * @brief Handles customer transactions and manages sales using PaymentStrategy.
+ * @brief Handles customer transactions and manages sales using a PaymentStrategy.
+ *
+ * The Cashier class processes sales, updates the inventory, and can notify
+ * when plants reach maturity. It interacts with the inventory directly so
+ * that nursery staff are not required to be available at all times.
+ *
+ * @note The cashier has permission to modify the inventory as needed
+ *       during customer transactions.
  */
+
 class Cashier : public Staff
 {
 private:
+    Garden *garden;
     PaymentStrategy *paymentStrategy;
 
 public:
@@ -27,8 +37,9 @@ public:
      * @brief Constructs a Cashier with access to the inventory.
      * @param inventory Pointer to the Inventory object.
      * @param name Name of the cashier.
+     * @param garden Pointer to the Garden object.
      */
-    Cashier(Inventory *inventory, const string &name);
+    Cashier(Inventory *inventory, const string &name, Garden *garden);
 
     /**
      * @brief Default destructor.
@@ -54,6 +65,10 @@ public:
      */
     string getPaymentMethod() const;
 
+    /**
+     * @brief Updates the cashier when a plant's state changes.
+     * @param plant Pointer to the NurseryPlant that changed state.
+     */
     void update(NurseryPlant *plant) override;
 };
 

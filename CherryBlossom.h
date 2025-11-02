@@ -21,6 +21,7 @@ class CherryBlossom : public FloweringPlant
 public:
     /**
      * @brief Constructs a CherryBlossom with a given blooming season.
+     * @param price Price of the CherryBlossom plant.
      *
      */
     CherryBlossom(double price);

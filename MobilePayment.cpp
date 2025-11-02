@@ -11,7 +11,7 @@ MobilePayment::MobilePayment(const string &phone, const string &prov)
 bool MobilePayment::processPayment(double amount)
 {
     cout << "Processing " << provider << " payment from " << phoneNumber << endl;
-    cout << "Amount: $" << amount << endl;
+    cout << "Amount: R" << amount << endl;
     cout << "Sending authorization request to " << provider << "..." << endl;
     cout << "Payment confirmed via mobile." << endl;
     return true;

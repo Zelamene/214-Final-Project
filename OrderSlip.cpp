@@ -16,5 +16,5 @@ void OrderSlip::gatherData()
 void OrderSlip::formatData()
 {
     cout << "Order ID: " << order->getID() << endl;
-    cout << "Total Amount: $" << order->getTotal() << endl;
+    cout << "Total Amount: R" << order->getTotal() << endl;
 }

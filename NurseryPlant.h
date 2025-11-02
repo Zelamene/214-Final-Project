@@ -71,8 +71,23 @@ public:
      * @brief Starts the growing process by transitioning through states until mature.
      */
     void startGrowing();
+
+    /**
+     * @brief Gets the current water level of the plant.
+     * @return The water level as an integer.
+     */
     int getWaterLevel();
+
+    /**
+     * @brief Pours water into the plant, increasing its water level.
+     * @param liters Amount of water to pour in liters.
+     */
     void pourWater(int liters);
+
+    /**
+     * @brief Sets the water level of the plant.
+     * @param number The new water level to set.
+     */
     void setWaterlevel(int number);
 
     /**
@@ -97,6 +112,10 @@ public:
      * @brief Notifies all attached observers of a state change.
      */
     void notify() override;
+
+    /**
+     * @brief getter for the name of the plant.
+     */
     string getName() const;
 
     /**
@@ -137,6 +156,16 @@ public:
      * @brief Displays staff assigned to the plant.
      */
     void showStaff() const;
+
+
+    /**
+     * @brief Sets the total price of the plant.
+     * @param total The total price to set.
+     */
+    void setTotal(double total)
+    {
+        this->price = total;
+    }
 };
 
 #endif

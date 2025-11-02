@@ -23,12 +23,15 @@ private:
 
 protected:
     /**
-     * DisputeHandler::processIssue(Issue* issue)
+     * @copydoc DisputeHandler::processIssue(Issue* issue)
+     * @brief Processes the issue if it can be handled.
      */
     void processIssue(Issue *issue) override;
 
     /**
-     * DisputeHandler::canHandle(Issue* issue)
+     *
+     * @copydoc DisputeHandler::canHandle(Issue* issue)
+     * @brief Checks if this handler can process the issue.
      */
     bool canHandle(Issue *issue) override;
 

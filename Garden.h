@@ -12,6 +12,7 @@
 #include <vector>
 #include <iostream>
 using namespace std;
+#include <algorithm>
 
 /**
  * @class Garden
@@ -55,7 +56,7 @@ public:
      * @param index The index of the plant to remove.
      *              If index is invalid, no removal occurs.
      */
-    void removePlant(int index);
+    NurseryPlant *removePlant(NurseryPlant *plant);
 
     /**
      * @brief Displays information about all plants in the garden.
@@ -67,6 +68,20 @@ public:
      * @return Number of plants.
      */
     int getPlantCount() const;
+
+    /**
+     * @brief Checks if a specific plant is in the garden.
+     * @param plant Pointer to the NurseryPlant to check.
+     * @return true if the plant is found, false otherwise.
+     */
+    bool hasPlant(NurseryPlant *plant) const
+    {
+        return std::find_if(plants.begin(), plants.end(),
+                            [plant](const PlantEntry &entry)
+                            {
+                                return entry.plant == plant;
+                            }) != plants.end();
+    }
 };
 
 #endif

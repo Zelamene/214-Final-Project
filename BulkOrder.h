@@ -27,6 +27,15 @@ public:
     /** @brief Default destructor for bulk orders*/
     virtual ~BulkOrder();
 
+    /** @brief Adds an order to the bulk order.
+     * @param order Pointer to the Order to add.
+     */
+
+    void addOrder(Order *order);
+
+    /** @brief Removes an order from the bulk order. 
+     * @param order Pointer to the Order to remove.
+    */
     /** @brief Adds an order to the bulk order. */
     void addOrder(Order *order);
 

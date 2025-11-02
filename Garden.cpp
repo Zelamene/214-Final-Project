@@ -2,8 +2,6 @@
 
 Garden::~Garden()
 {
-
-    plants.clear();
 }
 
 void Garden::addPlant(NurseryPlant *plant, Container *container)
@@ -18,18 +16,22 @@ void Garden::addPlant(NurseryPlant *plant, Container *container)
     }
 }
 
-void Garden::removePlant(int index)
+NurseryPlant *Garden::removePlant(NurseryPlant *plant)
 {
-    if (index < 0 || index >= plants.size())
-    {
-        cout << "Invalid index. Cannot remove plant." << endl;
-        return;
-    }
+    auto it = std::find_if(plants.begin(), plants.end(),
+                           [plant](const PlantEntry &entry)
+                           {
+                               return entry.plant == plant;
+                           });
 
-    delete plants[index].plant;
-    delete plants[index].container;
-    plants.erase(plants.begin() + index);
-    cout << "Plant removed from the garden." << endl;
+    if (it != plants.end())
+    {
+        NurseryPlant *harvested = it->plant;
+        delete it->container;
+        plants.erase(it);
+        return harvested;
+    }
+    return nullptr;
 }
 
 void Garden::displayPlants() const
@@ -44,14 +46,22 @@ void Garden::displayPlants() const
     for (size_t i = 0; i < plants.size(); ++i)
     {
         cout << i << ": ";
-        plants[i].plant->displayInfo();
-        if (plants[i].container)
+        if (plants[i].plant && plants[i].container)
         {
+            plants[i].plant->displayInfo();
             plants[i].container->display();
+        }
+        else if (plants[i].plant)
+        {
+            plants[i].plant->displayInfo();
+            cout << " [Container missing]" << endl;
+        }
+        else
+        {
+            cout << " [Plant removed/invalid]" << endl;
         }
     }
 }
-
 int Garden::getPlantCount() const
 {
     return plants.size();

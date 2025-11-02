@@ -21,6 +21,7 @@ class CrateFactory : public ContainerFactory
 public:
     /**
      * @brief Creates a crate container.
+     * @param material The material of the crate.
      * @return Pointer to a new Crate object.
      */
     Container* createContainer(string material);

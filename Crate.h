@@ -38,6 +38,7 @@ public:
 
     /**
      * @brief getter for the crate type.
+     * @return string representing the crate type.
      */
     string getType() const override;
 };

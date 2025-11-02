@@ -20,6 +20,8 @@ class Aloe : public Tree
 public:
     /**
      * @brief Constructs an Aloe tree with a given height.
+     * @param height Height of the Aloe tree in meters.
+     * @param price Price of the Aloe tree.
      *
      */
     Aloe(double height, double price);

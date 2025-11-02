@@ -26,5 +26,5 @@ void RefundSlip::gatherData()
 void RefundSlip::formatData()
 {
     cout << "Refund ID: " << refundID << endl;
-    cout << "Refund Amount: $" << order->getTotal() << endl;
+    cout << "Refund Amount: R" << order->getTotal() << endl;
 }

@@ -32,7 +32,7 @@ class Staff : public Observer, public CommunicatingParticipant
 
 protected:
     CareStrategy *strategy; /// Strategy used to care for plants
-    Inventory *inventory;
+    Inventory *inventory;   /// Pointer to the inventory system
 
 public:
     /**
@@ -55,7 +55,7 @@ public:
      */
     virtual void update(NurseryPlant *plant)
     {
-        return ;
+        return;
     };
 
     /**

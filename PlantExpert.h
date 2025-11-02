@@ -32,7 +32,7 @@ public:
     /**
      * @brief Offers advice on plant health or care.
      */
-    void giveAdvice();
+    static void giveAdvice();
 
     /**
      * @brief Performs care on a specific plant using a given care strategy.

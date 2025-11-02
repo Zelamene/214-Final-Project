@@ -8,7 +8,7 @@ PlantExpert::PlantExpert(Inventory *inventory, const string &name) : Staff(inven
 void PlantExpert::giveAdvice()
 {
 
-    cout << getName() << " is providing expert plant care advice.\n";
+    cout << "PlantExpert is providing expert plant care advice.\n";
 }
 
 void PlantExpert::careForSpecificPlant(NurseryPlant &plant, CareStrategy *specificStrategy)

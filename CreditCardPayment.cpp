@@ -11,7 +11,7 @@ bool CreditCardPayment::processPayment(double amount) {
         return false;
     }
     
-    cout << "Processing credit card payment of $" << amount << endl;
+    cout << "Processing credit card payment of R" << amount << endl;
     cout << "Card: ****-****-****-" << cardNumber.substr(12) << endl;
     cout << "Expiry: " << expiryDate << endl;
     

@@ -6,7 +6,6 @@ Inventory::Inventory() = default;
 Inventory::~Inventory()
 {
 }
-
 bool Inventory::hasStock(const std::string &plantName, int quantity) const
 {
     auto it = stockCounts.find(plantName);
@@ -30,13 +29,13 @@ void Inventory::removePlant(const std::string &plantName, int quantity)
     auto it = itemStock.find(plantName);
     if (it != itemStock.end() && it->second.size() >= static_cast<size_t>(quantity))
     {
+        // Only remove from vector, don't delete the plants
         for (int i = 0; i < quantity; ++i)
         {
-
-            delete it->second.back();
             it->second.pop_back();
         }
         stockCounts[plantName] = it->second.size();
+
         if (it->second.empty())
         {
             itemStock.erase(it);
@@ -53,14 +52,13 @@ void Inventory::removePlant(const std::string &plantName, int quantity)
                 eventListener(event);
             }
             else if (currentStock < 5)
-            { // we assumes ta=hat 5 is the threshold for low stock
+            {
                 InventoryEvent event{EventType::StockLow, plantName, currentStock};
                 eventListener(event);
             }
         }
     }
 }
-
 void Inventory::displayInventory() const
 {
     std::cout << "Inventory:\n";

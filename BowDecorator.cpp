@@ -16,6 +16,11 @@ string BowDecorator::getDescription()
 
 double BowDecorator::calculateCost()
 {
-    double total = plantToDec->getTotal() + 50.0;
-    return total;
+    if (plantToDec)
+    {
+        plantToDec->setTotal(plantToDec->getTotal() + 50.0);
+        return plantToDec->getTotal();
+    }
+   
+    return 50.0;
 }

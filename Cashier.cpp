@@ -1,8 +1,9 @@
 #include "Cashier.h"
 using namespace std;
-Cashier::Cashier(Inventory *inventory, const string &name)
+Cashier::Cashier(Inventory *inventory, const string &name, Garden *garden)
     : Staff(inventory, name, new LowMaintenancePlantCare())
 {
+    this->garden = garden;
     // Cashiers handle simple plant care
 }
 
@@ -40,12 +41,19 @@ string Cashier::getPaymentMethod() const
 void Cashier::update(NurseryPlant *plant)
 {
     cout << getName() << " notified: " << plant->getName()
-              << " reached " << plant->getStateName() << ".\n";
+         << " reached " << plant->getStateName() << ".\n";
 
     if (plant->getStateName() == "Mature")
     {
-        cout << getName() << " adding " << plant->getName()
-                  << " to inventory for sale.\n";
-        inventory->addPlant(plant->getName(), plant);
+        if (garden && garden->hasPlant(plant))
+        {
+            NurseryPlant *harvested = garden->removePlant(plant);
+            if (harvested)
+            {
+                inventory->addPlant(harvested->getName(), harvested);
+                cout << getName()
+                     << " added" << harvested->getName() << " to inventory.\n";
+            }
+        }
     }
 }

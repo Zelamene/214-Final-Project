@@ -19,23 +19,20 @@ NurseryPlant::~NurseryPlant()
 {
     delete currentState;
 }
-
 string NurseryPlant::planCurrentState() const
 {
-    string status;
+    string status = "Plant: " + this->getName() +
+                    " | Water: " + to_string(waterlevel) +
+                    " | State: " + this->getStateName() +
+                    " | Status: ";
 
     if (waterlevel >= 70)
-    {
-        status = "Plant: " + this->getName() + " Water level :" + to_string(waterlevel) + " State: " + this->getStateName() + "Status: Healthy";
-    }
+        status += "Healthy";
     else if (waterlevel >= 30)
-    {
-        status = "Plant: " + this->getName() + " Water level :" + to_string(waterlevel) + " State: " + this->getStateName() + "Status: Needs Watering";
-    }
+        status += "Needs Watering";
     else
-    {
-        status = "Plant: " + this->getName() + " Water level :" + to_string(waterlevel) + " State: " + this->getStateName() + "Status: Critical - Immediate Watering Required";
-    }
+        status += "Critical - Immediate Watering Required";
+
     return status;
 }
 string NurseryPlant::getName() const
@@ -64,7 +61,9 @@ void NurseryPlant::displayDetails()
 
 void NurseryPlant::calculateTax()
 {
-    cout << "Tax for " << orderID << ": " << price * taxRate << endl;
+    price = price + (price * taxRate);
+
+    cout << "Tax for " << orderID << ": " << price << endl;
 }
 
 Order *NurseryPlant::clone() const
@@ -100,7 +99,8 @@ void NurseryPlant::startGrowing()
     while (this->getStateName() != "Mature")
     {
         this_thread::sleep_for(chrono::seconds(1));
-        waterlevel - (rand() % 40) < 0 ? waterlevel = 0 : waterlevel -= rand() % 40;
+        int waterLoss = rand() % 10 + 5;
+        waterlevel = (waterlevel - waterLoss) < 0 ? 0 : waterlevel - waterLoss;
         currentState->handleAction(this);
         if (waterlevel >= 70)
         {
@@ -126,7 +126,7 @@ int NurseryPlant::getWaterLevel()
 
 void NurseryPlant::pourWater(int liters)
 {
-    this->waterlevel + liters;
+    this->waterlevel += liters;
 }
 
 void NurseryPlant::setWaterlevel(int number)

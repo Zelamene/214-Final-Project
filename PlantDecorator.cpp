@@ -7,5 +7,8 @@ PlantDecorator::PlantDecorator(NurseryPlant *plant) : NurseryPlant(plant->getNam
 
 PlantDecorator::~PlantDecorator()
 {
-    delete plantToDec;
+    if (plantToDec)
+    {
+        delete plantToDec;
+    }
 }

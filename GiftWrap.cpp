@@ -11,5 +11,6 @@ string GiftWrap::getDescription()
 double GiftWrap::calculateCost()
 {
     double total = plantToDec->getTotal() + 15.0;
+    plantToDec->setTotal(total);
     return total;
 }

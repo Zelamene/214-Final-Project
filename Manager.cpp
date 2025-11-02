@@ -2,10 +2,11 @@
 #include "Issue.h"
 #include <iostream>
 
-Manager::Manager(Inventory *inventory, const string &name)
+Manager::Manager(Inventory *inventory, const string &name, Garden *garden)
     : Staff(inventory, name, new HighMaintenancePlantCare()) // Managers might handle complex cases
 {
-    staffMembers = {"Alice (Nurse)", "Bob (Cashier)", "Dr. Green (Expert)"};
+    this->garden = garden;
+    // staffMembers = {"Alice (Nurse)", "Bob (Cashier)", "Dr. Green (Expert)"};
 }
 
 void Manager::handleDispute(const string &customerName, const string &issue)
@@ -13,7 +14,7 @@ void Manager::handleDispute(const string &customerName, const string &issue)
     cout << "Manager " << getName() << " handling dispute from " << customerName << endl;
     cout << "Issue: " << issue << endl;
     cout << " Dispute resolved by management authority.\n"
-              << endl;
+         << endl;
 }
 
 void Manager::reviewStaffPerformance()
@@ -24,18 +25,29 @@ void Manager::reviewStaffPerformance()
         cout << " - Reviewing: " << staff << " - Performance: Satisfactory" << endl;
     }
     cout << " Performance review completed.\n"
-              << endl;
+         << endl;
 }
 
 void Manager::update(NurseryPlant *plant)
 {
     cout << getName() << " overseeing: " << plant->getName()
-              << " is now " << plant->getStateName() << ".\n";
+         << " is now " << plant->getStateName() << ".\n";
 
     if (plant->getStateName() == "Mature")
     {
         cout << "Manager: verifying plant quality before it's added to inventory.\n";
-        cout << "Quality check passed  — plant ready for sale approval.\n";
+        cout << "Quality check passed - plant ready for sale approval.\n";
+
+        if (garden && garden->hasPlant(plant))
+        {
+            NurseryPlant *harvested = garden->removePlant(plant);
+            if (harvested)
+            {
+                inventory->addPlant(harvested->getName(), harvested);
+                cout << "Manager: " << harvested->getName()
+                     << " harvested and added to inventory.\n";
+            }
+        }
     }
 
     if (plant->getStateName() == "Wilting")

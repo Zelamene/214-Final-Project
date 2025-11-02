@@ -95,6 +95,47 @@ public:
      * @param message Message received.
      */
     void receive(const std::string &message) override;
-};
 
+    /**
+     * @brief Gets a plant instance for sale, removing it from inventory.
+     * @param plantName Name of the plant.
+     * @return Pointer to the NurseryPlant if available, nullptr otherwise.
+     */
+    NurseryPlant *getPlantForSale(const std::string &plantName)
+    {
+        auto it = itemStock.find(plantName);
+        if (it != itemStock.end() && !it->second.empty())
+        {
+            NurseryPlant *plant = it->second.back();
+            it->second.pop_back();
+            stockCounts[plantName] = it->second.size();
+
+            if (it->second.empty())
+            {
+                itemStock.erase(it);
+                stockCounts.erase(plantName);
+            }
+            return plant;
+        }
+        return nullptr;
+    }
+    
+    
+    /**
+     * @brief Previews a plant instance without removing it from inventory.
+     * @param plantName Name of the plant.
+     * @return Pointer to the NurseryPlant if available, nullptr otherwise.
+     */
+    NurseryPlant *previewPlantForSale(const std::string &plantName)
+    {
+        auto it = itemStock.find(plantName);
+        if (it != itemStock.end() && !it->second.empty())
+        {
+            NurseryPlant *plant = it->second.back();
+
+            return plant;
+        }
+        return nullptr;
+    }
+};
 #endif

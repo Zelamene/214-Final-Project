@@ -13,11 +13,13 @@ class DisputeHandler
 protected:
     /**
      * @brief Check if this handler can process the issue.
+     * @param issue Pointer to the Issue object.
      */
     virtual bool canHandle(Issue *issue) = 0;
 
     /**
      * @brief Process the issue (implement in concrete handlers).
+     * @param issue Pointer to the Issue object.
      */
     virtual void processIssue(Issue *issue) = 0;
 
