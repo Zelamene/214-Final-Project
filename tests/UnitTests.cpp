@@ -218,5 +218,57 @@ TEST_CASE("Complete Nursery Purchase Workflow with All Patterns", "[integration]
         REQUIRE(purchasedCherry != nullptr);
         REQUIRE(purchasedAloe != nullptr);
         REQUIRE(purchasedBaobab != nullptr);
+
+        
+        // ============================================================================
+        // STEP 5: DECORATOR - Add gift wrap and bow to each plant
+        // ============================================================================
+
+        cout << "\n--- STEP 5: Decorating Plants (Decorator Pattern) ---\n";
+
+        // Apply decorators to each plant
+        NurseryPlant *decoratedRose = new BowDecorator(new GiftWrap(purchasedRose));
+        NurseryPlant *decoratedCherry = new BowDecorator(new GiftWrap(purchasedCherry));
+        NurseryPlant *decoratedAloe = new BowDecorator(new GiftWrap(purchasedAloe));
+        NurseryPlant *decoratedBaobab = new BowDecorator(new GiftWrap(purchasedBaobab));
+
+        cout << "Rose decorated cost: R" << dynamic_cast<BowDecorator *>(decoratedRose)->calculateCost() << "\n";
+        cout << "Cherry Blossom decorated cost: R" << dynamic_cast<BowDecorator *>(decoratedCherry)->calculateCost() << "\n";
+        cout << "Aloe decorated cost: R" << dynamic_cast<BowDecorator *>(decoratedAloe)->calculateCost() << "\n";
+        cout << "Baobab decorated cost: R" << dynamic_cast<BowDecorator *>(decoratedBaobab)->calculateCost() << "\n";
+
+        // Verify decoration costs added
+        REQUIRE(decoratedRose->getTotal() > 45.0);
+        REQUIRE(decoratedCherry->getTotal() > 65.0);
+
+        // Create composite bulk order
+        auto bulkOrder = make_unique<BulkOrder>();
+        bulkOrder->addOrder(decoratedRose);
+        bulkOrder->addOrder(decoratedCherry);
+        bulkOrder->addOrder(decoratedAloe);
+        bulkOrder->addOrder(decoratedBaobab);
+
+        bulkOrder->setCustomer(customer.get());
+
+        cout << "\nBulk order total: R" << bulkOrder->getTotal() << "\n";
+
+        // ============================================================================
+        // STEP 6: ITERATOR - Print order contents for confirmation
+        // ============================================================================
+
+        cout << "\n--- STEP 6: Order Confirmation (Iterator Pattern) ---\n";
+
+        unique_ptr<Iterator> orderIterator(bulkOrder->createIterator());
+        cout << "\nOrder Contents:\n";
+        int itemCount = 0;
+        while (orderIterator->hasNext())
+        {
+            Order *item = orderIterator->next();
+            cout << "  - " << item->getID() << ": R" << item->getTotal() << "\n";
+            itemCount++;
+        }
+        REQUIRE(itemCount == 4);
+
+        customer->send("Correct order, I will proceed to checkout.");
 }
 }
