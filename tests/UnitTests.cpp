@@ -300,5 +300,56 @@ TEST_CASE("Complete Nursery Purchase Workflow with All Patterns", "[integration]
 
         orderManager.processCommands();
         cashier->send("Thank you for shopping with us, we hope to see you next time!");
+
+        // ============================================================================
+        // STEP 9: CHAIN OF RESPONSIBILITY - Dispute handling
+        // ============================================================================
+
+        cout << "\n--- STEP 9: Dispute Resolution (Chain of Responsibility + Mediator Patterns) ---\n";
+
+        customer->send("Complaint: " + cashier->getName() + " was dressed inappropriately");
+
+        customer->send("Refund request: Plants arrived damaged, requesting full refund for order " + bulkOrder->getID());
+
+        // ============================================================================
+        // STEP 10: PROTOTYPE + TEMPLATE METHOD - Process refund
+        // ============================================================================
+
+        cout << "\n--- STEP 10: Refund Processing (Prototype + Template Method Patterns) ---\n";
+
+        // Clone original order for refund (PROTOTYPE pattern)
+        unique_ptr<Order> refundOrder(bulkOrder->clone());
+        cout << "\nRefund order cloned from original.\n";
+        cout << "Original order ID: " << bulkOrder->getID() << "\n";
+        cout << "Refund order ID: " << refundOrder->getID() << "\n";
+
+        REQUIRE(refundOrder->getTotal() == bulkOrder->getTotal());
+
+        // Generate refund slip (TEMPLATE METHOD pattern)
+        cout << "\nGenerating refund slip...\n";
+        RefundSlip refundSlip(refundOrder.get());
+        refundSlip.printSlip();
+
+        // Process refund through Chain of Responsibility
+        cout << "\nProcessing refund through dispute handler chain...\n";
+        Issue refundIssue("Refund", "Processing refund for order", refundOrder.get());
+
+        CashierHandler cashierHandler;
+        cashierHandler.setSlipGenerator(&refundSlip);
+        ManagerHandler managerHandler;
+        cashierHandler.setNext(&managerHandler);
+
+        cashierHandler.handle(&refundIssue);
+        REQUIRE(refundIssue.getSolved() == true);
+
+        // Verify inventory restocked we had 3 and sold 1 of each
+        REQUIRE(inventory->hasStock("Rose", 2));
+        REQUIRE(inventory->hasStock("Cherry Blossom", 2));
+        REQUIRE(inventory->hasStock("Aloe", 2));
+        REQUIRE(inventory->hasStock("Baobab", 2));
+
+        cout << "Demo Complete Thank You!!!\n";
+
+        
 }
 }
