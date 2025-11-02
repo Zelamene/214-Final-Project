@@ -222,7 +222,6 @@ void ConcreteNurseryMediator::handleCustomerEvent(MessageSender *customer, const
         std::cout << "General activity logged: " << event << "\n";
     }
 }
-
 void ConcreteNurseryMediator::handleStaffEvent(MessageSender *staff, const std::string &event)
 {
     if (event == "restock")

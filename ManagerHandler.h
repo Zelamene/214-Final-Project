@@ -22,11 +22,11 @@ protected:
     void processIssue(Issue *issue) override;
 
     /**
+<<<<<<< HEAD
      * @copydoc DisputeHandler::canHandle(Issue* issue)
+=======
+     * DisputeHandler::canHandle(Issue* issue)
      */
-    bool canHandle(Issue *issue) override;
-
-public:
     /**
      * @brief Constructs a ManagerHandler with no next handler.
      */

@@ -1,4 +1,5 @@
 
+
 #include "CashPayment.h"
 using namespace std;
 CashPayment::CashPayment(double tendered) : tenderedAmount(tendered) {}
