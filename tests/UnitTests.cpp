@@ -184,5 +184,39 @@ TEST_CASE("Complete Nursery Purchase Workflow with All Patterns", "[integration]
         REQUIRE(inventory->hasStock("Cherry Blossom", 3));
         REQUIRE(inventory->hasStock("Aloe", 3));
         REQUIRE(inventory->hasStock("Baobab", 3));
+
+        // ============================================================================
+        // STEP 3: MEDIATOR - Customer browses and requests advice
+        // ============================================================================
+
+        cout << "\n--- STEP 3: Customer Interaction (Mediator Pattern) ---\n";
+
+        customer->browsePlants();
+        customer->requestAdvice("low-maintainance");
+        customer->requestAdvice("high-maintainance");
+
+        // ============================================================================
+        // STEP 4: COMPOSITE + PROTOTYPE - Create bulk order
+        // ============================================================================
+
+        cout << "\n--- STEP 4: Creating Bulk Order (Composite + Prototype Patterns) ---\n";
+
+        // Customer purchases one of each type (from inventory)
+        cout << "\nCustomer purchasing plants...\n";
+        customer->purchasePlant("Rose");
+        customer->purchasePlant("Cherry Blossom");
+        customer->purchasePlant("Aloe");
+        customer->purchasePlant("Baobab");
+
+        // Get the purchased plants from inventory
+        NurseryPlant *purchasedRose = inventory->previewPlantForSale("Rose");
+        NurseryPlant *purchasedCherry = inventory->previewPlantForSale("Cherry Blossom");
+        NurseryPlant *purchasedAloe = inventory->previewPlantForSale("Aloe");
+        NurseryPlant *purchasedBaobab = inventory->previewPlantForSale("Baobab");
+
+        REQUIRE(purchasedRose != nullptr);
+        REQUIRE(purchasedCherry != nullptr);
+        REQUIRE(purchasedAloe != nullptr);
+        REQUIRE(purchasedBaobab != nullptr);
 }
 }
