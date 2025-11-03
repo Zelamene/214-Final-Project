@@ -89,3 +89,8 @@ catch_amalgamated.cpp *.cpp -I.
 - Automated inventory and order management
 - Payment processing with multiple strategies
 - Dispute and refund handling using design patterns
+
+
+##  Documentation
+For a detailed explanation of the system design, research background, and pattern rationale, please refer to the full report here:  
+👉 **[Google Docs Report](https://docs.google.com/document/d/1inOu2Vf-nujHiWwozEr9kaYpwmB26jjZuC_Vm3g20p4/edit?usp=sharing)**
