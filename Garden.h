@@ -82,6 +82,16 @@ public:
                                 return entry.plant == plant;
                             }) != plants.end();
     }
+
+vector<NurseryPlant *> getAllPlants() const
+    {
+        vector<NurseryPlant*> result;
+        for (const auto& entry : plants)
+        {
+            result.push_back(entry.plant);
+        }
+        return result;
+    }
 };
 
 #endif
