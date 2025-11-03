@@ -1,0 +1,27 @@
+name: C++ CI
+
+on:
+  push:
+    branches: [ main, Integration ]
+  pull_request:
+    branches: [ main, Integration ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: sudo apt-get update && sudo apt-get install -y g++ make
+
+      - name: Build tests
+        run: |
+          # ignoring certain files
+          SRC_FILES=$(ls *.cpp | grep -vE "main.cpp|Testing2.cpp|TestingMain.cpp|TestMain.cpp|zcode.txt")
+          g++ -std=c++17 -I. tests/UnitTests.cpp $SRC_FILES -o tests_runner
+
+      - name: Run tests
+        run: ./tests_runner
