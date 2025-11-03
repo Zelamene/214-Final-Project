@@ -43,6 +43,7 @@ unique_ptr<Manager> manager;
 unique_ptr<Nurse> nurse;
 unique_ptr<Customer> customer;
 unique_ptr<BulkOrder> currentOrder;
+vector<unique_ptr<Order>> completedOrders;
 
 // Factories
 unique_ptr<PlantFactory> highMaintenanceFactory;
@@ -469,7 +470,13 @@ void customerMenu()
                 orderManager.processCommands();
 
                 cout << "\n✓ Order completed!\n";
+
+
+                completedOrders.push_back(unique_ptr<Order>(currentOrder->clone()));
+
+
                 currentOrder.reset();
+
             }
             else
             {
@@ -486,25 +493,28 @@ void customerMenu()
             getline(cin, complaint);
 
             customer->send("Complaint: " + complaint);
-            if (complaint.find("refund") != string::npos || complaint.find("Refund") != string::npos)
+ if (complaint.find("refund") != string::npos || complaint.find("Refund") != string::npos)
 {
-    if (currentOrder && currentOrder->getTotal() > 0)
+    if (!completedOrders.empty())
     {
         cout << "\nRefund request detected.\n";
 
-        // Clone the completed order
-        unique_ptr<Order> refundOrder(currentOrder->clone());
+        // Use last completed order for refund
+        Order* lastOrder = completedOrders.back().get();
+
+        // Clone it for processing (Prototype pattern)
+        unique_ptr<Order> refundOrder(lastOrder->clone());
         cout << "\nRefund order cloned from original.\n";
-        cout << "Original order ID: " << currentOrder->getID() << "\n";
+        cout << "Original order ID: " << lastOrder->getID() << "\n";
         cout << "Refund order ID: " << refundOrder->getID() << "\n";
         cout << "Refund total: R" << refundOrder->getTotal() << "\n";
 
-        // Generate refund slip
+        // Generate refund slip (Template Method pattern)
         cout << "\nGenerating refund slip...\n";
         RefundSlip refundSlip(refundOrder.get());
         refundSlip.printSlip();
 
-
+        // Handle refund through Chain of Responsibility
         cout << "\nProcessing refund through dispute handler chain...\n";
         Issue refundIssue("Refund", "Processing refund for order", refundOrder.get());
 
@@ -512,14 +522,13 @@ void customerMenu()
         cashierHandler.setSlipGenerator(&refundSlip);
         ManagerHandler managerHandler;
         cashierHandler.setNext(&managerHandler);
-
         cashierHandler.handle(&refundIssue);
 
         cout << "\n✓ Refund processed successfully!\n";
     }
     else
     {
-        cout << "\n✗ No completed order found to refund.\n";
+        cout << "\n✗ No completed orders available for refund.\n";
     }
 }
             pauseScreen();
