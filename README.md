@@ -1,27 +1,91 @@
-# Integration Branch
+#  Nursery Management System
 
-## Purpose
-The Integration branch combines feature branches for testing and verification before changes go to `main`. It helps ensure the code works together and passes CI checks.
+## Project Description
 
-## Workflow
+A **C++ nursery management system** simulating a realistic plant nursery.
+It demonstrates **multiple software design patterns** while managing
+plant growth, staff roles, customer orders, inventory, and payments.
 
-1. **Create a feature branch from Integration:**
-    ```bash
-    git checkout -b feature/<feature-name> Integration
-    ```
+---
 
-2. **Develop your changes and commit:**
-    ```bash
-    git add .
-    git commit -m "Add <feature-name>"
-    ```
+## Key Features
 
-3. **Push your feature branch and open a PR against Integration.**
+- **Plant Management:** Multiple plant types (Roses, Cherry Blossoms,
+Aloe, Baobab) with growth states
+- **Staff System:** Roles like Manager, Cashier, Nurse, and Plant Expert
+- **Order Processing:** Complete workflow from browsing to delivery
+- **Inventory Tracking:** Real-time stock updates
+- **Payment Processing:** Cash, Credit Card, Mobile Payment
+- **Dispute Resolution:** Chain of Responsibility for customer issues
 
-4. **Merge only after CI checks pass and the PR is approved.**
+---
 
-## Rules
+##  Design Patterns
 
-- No direct pushes to `Integration`.
-- Resolve conflicts in your branch before submitting a PR.
-- Follow code style and run tests locally.
+Demonstrates **13 design patterns** in a realistic workflow:
+
+- **Abstract Factory:** Plant creation
+- **Factory Method:** Container creation
+- **Prototype:** Order cloning
+- **Composite:** Bulk orders
+- **Decorator:** Gift wrapping
+- **State:** Plant growth stages
+- **Strategy:** Payment & plant care strategies
+- **Observer:** Staff notifications
+- **Mediator:** Communication hub
+- **Chain of Responsibility:** Dispute handling
+- **Command:** Order operations
+- **Iterator:** Traversing bulk orders
+- **Template Method:** Slip generation
+
+---
+
+## Project Structure
+```
+├── *.h # Header files
+
+├── catch_amalgamated.hpp # Catch2 testing framework
+
+├── catch_amalgamated.cpp # Catch2 implementation
+
+├── *.cpp # Implementation files
+├── tests/
+│ └── UnitTests.cpp # Integration tests
+
+├── Makefile # Build configuration
+
+└── README.md
+```
+---
+
+## Getting Started
+
+###  Prerequisites
+
+- C++17 compatible compiler
+- Make (optional)
+
+---
+
+### Compile & Run
+
+**Using Makefile:**
+
+```bash
+make         # Compile
+make run     # Run tests
+make clean   # Clean build artifacts
+```
+
+Or manually:
+```bash
+g++ -std=c++17 -Wall -Wextra -g -o nursery_test test/UnitTests.cpp
+catch_amalgamated.cpp *.cpp -I.
+./nursery_test
+```
+###  Highlights
+
+- Full simulation of plant growth and staff interaction
+- Automated inventory and order management
+- Payment processing with multiple strategies
+- Dispute and refund handling using design patterns
