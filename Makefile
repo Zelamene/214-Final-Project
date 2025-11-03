@@ -1,5 +1,5 @@
 CXX = g++
-CXXFLAGS = -std=c++17 -I.
+CXXFLAGS = -std=c++17 -I. -IApi -lws2_32 -lcrypt32
 
 MAIN ?= DemoMain.cpp
 
