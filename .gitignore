@@ -1,12 +1,10 @@
-<<<<<<< HEAD
 *.d
 *.o
 *.obj
 *.exe
 *.out
 *.log
-=======
->>>>>>> Integration
+
 
 main.cpp
 Testing2.cpp
@@ -15,8 +13,7 @@ TestMain.cpp
 zcode.txt
 
 Proj/
-<<<<<<< HEAD
-=======
+
 # Prerequisites
 *.d
 
@@ -63,5 +60,4 @@ Proj/
 
 build
 main
-.vscode
->>>>>>> Integration
+.vscode/
